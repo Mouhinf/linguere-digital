@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Témoignages | Admin Linguère Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/css/admin-variables.css">
+  <link rel="stylesheet" href="/admin/css/admin-base.css">
+  <link rel="stylesheet" href="/admin/css/admin-sidebar.css">
+  <link rel="stylesheet" href="/admin/css/admin-components.css">
+  <link rel="stylesheet" href="/admin/css/admin-responsive.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <div class="admin-content">
+      <div class="page-header">
+        <div>
+          <h1>Gestion des <span>Témoignages</span></h1>
+          <p>Gérez les avis et témoignages clients de Linguère Digital</p>
+        </div>
+        <button class="btn btn-primary" id="add-testimonial-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Nouveau Témoignage
+        </button>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-body">
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Client</th>
+                  <th>Entreprise</th>
+                  <th>Note</th>
+                  <th>Statut</th>
+                  <th>Ordre</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="testimonials-tbody">
+                <tr><td colspan="6" class="text-center text-muted">Chargement...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide Panel -->
+  <div id="slide-overlay-testimonial" class="slide-panel-backdrop"></div>
+  <div id="slide-panel-testimonial" class="slide-panel">
+    <div class="slide-panel-header">
+      <h3 id="slide-panel-testimonial-title">Ajouter un témoignage</h3>
+      <button class="slide-panel-close" id="slide-panel-testimonial-close" aria-label="Fermer">&times;</button>
+    </div>
+    <div class="slide-panel-body">
+      <form id="testimonial-form">
+        <input type="hidden" id="testimonial-id">
+        <div class="form-group">
+          <label for="nom" class="form-label">Nom du client</label>
+          <input type="text" id="nom" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="entreprise" class="form-label">Entreprise</label>
+          <input type="text" id="entreprise" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="position" class="form-label">Poste</label>
+          <input type="text" id="position" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="contenu" class="form-label">Contenu du témoignage</label>
+          <textarea id="contenu" class="form-control" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="photo" class="form-label">Photo (URL)</label>
+          <input type="url" id="photo" class="form-control" placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Note</label>
+          <div id="star-rating" class="star-rating">
+            <input type="radio" name="etoiles" value="5" id="star-5"><label for="star-5" class="star">&#9733;</label>
+            <input type="radio" name="etoiles" value="4" id="star-4"><label for="star-4" class="star">&#9733;</label>
+            <input type="radio" name="etoiles" value="3" id="star-3" checked><label for="star-3" class="star">&#9733;</label>
+            <input type="radio" name="etoiles" value="2" id="star-2"><label for="star-2" class="star">&#9733;</label>
+            <input type="radio" name="etoiles" value="1" id="star-1"><label for="star-1" class="star">&#9733;</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="ordre" class="form-label">Ordre d'affichage</label>
+          <input type="number" id="ordre" class="form-control" value="0">
+        </div>
+        <div class="form-group flex-between">
+          <label class="toggle-switch">
+            <input type="checkbox" id="approuve" checked>
+            <span class="toggle-track"></span>
+            <span class="toggle-label">Approuvé</span>
+          </label>
+        </div>
+      </form>
+    </div>
+    <div class="slide-panel-footer">
+      <button class="btn btn-outline" id="cancel-btn">Annuler</button>
+      <button class="btn btn-primary" id="submit-btn">Enregistrer</button>
+    </div>
+  </div>
+
+  <script src="/js/config.js"></script>
+  <script src="/admin/js/admin-auth.js"></script>
+  <script src="/admin/js/admin-api.js"></script>
+  <script src="/admin/js/admin-components.js"></script>
+  <script src="/admin/js/admin-sidebar.js"></script>
+  <script src="/admin/js/pages/temoignages.js"></script>
+</body>
+</html>

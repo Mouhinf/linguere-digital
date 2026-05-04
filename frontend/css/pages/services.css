@@ -1,0 +1,628 @@
+/* ============================================================
+   Services — Services Page
+   Tech African Futuriste | Glassmorphism | Aurora Effects
+   ============================================================ */
+
+/* ---------- Page Hero ---------- */
+.services-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 45vh;
+  padding: 4rem 2rem 3rem;
+  overflow: hidden;
+  text-align: center;
+  background: var(--gradient-main);
+}
+
+.services-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-aurora);
+  opacity: 0.06;
+  animation: aurora-spin-services 30s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes aurora-spin-services {
+  to { transform: rotate(360deg); }
+}
+
+.services-hero__title {
+  font-family: "Orbitron", sans-serif;
+  font-size: var(--fs-h1);
+  font-weight: 900;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+.services-hero__subtitle {
+  font-family: "Exo 2", sans-serif;
+  font-size: var(--fs-body);
+  color: var(--color-gray-2);
+  max-width: 600px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Services Overview (4 Category Cards) ---------- */
+.services-overview {
+  padding: 6rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.services-overview__header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.services-overview__label {
+  font-family: "Orbitron", sans-serif;
+  font-size: var(--fs-tiny);
+  font-weight: 700;
+  color: var(--color-primary-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+.services-overview__title {
+  font-family: "Orbitron", sans-serif;
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--color-white);
+  margin-top: 0.5rem;
+}
+
+.services-overview__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.service-category-card {
+  background: var(--color-glass);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow var(--transition-base), transform var(--transition-base), border-color var(--transition-base);
+}
+
+.service-category-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  background: var(--gradient-aurora);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  pointer-events: none;
+}
+
+.service-category-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-8px);
+  border-color: var(--color-glass-border-bright);
+}
+
+.service-category-card:hover::after {
+  opacity: 0.04;
+}
+
+.service-category-card__icon {
+  font-size: 3.5rem;
+  margin-bottom: 1.25rem;
+  display: inline-block;
+  filter: drop-shadow(0 0 12px rgba(0, 180, 216, 0.3));
+  position: relative;
+  z-index: 1;
+}
+
+.service-category-card__title {
+  font-family: "Orbitron", sans-serif;
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: 0.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+.service-category-card__desc {
+  font-family: "Exo 2", sans-serif;
+  font-size: var(--fs-small);
+  color: var(--color-gray-2);
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+
+.service-category-card__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-top: 1.25rem;
+  border-radius: 50%;
+  background: var(--color-glass);
+  border: 1px solid var(--color-glass-border);
+  color: var(--color-primary-bright);
+  font-size: 1rem;
+  transition: background var(--transition-base), transform var(--transition-base);
+  position: relative;
+  z-index: 1;
+}
+
+.service-category-card:hover .service-category-card__arrow {
+  background: var(--color-primary);
+  color: var(--color-white);
+  transform: translateX(4px);
+}
+
+/* ---------- Process Steps (4-step horizontal) ---------- */
+.process-steps {
+  padding: 6rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.process-steps__header {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+.process-steps__label {
+  font-family: "Orbitron", sans-serif;
+  font-size: var(--fs-tiny);
+  font-weight: 700;
+  color: var(--color-primary-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+.process-steps__title {
+  font-family: "Orbitron", sans-serif;
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--color-white);
+  margin-top: 0.5rem;
+}
+
+.process-steps__track {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  position: relative;
+}
+
+.process-steps__track::before {
+  content: "";
+  position: absolute;
+  top: 40px;
+  left: calc(12.5% + 40px);
+  right: calc(12.5% + 40px);
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    var(--color-primary),
+    var(--color-primary-bright),
+    var(--color-primary)
+  );
+  box-shadow: var(--shadow-glow-sm);
+  z-index: 0;
+}
+
+.process-step {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.process-step__number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
+  background: var(--color-glass);
+  border: 2px solid var(--color-glass-border);
+  font-family: "Orbitron", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--color-primary-bright);
+  transition: border-color var(--transition-base), box-shadow var(--transition-base), background var(--transition-base);
+  box-shadow: var(--shadow-glow-sm);
+  position: relative;
+}
+
+.process-step:hover .process-step__number {
+  border-color: var(--color-glass-border-bright);
+  box-shadow: var(--shadow-glow-md);
+  background: rgba(0, 180, 216, 0.1);
+}
+
+.process-step__title {
+  font-family: "Orbitron", sans-serif;
+  font-size: var(--fs-body);
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: 0.5rem;
+}
+
+.process-step__desc {
+  font-family: "Exo 2", sans-serif;
+  font-size: var(--fs-small);
+  color: var(--color-gray-2);
+  line-height: 1.6;
+  padding: 0 0.5rem;
+}
+
+/* ---------- Service Detail (sub-service pages) ---------- */
+.service-detail {
+  padding: 4rem 2rem 6rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.service-detail__header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.service-detail__title {
+  font-family: "Orbitron", sans-serif;
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: 0.75rem;
+}
+
+.service-detail__desc {
+  font-family: "Exo 2", sans-serif;
+  font-size: var(--fs-body);
+  color: var(--color-gray-2);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.service-detail__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.service-card {
+  background: var(--color-glass);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow var(--transition-base), transform var(--transition-base);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.service-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-6px);
+}
+
+.service-card--featured {
+  border-color: var(--color-glass-border-bright);
+}
+
+.service-card--featured::before {
+  content: "Populaire";
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-family: "Exo 2", sans-serif;
+  font-size: var(--fs-tiny);
+  font-weight: 600;
+  color: var(--color-white);
+  background: var(--color-primary);
+  padding: 0.25rem 0.75rem;
+  border-radius: 100px;
+}
+
+.service-card__name {
+  font-family: "Orbitron", sans-serif;
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: 1rem;
+}
+
+.service-card__features {
+  flex: 1;
+  margin-bottom: 1.5rem;
+}
+
+.service-card__cta {
+  display: block;
+  width: 100%;
+  padding: 0.85rem 1.5rem;
+  border: 1px solid var(--color-glass-border-bright);
+  border-radius: 12px;
+  background: var(--color-glass);
+  color: var(--color-primary-bright);
+  font-family: "Orbitron", sans-serif;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--transition-base), color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.service-card__cta:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+  box-shadow: var(--shadow-glow-sm);
+}
+
+/* ---------- Price Tag ---------- */
+.price-tag {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.25rem;
+  margin: 1.5rem 0;
+}
+
+.price-tag__currency {
+  font-family: "Orbitron", sans-serif;
+  font-size: var(--fs-body);
+  font-weight: 700;
+  color: var(--color-primary-bright);
+}
+
+.price-tag__amount {
+  font-family: "Orbitron", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+
+.price-tag__suffix {
+  font-family: "Exo 2", sans-serif;
+  font-size: var(--fs-tiny);
+  color: var(--color-gray-2);
+}
+
+.price-tag--small .price-tag__amount {
+  font-size: 1.5rem;
+}
+
+/* ---------- CTA WhatsApp Sticky (mobile) ---------- */
+.cta-whatsapp-sticky {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.75rem 1rem;
+  background: var(--color-surface-2);
+  border-top: 1px solid var(--color-glass-border);
+  z-index: var(--z-sticky);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.cta-whatsapp-sticky__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.85rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  background: #25D366;
+  color: var(--color-white);
+  font-family: "Exo 2", sans-serif;
+  font-size: var(--fs-body);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: filter var(--transition-base), transform var(--transition-base);
+}
+
+.cta-whatsapp-sticky__button:hover {
+  filter: brightness(1.1);
+  transform: scale(1.02);
+}
+
+.cta-whatsapp-sticky__icon {
+  font-size: 1.4rem;
+}
+
+/* ---------- Features List (checkmark) ---------- */
+.features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.features-list__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  font-family: "Exo 2", sans-serif;
+  font-size: var(--fs-small);
+  color: var(--color-gray-1);
+  line-height: 1.5;
+}
+
+.features-list__check {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-size: 0.7rem;
+  margin-top: 0.15rem;
+}
+
+.features-list__check::after {
+  content: "✓";
+}
+
+/* ---------- Service Breadcrumb ---------- */
+.service-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "Exo 2", sans-serif;
+  font-size: var(--fs-tiny);
+  color: var(--color-gray-2);
+  padding: 1.5rem 2rem 0;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.service-breadcrumb__link {
+  color: var(--color-primary-bright);
+  text-decoration: none;
+  transition: color var(--transition-base);
+}
+
+.service-breadcrumb__link:hover {
+  color: var(--color-white);
+}
+
+.service-breadcrumb__separator {
+  color: var(--color-gray-3);
+  user-select: none;
+}
+
+.service-breadcrumb__current {
+  color: var(--color-white);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .services-overview__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .services-overview__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .process-steps__track {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .process-steps__track::before {
+    top: 0;
+    bottom: 0;
+    left: 40px;
+    right: auto;
+    width: 2px;
+    height: auto;
+    background: linear-gradient(
+      to bottom,
+      var(--color-primary),
+      var(--color-primary-bright),
+      var(--color-primary)
+    );
+  }
+
+  .process-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    text-align: left;
+    padding-left: 1rem;
+  }
+
+  .process-step__number {
+    width: 60px;
+    height: 60px;
+    margin: 0;
+    flex-shrink: 0;
+    font-size: 1.2rem;
+  }
+
+  .cta-whatsapp-sticky {
+    display: block;
+  }
+
+  .service-detail__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .services-hero {
+    min-height: 35vh;
+    padding: 3rem 1rem 2rem;
+  }
+
+  .services-overview {
+    padding: 4rem 1rem;
+  }
+
+  .process-steps {
+    padding: 4rem 1rem;
+  }
+
+  .service-detail {
+    padding: 3rem 1rem 5rem;
+  }
+
+  .price-tag__amount {
+    font-size: 2rem;
+  }
+}
+
+/* ---------- Reduced Motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .services-hero::before {
+    animation: none;
+  }
+
+  .service-category-card:hover {
+    transform: none;
+  }
+
+  .service-card:hover {
+    transform: none;
+  }
+
+  .service-category-card:hover .service-category-card__arrow {
+    transform: none;
+  }
+}

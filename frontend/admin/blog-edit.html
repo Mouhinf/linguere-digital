@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Éditeur Blog | Admin Linguère Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/css/admin-variables.css">
+  <link rel="stylesheet" href="/admin/css/admin-base.css">
+  <link rel="stylesheet" href="/admin/css/admin-sidebar.css">
+  <link rel="stylesheet" href="/admin/css/admin-components.css">
+  <link rel="stylesheet" href="/admin/css/admin-responsive.css">
+  <style>
+    /* Editor-specific styles */
+    .editor-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 1.5rem;
+    }
+
+    .editor-main {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .editor-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    #editor-container {
+      background: var(--admin-surface);
+      border-radius: var(--admin-radius-md);
+      min-height: 400px;
+    }
+
+    .ql-toolbar {
+      background: var(--admin-surface-2);
+      border-radius: var(--admin-radius-md) var(--admin-radius-md) 0 0;
+      border: 1px solid var(--admin-glass-border) !important;
+      border-bottom: none !important;
+    }
+
+    .ql-container {
+      border: 1px solid var(--admin-glass-border) !important;
+      border-radius: 0 0 var(--admin-radius-md) var(--admin-radius-md);
+    }
+
+    .ql-editor {
+      color: var(--admin-gray-1);
+      font-size: 0.95rem;
+      font-family: var(--admin-font-body);
+    }
+
+    .ql-toolbar .ql-stroke { stroke: var(--admin-gray-2); }
+    .ql-toolbar .ql-fill { fill: var(--admin-gray-2); }
+    .ql-toolbar .ql-picker-label { color: var(--admin-gray-2); }
+    .ql-toolbar .ql-picker-options { background: var(--admin-surface-2); border-color: var(--admin-glass-border); }
+    .ql-toolbar button:hover .ql-stroke,
+    .ql-toolbar .ql-active .ql-stroke,
+    .ql-toolbar .ql-picker-label:hover .ql-stroke { stroke: var(--admin-primary); }
+    .ql-toolbar button:hover .ql-fill,
+    .ql-toolbar .ql-active .ql-fill { fill: var(--admin-primary); }
+
+    .seo-preview {
+      background: var(--admin-surface);
+      border: 1px solid var(--admin-glass-border);
+      border-radius: var(--admin-radius);
+      padding: 1rem;
+      margin-top: 0.75rem;
+    }
+
+    .seo-preview-title {
+      color: #8ab4f8;
+      font-size: 1.05rem;
+      margin-bottom: 0.25rem;
+      font-weight: 500;
+    }
+
+    .seo-preview-url {
+      color: var(--admin-success);
+      font-size: 0.8rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .seo-preview-desc {
+      color: var(--admin-gray-3);
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 1024px) {
+      .editor-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-layout">
+    <div class="admin-content">
+      <div class="page-header">
+        <div>
+          <h1 id="editor-page-title">Nouvel <span>Article</span></h1>
+          <p>Créez ou modifiez un article du blog</p>
+        </div>
+        <a href="/admin/blog.html" class="btn btn-outline">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          Retour aux Articles
+        </a>
+      </div>
+
+      <div class="editor-grid">
+        <!-- Main Editor -->
+        <div class="editor-main">
+          <div class="admin-card">
+            <div class="form-group">
+              <label for="title" class="form-label">Titre de l'article</label>
+              <input type="text" id="title" class="form-control" placeholder="Titre de votre article" oninput="updateSlug(); updateSeoPreview();">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Contenu</label>
+              <div id="editor-container"></div>
+            </div>
+
+            <div class="flex gap-3 mt-3">
+              <button class="btn btn-primary" id="publish-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
+                Publier
+              </button>
+              <button class="btn btn-outline" id="draft-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                Sauvegarder Brouillon
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="editor-sidebar">
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h3>Publication</h3>
+            </div>
+            <div class="admin-card-body">
+              <div class="form-group">
+                <label for="status" class="form-label">Statut</label>
+                <select id="status" class="form-control">
+                  <option value="draft">Brouillon</option>
+                  <option value="published">Publié</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="author" class="form-label">Auteur</label>
+                <input type="text" id="author" class="form-control" value="Linguère Digital">
+              </div>
+              <div class="form-group">
+                <label for="category" class="form-label">Catégorie</label>
+                <select id="category" class="form-control">
+                  <option value="IA">Intelligence Artificielle</option>
+                  <option value="Marketing">Marketing Digital</option>
+                  <option value="Technologie">Technologie</option>
+                  <option value="Tendances">Tendances</option>
+                  <option value="Formation">Formation</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h3>Médias</h3>
+            </div>
+            <div class="admin-card-body">
+              <div class="form-group">
+                <label for="image-url" class="form-label">URL Image de couverture</label>
+                <input type="url" id="image-url" class="form-control" placeholder="https://...">
+              </div>
+              <div class="form-group">
+                <label for="tags" class="form-label">Tags (séparés par des virgules)</label>
+                <input type="text" id="tags" class="form-control" placeholder="IA, ML, Tech" oninput="updateSeoPreview();">
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h3>SEO</h3>
+            </div>
+            <div class="admin-card-body">
+              <div class="form-group">
+                <label for="slug" class="form-label">Slug URL</label>
+                <input type="text" id="slug" class="form-control" placeholder="titre-article" readonly>
+              </div>
+              <div class="form-group">
+                <label for="meta-desc" class="form-label">Meta Description</label>
+                <textarea id="meta-desc" class="form-control" rows="3" placeholder="Description pour Google" maxlength="160" oninput="updateSeoPreview();"></textarea>
+              </div>
+              <div class="seo-preview">
+                <div class="seo-preview-title" id="seo-title">Titre de l'article</div>
+                <div class="seo-preview-url" id="seo-url">www.lingueredigital.com/blog/titre-article</div>
+                <div class="seo-preview-desc" id="seo-desc">Description de l'article pour les moteurs de recherche...</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-card" id="delete-card" style="display:none;">
+            <div class="admin-card-body">
+              <button class="btn btn-danger" style="width: 100%;" id="delete-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                Supprimer l'Article
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/admin/js/admin-auth.js"></script>
+  <script src="/admin/js/admin-api.js"></script>
+  <script src="/admin/js/admin-components.js"></script>
+  <script src="/admin/js/admin-sidebar.js"></script>
+  <script>
+    if (!localStorage.getItem('auth_token')) {
+      window.location.href = '/admin/login.html';
+    }
+
+    const quill = new Quill('#editor-container', {
+      theme: 'snow',
+      placeholder: 'Écrivez votre article ici...',
+      modules: {
+        toolbar: [
+          [{ 'header': [1, 2, 3, false] }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+          ['blockquote', 'code-block'],
+          [{ 'color': [] }, { 'background': [] }],
+          ['link', 'image'],
+          ['clean']
+        ]
+      }
+    });
+
+    function updateSlug() {
+      const title = document.getElementById('title').value;
+      const slug = title.toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim();
+      document.getElementById('slug').value = slug;
+    }
+
+    function updateSeoPreview() {
+      const title = document.getElementById('title').value || 'Titre de l\'article';
+      const slug = document.getElementById('slug').value || 'titre-article';
+      const desc = document.getElementById('meta-desc').value || 'Description de l\'article pour les moteurs de recherche...';
+
+      document.getElementById('seo-title').textContent = title;
+      document.getElementById('seo-url').textContent = 'www.lingueredigital.com/blog/' + slug;
+      document.getElementById('seo-desc').textContent = desc;
+    }
+
+    function getFormData(publie) {
+      return {
+        titre: document.getElementById('title').value,
+        slug: document.getElementById('slug').value,
+        contenu: quill.root.innerHTML,
+        resume: document.getElementById('meta-desc').value,
+        auteur: document.getElementById('author').value,
+        categorie: document.getElementById('category').value,
+        tags: document.getElementById('tags').value.split(',').map(t => t.trim()).filter(Boolean),
+        imageUrl: document.getElementById('image-url').value,
+        metaDescription: document.getElementById('meta-desc').value,
+        publie: publie
+      };
+    }
+
+    document.getElementById('publish-btn').addEventListener('click', async () => {
+      const data = getFormData(true);
+      if (!data.titre || !data.slug || !data.contenu) {
+        Toast.show('Veuillez remplir tous les champs obligatoires', 'error');
+        return;
+      }
+
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = urlParams.get('id');
+        if (articleId) {
+          await AdminAPI.updateBlogPost(articleId, data);
+          Toast.show('Article mis à jour avec succès!', 'success');
+        } else {
+          await AdminAPI.createBlogPost(data);
+          Toast.show('Article publié avec succès!', 'success');
+        }
+        setTimeout(() => {
+          window.location.href = '/admin/blog.html';
+        }, 1000);
+      } catch (error) {
+        Toast.show('Erreur: ' + error.message, 'error');
+      }
+    });
+
+    document.getElementById('draft-btn').addEventListener('click', async () => {
+      const data = getFormData(false);
+      if (!data.titre || !data.slug || !data.contenu) {
+        Toast.show('Veuillez remplir tous les champs obligatoires', 'error');
+        return;
+      }
+
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = urlParams.get('id');
+        if (articleId) {
+          await AdminAPI.updateBlogPost(articleId, data);
+          Toast.show('Brouillon mis à jour!', 'success');
+        } else {
+          await AdminAPI.createBlogPost(data);
+          Toast.show('Brouillon sauvegardé!', 'success');
+        }
+      } catch (error) {
+        Toast.show('Erreur: ' + error.message, 'error');
+      }
+    });
+
+    document.getElementById('delete-btn').addEventListener('click', async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const articleId = urlParams.get('id');
+      if (!articleId) {
+        Toast.show('Aucun article à supprimer', 'warning');
+        return;
+      }
+
+      const confirmed = await confirmAction('Êtes-vous sûr de vouloir supprimer cet article? Cette action est irréversible.');
+      if (confirmed) {
+        try {
+          await AdminAPI.deleteBlogPost(articleId);
+          Toast.show('Article supprimé avec succès!', 'success');
+          setTimeout(() => {
+            window.location.href = '/admin/blog.html';
+          }, 1000);
+        } catch (error) {
+          Toast.show('Erreur lors de la suppression: ' + error.message, 'error');
+        }
+      }
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const articleId = urlParams.get('id');
+    if (articleId) {
+      document.getElementById('editor-page-title').innerHTML = 'Modifier l\'<span>Article</span>';
+      document.getElementById('delete-card').style.display = 'block';
+      loadArticle(articleId);
+    }
+
+    async function loadArticle(id) {
+      try {
+        const articles = await AdminAPI.getBlogPosts();
+        const article = articles.find(a => String(a.id) === String(id));
+        if (article) {
+          document.getElementById('title').value = article.titre;
+          document.getElementById('slug').value = article.slug;
+          quill.root.innerHTML = article.contenu;
+          document.getElementById('author').value = article.auteur;
+          document.getElementById('category').value = article.categorie;
+          document.getElementById('tags').value = (article.tags || []).join(', ');
+          document.getElementById('image-url').value = article.imageUrl || '';
+          document.getElementById('meta-desc').value = article.metaDescription || '';
+          document.getElementById('status').value = article.publie ? 'published' : 'draft';
+          updateSeoPreview();
+        }
+      } catch (error) {
+        console.error('Error loading article:', error);
+        Toast.show('Erreur lors du chargement de l\'article', 'error');
+      }
+    }
+  </script>
+</body>
+</html>

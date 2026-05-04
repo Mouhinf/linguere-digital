@@ -1,0 +1,101 @@
+/* Admin Variables — Tech African Futuriste */
+:root {
+  /* Layout */
+  --admin-sidebar-width: 260px;
+  --admin-sidebar-collapsed-width: 72px;
+  --admin-topbar-height: 64px;
+
+  /* Colors */
+  --admin-primary: #00B4D8;
+  --admin-primary-bright: #00D4F5;
+  --admin-primary-dim: #0096B7;
+  --admin-secondary: #0077B6;
+  --admin-dark: #03045E;
+  --admin-surface: #0A0A1A;
+  --admin-surface-2: #0D0D2B;
+  --admin-surface-3: #12123A;
+  --admin-white: #FFFFFF;
+  --admin-gray-1: #E8E8F0;
+  --admin-gray-2: #B0B0C0;
+  --admin-gray-3: #808090;
+  --admin-gray-4: #505060;
+  --admin-danger: #FF6B6B;
+  --admin-danger-dim: rgba(255, 107, 107, 0.15);
+  --admin-success: #4CAF50;
+  --admin-success-dim: rgba(76, 175, 80, 0.15);
+  --admin-warning: #FFC107;
+  --admin-warning-dim: rgba(255, 193, 7, 0.15);
+  --admin-info: #00B4D8;
+  --admin-info-dim: rgba(0, 180, 216, 0.15);
+
+  /* Glass & Backgrounds */
+  --admin-bg: radial-gradient(ellipse at 20% 50%, rgba(0, 119, 182, 0.08) 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 20%, rgba(0, 180, 216, 0.05) 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 80%, rgba(3, 4, 94, 0.3) 0%, transparent 60%),
+              #080818;
+  --admin-glass: rgba(0, 180, 216, 0.06);
+  --admin-glass-border: rgba(0, 180, 216, 0.2);
+  --admin-glass-border-bright: rgba(0, 180, 216, 0.5);
+  --admin-glass-bg: rgba(13, 13, 43, 0.6);
+
+  /* Gradients */
+  --admin-gradient-main: linear-gradient(135deg, #03045E 0%, #0077B6 60%, #00B4D8 100%);
+  --admin-gradient-text: linear-gradient(90deg, #00B4D8, #00D4F5);
+  --admin-gradient-glow: linear-gradient(135deg, rgba(0, 180, 216, 0.15), rgba(0, 119, 182, 0.1));
+
+  /* Shadows */
+  --admin-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --admin-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--admin-glass-border);
+  --admin-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--admin-glass-border);
+  --admin-glow-sm: 0 0 15px rgba(0, 180, 216, 0.15);
+  --admin-glow: 0 0 30px rgba(0, 180, 216, 0.25);
+  --admin-glow-lg: 0 0 60px rgba(0, 180, 216, 0.35);
+
+  /* Typography */
+  --admin-font-heading: 'Orbitron', sans-serif;
+  --admin-font-body: 'Exo 2', sans-serif;
+  --admin-fs-xs: 0.7rem;
+  --admin-fs-sm: 0.8rem;
+  --admin-fs-base: 0.9rem;
+  --admin-fs-md: 1rem;
+  --admin-fs-lg: 1.15rem;
+  --admin-fs-xl: 1.35rem;
+  --admin-fs-2xl: 1.75rem;
+  --admin-fs-3xl: 2.2rem;
+
+  /* Transitions */
+  --admin-transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --admin-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --admin-transition-spring: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Z-index */
+  --admin-z-dropdown: 100;
+  --admin-z-sticky: 200;
+  --admin-z-modal: 1000;
+  --admin-z-notification: 1100;
+  --admin-z-tooltip: 1200;
+  --admin-z-sidebar: 300;
+  --admin-z-topbar: 250;
+
+  /* Border Radius */
+  --admin-radius-sm: 6px;
+  --admin-radius: 8px;
+  --admin-radius-md: 12px;
+  --admin-radius-lg: 16px;
+  --admin-radius-xl: 20px;
+  --admin-radius-full: 9999px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --admin-transition: 0ms;
+    --admin-transition-fast: 0ms;
+    --admin-transition-spring: 0ms;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

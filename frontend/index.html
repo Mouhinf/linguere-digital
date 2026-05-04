@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Linguère Digital Innovation - Agence tech à Dakar, Sénégal. Services web, AI, marketing et formation.">
+  <meta name="keywords" content="développement web, intelligence artificielle, marketing digital, Dakar, Sénégal">
+  <title>Linguère Digital Innovation | Agence Tech Dakar</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+  <!-- Loader -->
+  <div id="page-loader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Particles Canvas -->
+  <canvas id="particles-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -1;"></canvas>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="container hero-content">
+      <div class="hero-logo reveal" style="animation-delay: 0.1s;">
+        <img src="/assets/logo.png" alt="Linguère Digital Logo">
+      </div>
+      <div class="badge reveal badge-pulse">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+        Basé à Dakar, Sénégal
+      </div>
+      
+      <h1 class="reveal" style="animation-delay: 0.2s;">
+        L'Innovation Digitale<br>
+        <span class="text-gradient-animated">au Cœur de l'Afrique</span>
+      </h1>
+
+      <p class="hero-description reveal" style="animation-delay: 0.4s;">
+        Transformez votre vision en réalité avec nos solutions technologiques de pointe.
+      </p>
+
+      <div class="typewriter-container reveal" style="animation-delay: 0.6s;">
+        <p class="typewriter-text">
+          <span data-typewriter="Développement Web & Mobile|Intelligence Artificielle|Marketing Digital|Formation Professionnelle"></span>
+        </p>
+      </div>
+
+      <div class="hero-buttons reveal" style="animation-delay: 0.8s;">
+        <a href="#services" class="btn btn-primary">Découvrir nos Services</a>
+        <a href="https://wa.me/221XXXXXXXXX" class="btn btn-outline" target="_blank" rel="noopener noreferrer">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+            <path d="M12.05 2.054c-5.473 0-9.927 4.454-9.927 9.927 0 1.752.457 3.462 1.326 4.965L2.054 21.946l5.137-1.349a9.904 9.904 0 004.858 1.26h.001c5.473 0 9.927-4.454 9.927-9.927 0-2.653-1.031-5.147-2.907-7.023A9.858 9.858 0 0012.05 2.054zm0 18.183c-1.498 0-2.967-.403-4.248-1.166l-.305-.182-3.164.831.846-3.087-.198-.316a8.24 8.24 0 01-1.264-4.383c0-4.54 3.695-8.235 8.235-8.235 2.201 0 4.27.858 5.825 2.413a8.183 8.183 0 012.41 5.824c0 4.54-3.695 8.235-8.235 8.235h-.102z"/>
+          </svg>
+          WhatsApp
+        </a>
+      </div>
+
+      <div class="scroll-indicator reveal" style="animation-delay: 1.0s;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M19 12l-7 7-7-7"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section py-5">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card reveal glass-card">
+          <div class="stat-number" data-count="50">50+</div>
+          <div class="stat-label">Clients Satisfaits</div>
+        </div>
+        <div class="stat-card reveal glass-card" style="animation-delay: 0.1s;">
+          <div class="stat-number" data-count="30">30+</div>
+          <div class="stat-label">Projets Réussis</div>
+        </div>
+        <div class="stat-card reveal glass-card" style="animation-delay: 0.2s;">
+          <div class="stat-number" data-count="4">4</div>
+          <div class="stat-label">Domaines d'Expertise</div>
+        </div>
+        <div class="stat-card reveal glass-card" style="animation-delay: 0.3s;">
+          <div class="stat-number" data-count="3">3+</div>
+          <div class="stat-label">Ans d'Expérience</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="services-section py-5">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="reveal">Nos Services</h2>
+        <div class="underline"></div>
+        <p class="reveal" style="animation-delay: 0.1s;">Expertise complète dans le numérique africain</p>
+      </div>
+
+      <div class="services-grid stagger-children">
+        <div class="service-card glass-card reveal">
+          <div class="service-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+            </svg>
+          </div>
+          <h3>Informatique</h3>
+          <p>Développement web et mobile, génie logiciel, ERP, cybersécurité</p>
+          <a href="/services/informatique.html" class="btn btn-outline btn-sm">En savoir plus</a>
+        </div>
+
+        <div class="service-card glass-card reveal" style="animation-delay: 0.1s;">
+          <div class="service-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20.8 16.1A6.5 6.5 0 0 0 20 7a6.5 6.5 0 0 0-10.6 1M5 20a6.5 6.5 0 0 0 9-5.9A9 9 0 0 1 3 12"/>
+            </svg>
+          </div>
+          <h3>Data Science</h3>
+          <p>Machine learning, chatbots IA, analyse de données, recommandations</p>
+          <a href="/services/data-science.html" class="btn btn-outline btn-sm">En savoir plus</a>
+        </div>
+
+        <div class="service-card glass-card reveal" style="animation-delay: 0.2s;">
+          <div class="service-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M8 17l4 4 8-8M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3>Marketing Digital</h3>
+          <p>SEO, SEM, social media, stratégie digitale, prospection</p>
+          <a href="/services/marketing.html" class="btn btn-outline btn-sm">En savoir plus</a>
+        </div>
+
+        <div class="service-card glass-card reveal" style="animation-delay: 0.3s;">
+          <div class="service-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4z"/>
+            </svg>
+          </div>
+          <h3>Formation</h3>
+          <p>Formations techniques, upskilling, accompagnement professionnel</p>
+          <a href="/services/formation.html" class="btn btn-outline btn-sm">En savoir plus</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Us Section -->
+  <section class="why-us-section py-5">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="reveal">Pourquoi nous choisir ?</h2>
+        <div class="underline"></div>
+      </div>
+
+      <div class="why-us-grid">
+        <div class="why-us-item reveal-left">
+          <div class="why-us-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" opacity="0.3">
+              <circle cx="12" cy="12" r="10"/>
+            </svg>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute;">
+              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+          </div>
+          <h3>Qualité Garantie</h3>
+          <p>Code premium, respect des délais, support continu après livraison</p>
+        </div>
+
+        <div class="why-us-item reveal-left" style="animation-delay: 0.1s;">
+          <div class="why-us-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" opacity="0.3">
+              <circle cx="12" cy="12" r="10"/>
+            </svg>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute;">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/>
+            </svg>
+          </div>
+          <h3>Expertise Africaine</h3>
+          <p>Compréhension profonde du contexte local et des enjeux régionaux</p>
+        </div>
+
+        <div class="why-us-item reveal-right" style="animation-delay: 0.2s;">
+          <div class="why-us-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" opacity="0.3">
+              <circle cx="12" cy="12" r="10"/>
+            </svg>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute;">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M16 11a4 4 0 1 1-8 0 4 4 0 0 1 8 0z"/>
+            </svg>
+          </div>
+          <h3>Équipe Passionnée</h3>
+          <p>Experts motivés par l'innovation et la transformation numérique</p>
+        </div>
+
+        <div class="why-us-item reveal-right" style="animation-delay: 0.3s;">
+          <div class="why-us-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" opacity="0.3">
+              <circle cx="12" cy="12" r="10"/>
+            </svg>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute;">
+              <polyline points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5 12 3"/>
+            </svg>
+          </div>
+          <h3>Prix Compétitifs</h3>
+          <p>Meilleur rapport qualité-prix pour vos projets digitaux</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Projects Section -->
+  <section class="projects-section py-5">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="reveal">Nos Réalisations</h2>
+        <div class="underline"></div>
+        <p class="reveal" style="animation-delay: 0.1s;">Projets qui transforment les entreprises</p>
+      </div>
+
+      <div class="projects-grid stagger-children" id="featured-projects">
+        <!-- Loaded by home.js -->
+      </div>
+
+      <div class="section-cta reveal" style="animation-delay: 0.4s;">
+        <a href="/realisations.html" class="btn btn-primary">Voir tous les projets</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials-section py-5">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="reveal">Ce que disent nos clients</h2>
+        <div class="underline"></div>
+      </div>
+
+      <div class="testimonials-carousel reveal" id="testimonials-carousel">
+        <!-- Loaded by home.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Preview Section -->
+  <section class="blog-section py-5">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="reveal">Derniers Articles</h2>
+        <div class="underline"></div>
+        <p class="reveal" style="animation-delay: 0.1s;">Restez informé sur les tendances technologiques</p>
+      </div>
+
+      <div class="blog-grid stagger-children" id="featured-blog">
+        <!-- Loaded by home.js -->
+      </div>
+
+      <div class="section-cta reveal" style="animation-delay: 0.4s;">
+        <a href="/blog.html" class="btn btn-primary">Lire notre blog</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Final Section -->
+  <section class="cta-final py-5">
+    <div class="container">
+      <div class="cta-content reveal">
+        <h2>Prêt à transformer votre projet ?</h2>
+        <p>Contactez-nous dès maintenant pour une consultation gratuite</p>
+        
+        <div class="cta-buttons">
+          <a href="/contact.html" class="btn btn-primary btn-lg reveal" style="animation-delay: 0.2s;">Nous Contacter</a>
+          <a href="https://wa.me/221XXXXXXXXX" class="btn btn-outline btn-lg reveal" target="_blank" style="animation-delay: 0.3s;">
+            Discuter via WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/particles.js"></script>
+  <script src="/js/animations.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/pages/home.js"></script>
+</body>
+</html>

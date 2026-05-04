@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contactez Linguère Digital - Prenez rendez-vous">
+  <title>Contact | Linguère Digital Innovation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+
+</head>
+<body>
+  <div class="contact-page-header">
+    <div class="container">
+      <h1 class="reveal">Contactez-Nous</h1>
+      <p class="text-gray reveal" style="animation-delay: 0.1s;">Discutons de votre projet</p>
+    </div>
+  </div>
+
+  <main class="container py-5">
+    <div class="contact-container">
+      <div class="contact-info">
+        <h2 class="reveal">Coordonnées</h2>
+        
+        <div class="info-box reveal" style="animation-delay: 0.1s;">
+          <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">Email</h3>
+          <a href="mailto:linguere660@gmail.com">linguere660@gmail.com</a>
+        </div>
+
+        <div class="info-box reveal" style="animation-delay: 0.2s;">
+          <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">Téléphone</h3>
+          <a href="tel:+221771234567">+221 77 123 45 67</a>
+        </div>
+
+        <div class="info-box reveal" style="animation-delay: 0.3s;">
+          <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">Adresse</h3>
+          <p>Malika, Dakar<br>Sénégal</p>
+        </div>
+
+        <div class="info-box reveal" style="animation-delay: 0.4s;">
+          <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">Horaires</h3>
+          <p>Lundi - Vendredi<br>09:00 - 18:00<br><br>Samedi sur rendez-vous</p>
+        </div>
+
+        <div class="info-box reveal" style="animation-delay: 0.5s;">
+          <h3 style="color: var(--color-primary); margin-bottom: 1rem;">Réseaux Sociaux</h3>
+          <div class="social-links" style="gap: 1rem;">
+            <a href="https://linkedin.com/company/linguere" target="_blank" title="LinkedIn">LinkedIn</a>
+            <a href="https://facebook.com/linguere" target="_blank" title="Facebook">Facebook</a>
+            <a href="https://twitter.com/linguere" target="_blank" title="Twitter">Twitter</a>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="reveal">Envoyez-nous un Message</h2>
+        <form id="contact-form" class="form-section reveal" style="animation-delay: 0.1s;">
+          <div class="form-row-responsive">
+            <div class="form-group">
+              <label for="prenom">Prénom *</label>
+              <input type="text" id="prenom" name="prenom" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="nom">Nom *</label>
+              <input type="text" id="nom" name="nom" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="form-row-responsive">
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="telephone">Téléphone</label>
+              <input type="tel" id="telephone" name="telephone" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-row-responsive">
+            <div class="form-group">
+              <label for="service">Service Intéressé</label>
+              <select id="service" name="service" class="form-control">
+                <option value="">Sélectionner un service</option>
+                <option value="informatique">Informatique</option>
+                <option value="data-science">Data Science</option>
+                <option value="marketing">Marketing Digital</option>
+                <option value="formation">Formation</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="budget">Budget Estimé</label>
+              <select id="budget" name="budget" class="form-control">
+                <option value="">Sélectionner un budget</option>
+                <option value="0-1M">0 - 1 Million XOF</option>
+                <option value="1-5M">1 - 5 Millions XOF</option>
+                <option value="5-10M">5 - 10 Millions XOF</option>
+                <option value="10M+">10+ Millions XOF</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="objet">Objet *</label>
+            <input type="text" id="objet" name="objet" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message *</label>
+            <textarea id="message" name="message" class="form-control" rows="5" required></textarea>
+          </div>
+
+          <input type="text" name="honeypot" style="display: none;">
+
+          <button type="submit" class="btn btn-primary btn-lg">Envoyer le Message</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/animations.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/pages/contact.js"></script>
+</body>
+</html>

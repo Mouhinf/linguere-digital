@@ -1,0 +1,543 @@
+/* ============================================================
+   Réalisations — Portfolio / Projects Page
+   Tech African Futuriste | Glassmorphism | Aurora Effects
+   ============================================================ */
+
+/* ---------- Page Hero ---------- */
+.realisations-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 40vh;
+  padding: 4rem 2rem 3rem;
+  overflow: hidden;
+  text-align: center;
+  background: var(--gradient-main);
+}
+
+.realisations-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-aurora);
+  opacity: 0.06;
+  animation: aurora-spin-realisations 30s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes aurora-spin-realisations {
+  to { transform: rotate(360deg); }
+}
+
+.realisations-hero__title {
+  font-family: "Orbitron", sans-serif;
+  font-size: var(--fs-h1);
+  font-weight: 900;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+.realisations-hero__subtitle {
+  font-family: "Exo 2", sans-serif;
+  font-size: var(--fs-body);
+  color: var(--color-gray-2);
+  max-width: 600px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Filter Pills ---------- */
+.filter-pills {
+  padding: 2rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.filter-pills__inner {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.25rem 0;
+  min-width: max-content;
+}
+
+.filter-pills::-webkit-scrollbar {
+  height: 4px;
+}
+
+.filter-pills::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.filter-pills::-webkit-scrollbar-thumb {
+  background: var(--color-glass-border);
+  border-radius: 4px;
+}
+
+.filter-pill {
+  padding: 0.65rem 1.5rem;
+  border: 1px solid var(--color-glass-border);
+  border-radius: 100px;
+  background: var(--color-glass);
+  color: var(--color-gray-2);
+  font-family: "Exo 2", sans-serif;
+  font-size: var(--fs-small);
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-base);
+  position: relative;
+}
+
+.filter-pill:hover {
+  border-color: var(--color-glass-border-bright);
+  color: var(--color-white);
+}
+
+.filter-pill--active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-white);
+  box-shadow: var(--shadow-glow-sm);
+}
+
+.filter-pill__count {
+  display: inline-block;
+  margin-left: 0.4rem;
+  font-size: var(--fs-tiny);
+  opacity: 0.7;
+}
+
+/* ---------- Projects Masonry Grid ---------- */
+.projects-masonry {
+  padding: 0 2rem 6rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.projects-masonry__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  grid-auto-rows: 280px;
+  grid-auto-flow: dense;
+}
+
+.projects-masonry__grid .project-card:nth-child(5n + 1) {
+  grid-row: span 2;
+}
+
+.projects-masonry__grid .project-card:nth-child(5n + 3) {
+  grid-row: span 2;
+}
+
+/* ---------- Project Card (Masonry + Hover Overlay) ---------- */
+.project-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid var(--color-glass-border);
+  background: var(--color-surface-2);
+}
+
+.project-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease, filter var(--transition-base);
+}
+
+.project-card:hover .project-card__image {
+  transform: scale(1.06);
+  filter: brightness(0.7);
+}
+
+.project-card__overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  background: linear-gradient(
+    to top,
+    rgba(8, 8, 24, 0.95) 0%,
+    rgba(8, 8, 24, 0.75) 60%,
+    transparent 100%
+  );
+  transform: translateY(30%);
+  transition: transform var(--transition-base);
+}
+
+.project-card:hover .project-card__overlay {
+  transform: translateY(0);
+}
+
+.project-card__category {
+  display: inline-block;
+  font-family: "Exo 2", sans-serif;
+  font-size: var(--fs-tiny);
+  font-weight: 600;
+  color: var(--color-primary-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+  padding: 0.2rem 0.75rem;
+  background: rgba(0, 180, 216, 0.12);
+  border-radius: 100px;
+  border: 1px solid var(--color-glass-border);
+}
+
+.project-card__title {
+  font-family: "Orbitron", sans-serif;
+  font-size: var(--fs-body);
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: 0.35rem;
+}
+
+.project-card__link {
+  font-family: "Exo 2", sans-serif;
+  font-size: var(--fs-tiny);
+  color: var(--color-primary-bright);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: gap var(--transition-base);
+}
+
+.project-card:hover .project-card__link {
+  gap: 0.6rem;
+}
+
+/* ---------- Project Modal ---------- */
+.project-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 4, 94, 0.85);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal);
+  padding: 2rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-base), visibility var(--transition-base);
+}
+
+.project-modal-overlay--open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.project-modal {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 24px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-glow-lg), 0 20px 60px rgba(0, 0, 0, 0.6);
+  position: relative;
+  transform: translateY(20px) scale(0.97);
+  transition: transform var(--transition-spring);
+}
+
+.project-modal-overlay--open .project-modal {
+  transform: translateY(0) scale(1);
+}
+
+.project-modal__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--color-glass-border);
+  background: var(--color-glass);
+  color: var(--color-white);
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-base), border-color var(--transition-base);
+}
+
+.project-modal__close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--color-glass-border-bright);
+}
+
+.project-modal__carousel {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 24px 24px 0 0;
+}
+
+.project-modal__carousel-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.5s ease;
+}
+
+.project-modal__carousel-image {
+  min-width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-modal__carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--color-glass-border);
+  background: var(--color-glass);
+  color: var(--color-white);
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 2;
+  transition: background var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-modal__carousel-btn:hover {
+  background: rgba(0, 180, 216, 0.2);
+}
+
+.project-modal__carousel-btn--prev {
+  left: 1rem;
+}
+
+.project-modal__carousel-btn--next {
+  right: 1rem;
+}
+
+.project-modal__carousel-dots {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+  z-index: 2;
+}
+
+.project-modal__carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid var(--color-glass-border-bright);
+  background: transparent;
+  cursor: pointer;
+  transition: background var(--transition-base);
+}
+
+.project-modal__carousel-dot--active {
+  background: var(--color-primary-bright);
+}
+
+.project-modal__body {
+  padding: 2rem;
+}
+
+.project-modal__title {
+  font-family: "Orbitron", sans-serif;
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: 1rem;
+}
+
+.project-modal__desc {
+  font-family: "Exo 2", sans-serif;
+  font-size: var(--fs-body);
+  color: var(--color-gray-2);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.project-modal__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.project-modal__tag {
+  padding: 0.35rem 1rem;
+  border-radius: 100px;
+  background: var(--color-glass);
+  border: 1px solid var(--color-glass-border);
+  font-family: "Exo 2", sans-serif;
+  font-size: var(--fs-tiny);
+  color: var(--color-primary-bright);
+  font-weight: 500;
+}
+
+/* ---------- Load More / Pagination ---------- */
+.load-more {
+  display: flex;
+  justify-content: center;
+  padding: 0 2rem 5rem;
+}
+
+.load-more__btn {
+  padding: 0.85rem 3rem;
+  border: 1px solid var(--color-glass-border-bright);
+  border-radius: 100px;
+  background: var(--color-glass);
+  color: var(--color-primary-bright);
+  font-family: "Orbitron", sans-serif;
+  font-size: var(--fs-body);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background var(--transition-base), color var(--transition-base), box-shadow var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.load-more__btn:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+  box-shadow: var(--shadow-glow-sm);
+}
+
+.load-more__btn--loading {
+  pointer-events: none;
+  color: transparent;
+}
+
+.load-more__btn--loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid var(--color-white);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spinner 0.6s linear infinite;
+}
+
+@keyframes spinner {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- Empty State ---------- */
+.projects-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  grid-column: 1 / -1;
+}
+
+.projects-empty__icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.4;
+}
+
+.projects-empty__text {
+  font-family: "Exo 2", sans-serif;
+  font-size: var(--fs-body);
+  color: var(--color-gray-2);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .projects-masonry__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .project-modal__carousel {
+    height: 300px;
+  }
+}
+
+@media (max-width: 640px) {
+  .realisations-hero {
+    min-height: 32vh;
+    padding: 3rem 1rem 2rem;
+  }
+
+  .filter-pills {
+    padding: 1.5rem 1rem;
+  }
+
+  .projects-masonry {
+    padding: 0 1rem 4rem;
+  }
+
+  .projects-masonry__grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 240px;
+  }
+
+  .projects-masonry__grid .project-card:nth-child(5n + 1),
+  .projects-masonry__grid .project-card:nth-child(5n + 3) {
+    grid-row: span 1;
+  }
+
+  .project-card__overlay {
+    transform: translateY(0);
+    padding: 1rem;
+  }
+
+  .project-modal-overlay {
+    padding: 0;
+  }
+
+  .project-modal {
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .project-modal__carousel {
+    height: 250px;
+    border-radius: 0;
+  }
+}
+
+/* ---------- Reduced Motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .realisations-hero::before {
+    animation: none;
+  }
+
+  .project-card:hover .project-card__image {
+    transform: none;
+  }
+
+  .project-card__overlay {
+    transition: none;
+  }
+
+  .project-modal {
+    transition: none;
+  }
+
+  .project-modal__carousel-track {
+    transition: none;
+  }
+}

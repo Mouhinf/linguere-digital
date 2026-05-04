@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services | Linguère Digital Innovation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <style>
+    body { padding-top: 70px; }
+    .services-showcase { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin: 3rem 0; }
+    .service-box { background: var(--color-glass); border: 1px solid var(--color-glass-border); border-radius: 12px; padding: 2rem; cursor: pointer; transition: all 300ms; }
+    .service-box:hover { border-color: var(--color-primary); transform: translateY(-5px); }
+    /* Responsive rules moved to responsive.css */
+  </style>
+</head>
+<body>
+  <div style="padding: 3rem 2rem; background: rgba(3, 4, 94, 0.3); border-bottom: 1px solid var(--color-glass-border);">
+    <div class="container">
+      <h1 class="reveal">Nos Services</h1>
+      <p class="text-gray reveal" style="animation-delay: 0.1s;">Solutions complètes pour votre transformation numérique</p>
+    </div>
+  </div>
+
+  <main class="container py-5">
+    <div class="services-showcase stagger-children">
+      <div class="service-box reveal">
+        <h2 style="color: var(--color-primary); margin-bottom: 1rem;">💻 Informatique</h2>
+        <p>Développement web et mobile, génie logiciel, ERP, cybersécurité, hébergement cloud</p>
+        <a href="/services/informatique.html" class="btn btn-outline btn-sm" style="margin-top: 1rem;">Découvrir</a>
+      </div>
+
+      <div class="service-box reveal" style="animation-delay: 0.1s;">
+        <h2 style="color: var(--color-primary); margin-bottom: 1rem;">🤖 Data Science</h2>
+        <p>Machine learning, IA, chatbots intelligents, analyse prédictive, systèmes de recommandation</p>
+        <a href="/services/data-science.html" class="btn btn-outline btn-sm" style="margin-top: 1rem;">Découvrir</a>
+      </div>
+
+      <div class="service-box reveal" style="animation-delay: 0.2s;">
+        <h2 style="color: var(--color-primary); margin-bottom: 1rem;">📊 Marketing Digital</h2>
+        <p>Stratégie digitale, SEO/SEM, community management, publicité ciblée, prospection</p>
+        <a href="/services/marketing.html" class="btn btn-outline btn-sm" style="margin-top: 1rem;">Découvrir</a>
+      </div>
+
+      <div class="service-box reveal" style="animation-delay: 0.3s;">
+        <h2 style="color: var(--color-primary); margin-bottom: 1rem;">📚 Formation</h2>
+        <p>Formations techniques, upskilling, coaching digital, accompagnement professionnel</p>
+        <a href="/services/formation.html" class="btn btn-outline btn-sm" style="margin-top: 1rem;">Découvrir</a>
+      </div>
+    </div>
+
+    <div style="margin-top: 4rem; padding: 2rem; background: var(--color-glass); border: 1px solid var(--color-glass-border); border-radius: 12px;">
+      <h2 class="reveal">Notre Processus</h2>
+      <div class="grid-4 stagger-children" style="margin-top: 2rem;">
+        <div class="text-center reveal" style="animation-delay: 0s;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">📋</div>
+          <h3>Audit</h3>
+          <p style="font-size: 0.9rem; color: var(--color-gray-2);">Compréhension de vos besoins</p>
+        </div>
+        <div class="text-center reveal" style="animation-delay: 0.1s;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🎯</div>
+          <h3>Stratégie</h3>
+          <p style="font-size: 0.9rem; color: var(--color-gray-2);">Plan d'action personnalisé</p>
+        </div>
+        <div class="text-center reveal" style="animation-delay: 0.2s;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">⚙️</div>
+          <h3>Exécution</h3>
+          <p style="font-size: 0.9rem; color: var(--color-gray-2);">Mise en œuvre professionnelle</p>
+        </div>
+        <div class="text-center reveal" style="animation-delay: 0.3s;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🚀</div>
+          <h3>Optimisation</h3>
+          <p style="font-size: 0.9rem; color: var(--color-gray-2);">Support continu et amélioration</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/animations.js"></script>
+  <script src="/js/components.js"></script>
+</body>
+</html>

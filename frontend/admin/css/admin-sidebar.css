@@ -1,0 +1,174 @@
+/* Admin Sidebar — Responsive & Collapsed States Only */
+/* Base sidebar/topbar/layout styles are in admin-base.css */
+
+/* ========== Collapsed Sidebar (Desktop) ========== */
+.admin-layout.sidebar-collapsed .admin-sidebar {
+  transform: translateX(-100%);
+}
+
+.admin-layout.sidebar-collapsed .admin-topbar {
+  left: 0;
+}
+
+.admin-layout.sidebar-collapsed .admin-content {
+  margin-left: 0;
+  width: 100%;
+}
+
+.admin-layout.sidebar-collapsed .btn-toggle-sidebar {
+  display: flex;
+}
+
+/* ========== Responsive: 1024px — Small Desktop ========== */
+@media (max-width: 1024px) {
+  .admin-sidebar {
+    width: 240px;
+  }
+
+  .admin-topbar {
+    left: 240px;
+  }
+
+  .admin-content {
+    margin-left: 240px;
+    width: calc(100% - 240px);
+    padding: 1.25rem 1.5rem;
+  }
+
+  /* Allow sidebar collapse toggle at this breakpoint */
+  .admin-layout.sidebar-collapsed .admin-sidebar {
+    transform: translateX(-100%);
+  }
+
+  .admin-layout.sidebar-collapsed .admin-topbar {
+    left: 0;
+  }
+
+  .admin-layout.sidebar-collapsed .admin-content {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* ========== Responsive: 768px — Tablet & Below ========== */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    transform: translateX(-100%);
+    width: 280px;
+    box-shadow: none;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-right: none;
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(0);
+    box-shadow: 4px 0 32px rgba(0, 0, 0, 0.6);
+    border-right: 1px solid var(--admin-glass-border);
+  }
+
+  /* Mobile close button inside sidebar */
+  .sidebar-close-btn {
+    display: flex;
+  }
+
+  .admin-topbar {
+    left: 0;
+    padding: 0 1rem;
+  }
+
+  .admin-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 1rem;
+  }
+
+  .btn-toggle-sidebar {
+    display: flex;
+    min-width: 48px;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Sidebar overlay is always available at this breakpoint */
+  .sidebar-overlay {
+    display: none;
+  }
+
+  .sidebar-overlay.visible {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: calc(var(--admin-z-sidebar) - 1);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    opacity: 1;
+  }
+
+  /* When sidebar is open on mobile, ensure it's above overlay */
+  .admin-sidebar.open {
+    z-index: var(--admin-z-sidebar);
+  }
+
+  /* Improve mobile sidebar nav touch targets */
+  .sidebar-nav a {
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .sidebar-nav a svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Sidebar header on mobile */
+  .sidebar-header {
+    padding: 1.25rem;
+    position: relative;
+  }
+
+  /* Sidebar footer on mobile */
+  .sidebar-footer {
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--admin-glass-border);
+  }
+
+  .btn-logout {
+    min-height: 48px;
+    padding: 0.75rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* ========== Responsive: 480px — Small Mobile ========== */
+@media (max-width: 480px) {
+  .admin-sidebar {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .admin-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 0.75rem;
+  }
+
+  .admin-topbar {
+    padding: 0 0.75rem;
+  }
+}
+
+/* ========== Responsive: 1440px+ — Large Desktop ========== */
+@media (min-width: 1440px) {
+  .admin-content {
+    max-width: 1320px;
+    margin-left: var(--admin-sidebar-width);
+    padding: 2rem 2.5rem;
+  }
+
+  .admin-topbar {
+    padding: 0 2.5rem;
+  }
+}

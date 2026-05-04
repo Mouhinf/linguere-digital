@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages | Admin Linguère Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/css/admin-variables.css">
+  <link rel="stylesheet" href="/admin/css/admin-base.css">
+  <link rel="stylesheet" href="/admin/css/admin-sidebar.css">
+  <link rel="stylesheet" href="/admin/css/admin-components.css">
+  <link rel="stylesheet" href="/admin/css/admin-responsive.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <div class="admin-content">
+      <div class="page-header">
+        <div>
+          <h1>Gestion des <span>Messages</span></h1>
+          <p>Consultez et gérez les messages reçus via le formulaire de contact</p>
+        </div>
+        <button class="btn btn-outline" id="export-csv-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export CSV
+        </button>
+      </div>
+
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <div class="view-toggle" id="status-filter">
+            <button class="view-toggle-btn active" data-filter="all">Tous</button>
+            <button class="view-toggle-btn" data-filter="unread">Non lus</button>
+            <button class="view-toggle-btn" data-filter="read">Lus</button>
+          </div>
+        </div>
+        <div class="toolbar-right">
+          <span id="unread-badge" class="badge badge-primary" style="display:none;">0 non lus</span>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-body">
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>De</th>
+                  <th>Email</th>
+                  <th>Objet</th>
+                  <th>Date</th>
+                  <th>Statut</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="messages-tbody">
+                <tr><td colspan="6" class="text-center text-muted">Chargement...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide Panel -->
+  <div id="slide-overlay-message" class="slide-panel-backdrop"></div>
+  <div id="slide-panel-message" class="slide-panel">
+    <div class="slide-panel-header">
+      <h3 id="slide-panel-message-title">Détail du message</h3>
+      <button class="slide-panel-close" id="slide-panel-message-close" aria-label="Fermer">&times;</button>
+    </div>
+    <div class="slide-panel-body">
+      <div id="slide-panel-message-content"></div>
+    </div>
+    <div class="slide-panel-footer">
+      <button class="btn btn-outline" id="close-panel-btn">Fermer</button>
+    </div>
+  </div>
+
+  <script src="/js/config.js"></script>
+  <script src="/admin/js/admin-auth.js"></script>
+  <script src="/admin/js/admin-api.js"></script>
+  <script src="/admin/js/admin-components.js"></script>
+  <script src="/admin/js/admin-sidebar.js"></script>
+  <script src="/admin/js/pages/messages.js"></script>
+</body>
+</html>
