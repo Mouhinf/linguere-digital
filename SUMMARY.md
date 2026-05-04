@@ -301,7 +301,8 @@ To complete blog pages:
 ## 📞 Contact & Support
 
 **Email:** linguere660@gmail.com  
-**WhatsApp:** https://wa.me/221XXXXXXXXX  
+**Téléphone:** +221 77 612 60 31 / +221 78 660 24 24  
+**WhatsApp:** https://wa.me/221786602424  
 **Location:** Malika, Dakar, Sénégal  
 **Website (after deploy):** www.lingueredigital.com
 
