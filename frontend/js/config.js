@@ -1,9 +1,8 @@
-// Production API URL Configuration
-// Update this URL after deploying the backend to cPanel
-// Format: https://your-domain.com/api
+// API URL Configuration
+// Auto-detects current domain in production, falls back to localhost in dev
 
-// For local development
-window.LINGUERE_API_URL = 'https://semidramatic-subobtusely-bernadine.ngrok-free.dev/api';
-
-// For cPanel production - uncomment and update with your domain
-// window.LINGUERE_API_URL = 'https://semidramatic-subobtusely-bernadine.ngrok-free.dev/api';
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+  window.LINGUERE_API_URL = 'http://localhost:3001/api';
+} else {
+  window.LINGUERE_API_URL = window.location.origin + '/api';
+}

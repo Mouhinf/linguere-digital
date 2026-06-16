@@ -15,11 +15,14 @@ const allowedOrigins = [
   'http://localhost:3000',
   'http://127.0.0.1:8080',
   'http://127.0.0.1:3000',
-  'https://semidramatic-subobtusely-bernadine.ngrok-free.dev',
 ].filter(Boolean);
 
 if (process.env.FRONTEND_URL) {
   allowedOrigins.push(process.env.FRONTEND_URL);
+}
+if (process.env.SITE_DOMAIN) {
+  allowedOrigins.push(`https://${process.env.SITE_DOMAIN}`);
+  allowedOrigins.push(`http://${process.env.SITE_DOMAIN}`);
 }
 
 // Security headers
@@ -30,7 +33,7 @@ app.use((req, res, next) => {
   const allowedHosts = [
     'localhost',
     '127.0.0.1',
-    'semidramatic-subobtusely-bernadine.ngrok-free.dev',
+    process.env.SITE_DOMAIN,
     process.env.NGROK_HOST,
   ].filter(Boolean);
   const reqHost = req.hostname;
@@ -49,7 +52,7 @@ app.use(cors({
 }));
 
 // Static files (only when frontend is served from same server, e.g. local/cPanel)
-if (!isProduction || process.env.SERVE_FRONTEND === 'true') {
+if (isProduction || process.env.SERVE_FRONTEND === 'true') {
   app.use(express.static(path.join(__dirname, '../frontend')));
   app.use('/assets', express.static(path.join(__dirname, '../frontend/assets')));
 }
@@ -88,7 +91,7 @@ app.post('/api/seed', async (req, res) => {
 });
 
 // Fallback to index.html for frontend routing (only when serving frontend)
-if (!isProduction || process.env.SERVE_FRONTEND === 'true') {
+if (isProduction || process.env.SERVE_FRONTEND === 'true') {
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/index.html'));
   });
