@@ -10,9 +10,9 @@ BACKEND_DIR="$PROJECT_DIR/backend"
 echo "🚀 Linguère Digital - Share Project Link"
 echo "=========================================="
 
-# Check if backend is already running on port 3000
-if lsof -ti:3000 > /dev/null 2>&1; then
-  echo "✅ Backend already running on port 3000"
+# Check if backend is already running on port 3001
+if lsof -ti:3001 > /dev/null 2>&1; then
+  echo "✅ Backend already running on port 3001"
 else
   echo "📦 Starting backend server..."
   cd "$BACKEND_DIR"
@@ -21,7 +21,7 @@ else
   sleep 3
   
   # Verify backend is running
-  if curl -s http://localhost:3000/api/health > /dev/null 2>&1; then
+  if curl -s http://localhost:3001/api/health > /dev/null 2>&1; then
     echo "✅ Backend is running"
   else
     echo "❌ Backend failed to start"
@@ -36,7 +36,7 @@ sleep 1
 
 # Start ngrok
 echo "🌐 Starting ngrok tunnel..."
-ngrok http 3000 &
+ngrok http 3001 &
 NGROK_PID=$!
 sleep 5
 

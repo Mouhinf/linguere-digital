@@ -1,7 +1,7 @@
 // Admin API Module
 const ADMIN_API_BASE = window.LINGUERE_API_URL
   ? `${window.LINGUERE_API_URL.replace('/api', '')}/api/admin`
-  : (window.location.hostname === 'localhost' ? 'http://localhost:3000/api/admin' : '/api/admin');
+  : (window.location.hostname === 'localhost' ? 'http://localhost:3001/api/admin' : '/api/admin');
 
 class AdminAPI {
   static async request(endpoint, options = {}) {

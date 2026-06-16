@@ -6,8 +6,8 @@ async function loadFeaturedProjects() {
 
   try {
     const response = await fetch(`${API_BASE}/projects?limit=3`);
-    const projects = await response.json();
-    const projectArray = Array.isArray(projects) ? projects : (projects.data || []);
+    const result = await response.json();
+    const projectArray = Array.isArray(result) ? result : (result.data || []);
 
     if (projectArray.length > 0) {
       container.innerHTML = projectArray.map(project => {
@@ -62,7 +62,8 @@ async function loadTestimonials() {
 
   try {
     const response = await fetch(`${API_BASE}/testimonials`);
-    const testimonials = await response.json();
+    const result = await response.json();
+    const testimonials = Array.isArray(result) ? result : (result.data || []);
 
     if (testimonials && testimonials.length > 0) {
       container.innerHTML = testimonials.map(testimonial => `
@@ -100,7 +101,8 @@ async function loadBlogPosts() {
 
   try {
     const response = await fetch(`${API_BASE}/blog?limit=3`);
-    const posts = await response.json();
+    const result = await response.json();
+    const posts = Array.isArray(result) ? result : (result.data || []);
 
     if (posts && posts.length > 0) {
       container.innerHTML = posts.map(post => {
@@ -139,8 +141,63 @@ async function loadBlogPosts() {
   }
 }
 
+async function loadHomeServices() {
+  const container = document.getElementById('home-services-container');
+  if (!container) return;
+
+  try {
+    console.log('Loading home services, API_BASE:', API_BASE);
+    const response = await fetch(`${API_BASE}/services`);
+    console.log('Home services response:', response.status);
+    const result = await response.json();
+    console.log('Home services result:', result);
+    const services = result.data || result;
+
+    if (!services || services.length === 0) {
+      container.innerHTML = '<div class="text-center" style="grid-column:1/-1;padding:2rem;"><p class="text-muted">Aucun service disponible</p></div>';
+      return;
+    }
+
+    const categoryIcons = {
+      'informatique': '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/></svg>',
+      'data-science': '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 16.1A6.5 6.5 0 0 0 20 7a6.5 6.5 0 0 0-10.6 1M5 20a6.5 6.5 0 0 0 9-5.9A9 9 0 0 1 3 12"/></svg>',
+      'marketing': '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 17l4 4 8-8M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+      'formation': '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4z"/></svg>'
+    };
+
+    const categoryLinks = {
+      'informatique': '/services/informatique.html',
+      'data-science': '/services/data-science.html',
+      'marketing': '/services/marketing.html',
+      'formation': '/services/formation.html'
+    };
+
+    container.innerHTML = services.map((service, index) => {
+      const icon = categoryIcons[service.categorie] || categoryIcons['informatique'];
+      const link = categoryLinks[service.categorie] || '#';
+      const delay = index * 0.1;
+      return `
+        <div class="service-card glass-card reveal" style="animation-delay: ${delay}s;">
+          <div class="service-icon">${icon}</div>
+          <h3>${escHtml(service.titre || '')}</h3>
+          <p>${escHtml(service.description || '')}</p>
+          <a href="${link}" class="btn btn-outline btn-sm">En savoir plus</a>
+        </div>
+      `;
+    }).join('');
+
+    if (window.initScrollReveal) {
+      window.initScrollReveal();
+    }
+  } catch (error) {
+    console.error('Error loading services:', error);
+    container.innerHTML = '<div class="text-center" style="grid-column:1/-1;padding:2rem;"><p class="text-muted">Erreur de chargement des services</p></div>';
+  }
+}
+
 // Initialize home page
 document.addEventListener('DOMContentLoaded', () => {
+  loadHomeServices();
   loadFeaturedProjects();
   loadTestimonials();
   loadBlogPosts();

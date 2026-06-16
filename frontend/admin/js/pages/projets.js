@@ -165,10 +165,15 @@ document.addEventListener('DOMContentLoaded', async function() {
   }
 
   function bindRowActions(tbody) {
+    console.log('Binding row actions, buttons found:', tbody.querySelectorAll('.btn-edit-project').length);
     tbody.querySelectorAll('.btn-edit-project').forEach(btn => {
-      btn.addEventListener('click', () => {
+      console.log('Adding click listener to button', btn.getAttribute('data-id'));
+      btn.addEventListener('click', (e) => {
+        console.log('Edit button clicked', e);
         const pid = btn.getAttribute('data-id');
-        const found = allProjects.find(p => (p.id || p._id) === pid);
+        console.log('Project ID:', pid, 'allProjects:', allProjects);
+        const found = allProjects.find(p => (p.id || p._id) == pid);
+        console.log('Found project:', found);
         if (found) openModal(found);
       });
     });

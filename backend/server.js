@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
 const path = require('path');
 const { sequelize, syncDatabase } = require('./config/database');
 
@@ -14,11 +15,30 @@ const allowedOrigins = [
   'http://localhost:3000',
   'http://127.0.0.1:8080',
   'http://127.0.0.1:3000',
+  'https://semidramatic-subobtusely-bernadine.ngrok-free.dev',
 ].filter(Boolean);
 
 if (process.env.FRONTEND_URL) {
   allowedOrigins.push(process.env.FRONTEND_URL);
 }
+
+// Security headers
+app.use(helmet({ contentSecurityPolicy: false }));
+
+// Allow ngrok host header (dev tunnel)
+app.use((req, res, next) => {
+  const allowedHosts = [
+    'localhost',
+    '127.0.0.1',
+    'semidramatic-subobtusely-bernadine.ngrok-free.dev',
+    process.env.NGROK_HOST,
+  ].filter(Boolean);
+  const reqHost = req.hostname;
+  if (!allowedHosts.some(h => reqHost === h || reqHost.endsWith('.' + h))) {
+    return res.status(403).send('Blocked request. Host not allowed.');
+  }
+  next();
+});
 
 // Middleware
 app.use(express.json({ limit: '10mb' }));
@@ -41,6 +61,7 @@ app.use('/api/services', require('./routes/services'));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/blog', require('./routes/blog'));
 app.use('/api/testimonials', require('./routes/testimonials'));
+app.use('/api/settings', require('./routes/settings'));
 app.use('/api/admin', require('./routes/admin'));
 
 // Health check

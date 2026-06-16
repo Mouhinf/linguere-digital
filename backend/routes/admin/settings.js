@@ -1,11 +1,12 @@
 const express = require('express');
-const { Setting } = require('../../config/database').models;
+const { Settings: Setting } = require('../../config/database');
 
 const router = express.Router();
 
 // GET settings by category
 router.get('/:categorie', async (req, res) => {
   try {
+    console.log('Getting settings for category:', req.params.categorie);
     const settings = await Setting.findAll({
       where: { categorie: req.params.categorie }
     });

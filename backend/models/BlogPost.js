@@ -58,7 +58,7 @@ module.exports = (sequelize) => {
     },
     publie: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: true
     }
   }, {
     timestamps: true

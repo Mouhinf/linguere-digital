@@ -77,8 +77,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     container.querySelector('#form-settings-profil').addEventListener('submit', async (e) => {
       e.preventDefault();
+      console.log('Profil form submitted');
       if (isLoading) return;
       const form = e.target;
+      console.log('Form data:', {
+        nom: form.elements['nom'].value,
+        prenom: form.elements['prenom'].value,
+        email: form.elements['email'].value,
+      });
       const password = form.elements['password'].value;
       if (password && password !== form.elements['password_confirmation'].value) {
         Toast.show('Les mots de passe ne correspondent pas', 'warning');
@@ -150,8 +156,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     container.querySelector('#form-settings-entreprise').addEventListener('submit', async (e) => {
       e.preventDefault();
+      console.log('Entreprise form submitted');
       if (isLoading) return;
       const form = e.target;
+      console.log('Form data:', {
+        nom: form.elements['nom'].value,
+        adresse: form.elements['adresse'].value,
+        telephone: form.elements['telephone'].value,
+        email: form.elements['email'].value,
+      });
       const dataToSave = {
         nom: form.elements['nom'].value,
         adresse: form.elements['adresse'].value,
@@ -210,8 +223,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     container.querySelector('#form-settings-reseaux').addEventListener('submit', async (e) => {
       e.preventDefault();
+      console.log('Reseaux form submitted');
       if (isLoading) return;
       const form = e.target;
+      console.log('Form data:', {
+        facebook: form.elements['facebook'].value,
+        twitter: form.elements['twitter'].value,
+        linkedin: form.elements['linkedin'].value,
+        instagram: form.elements['instagram'].value,
+      });
       const dataToSave = {};
       fields.forEach(f => { dataToSave[f.key] = form.elements[f.key].value; });
       isLoading = true;
@@ -275,8 +295,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     container.querySelector('#form-settings-seo').addEventListener('submit', async (e) => {
       e.preventDefault();
+      console.log('SEO form submitted');
       if (isLoading) return;
       const form = e.target;
+      console.log('Form data:', {
+        metaTitle: form.elements['metaTitle'].value,
+        metaDescription: form.elements['metaDescription'].value,
+        gaId: form.elements['gaId'].value,
+        fbPixelId: form.elements['fbPixelId'].value,
+      });
       const dataToSave = {
         metaTitle: form.elements['metaTitle'].value,
         metaDescription: form.elements['metaDescription'].value,

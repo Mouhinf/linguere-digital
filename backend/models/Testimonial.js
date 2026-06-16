@@ -34,7 +34,7 @@ module.exports = (sequelize) => {
     },
     approuve: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: true
     },
     ordre: {
       type: DataTypes.INTEGER,

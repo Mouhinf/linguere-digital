@@ -1,17 +1,16 @@
 @import 'variables.css';
 
-/* Glass Card Component */
+/* Glass Card Component — Soft UI Evolution */
 .glass-card {
-  background: var(--color-glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: var(--color-white);
   border: 1px solid var(--color-glass-border);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   padding: 2rem;
-  transition: all var(--transition-base);
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  box-shadow: var(--shadow-card);
 }
 
 .glass-card::before {
@@ -20,15 +19,14 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-glass-border-bright), transparent);
+  height: 3px;
+  background: var(--gradient-main);
   opacity: 0;
-  transition: opacity var(--transition-base);
+  transition: opacity 250ms ease;
 }
 
 .glass-card:hover {
-  transform: translateY(-8px);
-  background: rgba(0, 180, 216, 0.12);
+  transform: translateY(-6px);
   border-color: var(--color-glass-border-bright);
   box-shadow: var(--shadow-card-hover);
 }
@@ -38,7 +36,6 @@
 }
 
 .glass-card.active {
-  background: rgba(0, 180, 216, 0.15);
   border-color: var(--color-glass-border-bright);
   box-shadow: var(--shadow-glow-md);
 }
@@ -60,7 +57,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-decoration: none;
-  font-family: 'Exo 2', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
 }
 
 .btn::before {
@@ -210,10 +207,10 @@
 .form-control {
   width: 100%;
   padding: 0.75rem 1rem;
-  background: rgba(0, 180, 216, 0.05);
+  background: var(--color-surface-2);
   border: 1px solid var(--color-glass-border);
   border-radius: 8px;
-  color: var(--color-white);
+  color: var(--color-gray-1);
   font-size: var(--fs-body);
   transition: all var(--transition-base);
   font-family: inherit;

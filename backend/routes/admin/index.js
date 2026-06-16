@@ -6,6 +6,9 @@ const router = express.Router();
 // Protect all admin routes
 router.use(verifyToken, requireAdmin);
 
+// Profile
+router.use('/profile', require('./profile'));
+
 // Stats
 router.use('/stats', require('./stats'));
 

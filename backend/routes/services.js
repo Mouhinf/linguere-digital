@@ -1,33 +1,28 @@
 const express = require('express');
-const { Service } = require('../config/database').models;
+const { sequelize, Service } = require('../config/database');
 
 const router = express.Router();
 
-// GET all active services
 router.get('/', async (req, res) => {
   try {
     const services = await Service.findAll({
-      where: { actif: true },
-      order: [['ordre', 'ASC']]
+      where: { actif: true }
     });
-    res.json(services);
+    res.json({ success: true, data: services });
   } catch (error) {
     console.error('Services error:', error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: { message: 'Failed to fetch services' } });
   }
 });
 
-// GET single service
 router.get('/:id', async (req, res) => {
   try {
     const service = await Service.findByPk(req.params.id);
-    if (!service) {
-      return res.status(404).json({ error: 'Service not found' });
-    }
-    res.json(service);
+    if (!service) return res.status(404).json({ error: { message: 'Service not found' } });
+    res.json({ success: true, data: service });
   } catch (error) {
-    console.error('Service error:', error);
-    res.status(500).json({ error: 'Server error' });
+    console.error('Services error:', error);
+    res.status(500).json({ error: { message: 'Failed to fetch service' } });
   }
 });
 

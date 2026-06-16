@@ -32,7 +32,7 @@
 }
 
 .page-hero__title {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-h1);
   font-weight: 900;
   background: var(--gradient-text);
@@ -45,7 +45,7 @@
 }
 
 .page-hero__subtitle {
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-body);
   color: var(--color-gray-2);
   max-width: 600px;
@@ -59,7 +59,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-tiny);
   color: var(--color-gray-2);
   position: relative;
@@ -101,7 +101,7 @@
 }
 
 .story-section__label {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-tiny);
   font-weight: 700;
   color: var(--color-primary-bright);
@@ -112,7 +112,7 @@
 }
 
 .story-section__title {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-h2);
   font-weight: 700;
   color: var(--color-white);
@@ -121,7 +121,7 @@
 }
 
 .story-section__description {
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-body);
   color: var(--color-gray-2);
   line-height: 1.8;
@@ -205,7 +205,7 @@
 }
 
 .timeline__header-label {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-tiny);
   font-weight: 700;
   color: var(--color-primary-bright);
@@ -214,7 +214,7 @@
 }
 
 .timeline__header-title {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-h2);
   font-weight: 700;
   color: var(--color-white);
@@ -271,7 +271,7 @@
 }
 
 .timeline__year {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-body);
   font-weight: 900;
   color: var(--color-primary-bright);
@@ -279,7 +279,7 @@
 }
 
 .timeline__title {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-h3);
   font-weight: 700;
   color: var(--color-white);
@@ -287,7 +287,7 @@
 }
 
 .timeline__desc {
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-small);
   color: var(--color-gray-2);
   line-height: 1.6;
@@ -306,7 +306,7 @@
 }
 
 .mission-vision__label {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-tiny);
   font-weight: 700;
   color: var(--color-primary-bright);
@@ -315,7 +315,7 @@
 }
 
 .mission-vision__title {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-h2);
   font-weight: 700;
   color: var(--color-white);
@@ -370,7 +370,7 @@
 }
 
 .mission-vision__card-title {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-h3);
   font-weight: 700;
   color: var(--color-white);
@@ -378,7 +378,7 @@
 }
 
 .mission-vision__card-desc {
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-small);
   color: var(--color-gray-2);
   line-height: 1.7;
@@ -397,7 +397,7 @@
 }
 
 .team-grid__label {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-tiny);
   font-weight: 700;
   color: var(--color-primary-bright);
@@ -406,7 +406,7 @@
 }
 
 .team-grid__title {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-h2);
   font-weight: 700;
   color: var(--color-white);
@@ -460,7 +460,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: 2rem;
   font-weight: 900;
   color: var(--color-white);
@@ -470,7 +470,7 @@
 }
 
 .team-card__name {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-body);
   font-weight: 700;
   color: var(--color-white);
@@ -478,7 +478,7 @@
 }
 
 .team-card__role {
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-tiny);
   color: var(--color-primary-bright);
 }
@@ -493,7 +493,7 @@
 }
 
 .team-card__back-bio {
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-small);
   color: var(--color-gray-2);
   line-height: 1.7;
@@ -502,7 +502,7 @@
 }
 
 .team-card__back-name {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-body);
   font-weight: 700;
   color: var(--color-white);
@@ -542,7 +542,7 @@
 }
 
 .partners-marquee__label {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-tiny);
   font-weight: 700;
   color: var(--color-primary-bright);
@@ -551,7 +551,7 @@
 }
 
 .partners-marquee__title {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-h3);
   font-weight: 700;
   color: var(--color-white);

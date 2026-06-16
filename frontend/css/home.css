@@ -125,7 +125,7 @@
 /* Stats Section */
 .stats-section {
   position: relative;
-  background: rgba(13, 13, 43, 0.5);
+  background: rgba(0, 119, 182, 0.04);
   border-top: 1px solid var(--color-glass-border);
   border-bottom: 1px solid var(--color-glass-border);
 }
@@ -148,7 +148,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
 }
 
 .stat-label {
@@ -167,28 +167,35 @@
 .service-card {
   padding: 2rem !important;
   text-align: center;
-  transition: all var(--transition-spring);
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .service-card:hover {
-  background: rgba(0, 180, 216, 0.15) !important;
+  background: var(--color-surface-2) !important;
 }
 
 .service-icon {
-  width: 60px;
-  height: 60px;
+  width: 56px;
+  height: 56px;
   margin: 0 auto 1.5rem;
-  background: rgba(0, 180, 216, 0.2);
-  border-radius: 12px;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-glass-border);
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--color-primary);
-  animation: float 3s ease-in-out infinite;
+  transition: all 250ms ease;
+}
+
+.service-card:hover .service-icon {
+  background: var(--gradient-main);
+  color: var(--color-white);
+  border-color: transparent;
 }
 
 .service-card h3 {
-  color: var(--color-white);
+  color: var(--color-gray-1);
   margin-bottom: 1rem;
 }
 
@@ -211,6 +218,15 @@
   position: relative;
   padding: 2rem;
   border-left: 3px solid var(--color-primary);
+  background: var(--color-white);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  box-shadow: var(--shadow-card);
+  transition: all 250ms ease;
+}
+
+.why-us-item:hover {
+  transform: translateX(6px);
+  box-shadow: var(--shadow-card-hover);
 }
 
 .why-us-item h3 {
@@ -316,7 +332,7 @@
 }
 
 .home-project-content h3 {
-  color: var(--color-white);
+  color: var(--color-gray-1);
   margin-bottom: 0.5rem;
   font-size: var(--fs-h3);
 }
@@ -482,7 +498,7 @@
 }
 
 .home-blog-content h3 {
-  color: var(--color-white);
+  color: var(--color-gray-1);
   margin-bottom: 0.75rem;
   font-size: 1.2rem;
   line-height: 1.4;

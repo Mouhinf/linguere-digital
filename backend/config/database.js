@@ -7,7 +7,6 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 let sequelize;
 
 if (NODE_ENV === 'production' && process.env.DB_DIALECT === 'mysql') {
-  // MySQL production
   sequelize = new Sequelize(
     process.env.DB_NAME || 'linguere_db',
     process.env.DB_USER || 'root',
@@ -26,7 +25,6 @@ if (NODE_ENV === 'production' && process.env.DB_DIALECT === 'mysql') {
     }
   );
 } else {
-  // SQLite development
   sequelize = new Sequelize({
     dialect: 'sqlite',
     storage: path.join(__dirname, '../dev.sqlite'),
@@ -34,20 +32,20 @@ if (NODE_ENV === 'production' && process.env.DB_DIALECT === 'mysql') {
   });
 }
 
-// Import models
-const User = require('../models/User')(sequelize);
-const Message = require('../models/Message')(sequelize);
-const Service = require('../models/Service')(sequelize);
-const Project = require('../models/Project')(sequelize);
-const BlogPost = require('../models/BlogPost')(sequelize);
-const Testimonial = require('../models/Testimonial')(sequelize);
-const Settings = require('../models/Settings')(sequelize);
+// Import and initialize models
+const UserModel = require('../models/User')(sequelize);
+const MessageModel = require('../models/Message')(sequelize);
+const ServiceModel = require('../models/Service')(sequelize);
+const ProjectModel = require('../models/Project')(sequelize);
+const BlogPostModel = require('../models/BlogPost')(sequelize);
+const TestimonialModel = require('../models/Testimonial')(sequelize);
+const SettingModel = require('../models/Settings')(sequelize);
 
 // Associations
-Message.belongsTo(User, { foreignKey: 'userId', allowNull: true });
-User.hasMany(Message, { foreignKey: 'userId' });
+MessageModel.belongsTo(UserModel, { foreignKey: 'userId', allowNull: true });
+UserModel.hasMany(MessageModel, { foreignKey: 'userId' });
 
-// Export
+// Sync database
 async function syncDatabase() {
   try {
     await sequelize.authenticate();
@@ -60,16 +58,19 @@ async function syncDatabase() {
   }
 }
 
+const models = {
+  User: UserModel,
+  Message: MessageModel,
+  Service: ServiceModel,
+  Project: ProjectModel,
+  BlogPost: BlogPostModel,
+  Testimonial: TestimonialModel,
+  Settings: SettingModel
+};
+
 module.exports = {
   sequelize,
   syncDatabase,
-  models: {
-    User,
-    Message,
-    Service,
-    Project,
-    BlogPost,
-    Testimonial,
-    Settings
-  }
+  models,
+  ...models
 };

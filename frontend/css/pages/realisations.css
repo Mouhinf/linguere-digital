@@ -32,7 +32,7 @@
 }
 
 .realisations-hero__title {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-h1);
   font-weight: 900;
   background: var(--gradient-text);
@@ -45,7 +45,7 @@
 }
 
 .realisations-hero__subtitle {
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-body);
   color: var(--color-gray-2);
   max-width: 600px;
@@ -88,7 +88,7 @@
   border-radius: 100px;
   background: var(--color-glass);
   color: var(--color-gray-2);
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-small);
   font-weight: 500;
   cursor: pointer;
@@ -183,7 +183,7 @@
 
 .project-card__category {
   display: inline-block;
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-tiny);
   font-weight: 600;
   color: var(--color-primary-bright);
@@ -197,7 +197,7 @@
 }
 
 .project-card__title {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-body);
   font-weight: 700;
   color: var(--color-white);
@@ -205,7 +205,7 @@
 }
 
 .project-card__link {
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-tiny);
   color: var(--color-primary-bright);
   text-decoration: none;
@@ -362,7 +362,7 @@
 }
 
 .project-modal__title {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-h2);
   font-weight: 700;
   color: var(--color-white);
@@ -370,7 +370,7 @@
 }
 
 .project-modal__desc {
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-body);
   color: var(--color-gray-2);
   line-height: 1.8;
@@ -388,7 +388,7 @@
   border-radius: 100px;
   background: var(--color-glass);
   border: 1px solid var(--color-glass-border);
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-tiny);
   color: var(--color-primary-bright);
   font-weight: 500;
@@ -407,7 +407,7 @@
   border-radius: 100px;
   background: var(--color-glass);
   color: var(--color-primary-bright);
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-body);
   font-weight: 700;
   cursor: pointer;
@@ -459,7 +459,7 @@
 }
 
 .projects-empty__text {
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-body);
   color: var(--color-gray-2);
 }

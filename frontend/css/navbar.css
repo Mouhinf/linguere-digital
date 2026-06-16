@@ -7,10 +7,10 @@ nav.navbar {
   left: 0;
   right: 0;
   height: 70px;
-  background: rgba(8, 8, 24, 0.85);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--color-glass-border);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   z-index: var(--z-sticky);
   display: flex;
   align-items: center;
@@ -20,8 +20,8 @@ nav.navbar {
 }
 
 nav.navbar.scrolled {
-  background: rgba(8, 8, 24, 0.95);
-  box-shadow: var(--shadow-glow-sm);
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
 /* Logo */
@@ -30,7 +30,7 @@ nav.navbar.scrolled {
   align-items: center;
   gap: 0.5rem;
   font-size: 1.3rem;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
   background: var(--gradient-text);
   -webkit-background-clip: text;
@@ -118,9 +118,9 @@ nav.navbar.scrolled {
   top: 100%;
   left: 0;
   margin-top: 1rem;
-  background: var(--color-surface-2);
+  background: var(--color-white);
   border: 1px solid var(--color-glass-border);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   padding: 0.5rem 0;
   min-width: 200px;
   opacity: 0;
@@ -129,7 +129,7 @@ nav.navbar.scrolled {
   transition: all var(--transition-base);
   z-index: var(--z-dropdown);
   list-style: none;
-  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 .nav-dropdown:hover .dropdown-menu {
@@ -234,7 +234,7 @@ nav.navbar.scrolled {
     height: calc(100vh - 70px);
     flex-direction: column;
     gap: 0;
-    background: rgba(8, 8, 24, 0.98);
+    background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-top: 1px solid var(--color-glass-border);

@@ -151,10 +151,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function bindRowActions(tbody) {
+    console.log('Binding row actions, buttons found:', tbody.querySelectorAll('.btn-edit-service').length);
     tbody.querySelectorAll('.btn-edit-service').forEach(btn => {
-      btn.addEventListener('click', () => {
+      console.log('Adding click listener to button', btn.getAttribute('data-id'));
+      btn.addEventListener('click', (e) => {
+        console.log('Edit button clicked', e);
         const sid = btn.getAttribute('data-id');
-        const found = allServices.find(s => (s.id || s._id) === sid);
+        console.log('Service ID:', sid, 'allServices:', allServices);
+        const found = allServices.find(s => (s.id || s._id) == sid);
+        console.log('Found service:', found);
         if (found) openModal(found);
       });
     });

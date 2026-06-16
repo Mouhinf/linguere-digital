@@ -197,10 +197,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function bindRowActions(tbody) {
+    console.log('Binding row actions, buttons found:', tbody.querySelectorAll('.btn-edit-testimonial').length);
     tbody.querySelectorAll('.btn-edit-testimonial').forEach(btn => {
-      btn.addEventListener('click', () => {
+      console.log('Adding click listener to button', btn.getAttribute('data-id'));
+      btn.addEventListener('click', (e) => {
+        console.log('Edit button clicked', e);
         const tid = btn.getAttribute('data-id');
-        const found = allTestimonials.find(t => (t.id || t._id) === tid);
+        console.log('Testimonial ID:', tid, 'allTestimonials:', allTestimonials);
+        const found = allTestimonials.find(t => (t.id || t._id) == tid);
+        console.log('Found testimonial:', found);
         if (found) openPanel(found);
       });
     });

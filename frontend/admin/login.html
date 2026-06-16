@@ -6,7 +6,7 @@
   <title>Admin Login | Linguère Digital</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/admin/css/admin-variables.css">
   <link rel="stylesheet" href="/admin/css/admin-base.css">
   <link rel="stylesheet" href="/admin/css/admin-components.css">
@@ -319,7 +319,7 @@
               placeholder="admin@lingueredigital.com"
               required
               autocomplete="email"
-              value="admin@lingueredigital.com"
+              value=""
             >
           </div>
         </div>
@@ -335,7 +335,7 @@
               placeholder="Votre mot de passe"
               required
               autocomplete="current-password"
-              value="Admin@2025"
+              value=""
             >
             <button type="button" class="password-toggle" id="password-toggle" aria-label="Afficher le mot de passe">
               <svg id="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -394,11 +394,14 @@
 
       try {
         const response = await API.login(email, password);
+        console.log('Login response:', response);
         localStorage.setItem('auth_token', response.token);
         localStorage.setItem('user', JSON.stringify(response.user));
         window.location.href = '/admin/dashboard.html';
       } catch (error) {
-        errorDiv.querySelector('span').textContent = error.message || 'Email ou mot de passe incorrect';
+        console.error('Login error:', error);
+        const errorMessage = typeof error.message === 'object' ? JSON.stringify(error.message) : (error.message || 'Email ou mot de passe incorrect');
+        errorDiv.querySelector('span').textContent = errorMessage;
         errorDiv.classList.add('show');
         loginBtn.disabled = false;
         loginBtn.textContent = 'Se connecter';

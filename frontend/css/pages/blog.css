@@ -32,7 +32,7 @@
 }
 
 .blog-hero__title {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-h1);
   font-weight: 900;
   background: var(--gradient-text);
@@ -45,7 +45,7 @@
 }
 
 .blog-hero__subtitle {
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-body);
   color: var(--color-gray-2);
   max-width: 600px;
@@ -81,7 +81,7 @@
   border-radius: 100px;
   background: var(--color-glass);
   color: var(--color-white);
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-body);
   outline: none;
   transition: border-color var(--transition-base), box-shadow var(--transition-base);
@@ -146,7 +146,7 @@
   border-radius: 100px;
   background: var(--color-glass);
   color: var(--color-gray-2);
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-small);
   font-weight: 500;
   cursor: pointer;
@@ -209,7 +209,7 @@
 }
 
 .featured-post__badge {
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-tiny);
   font-weight: 600;
   color: var(--color-primary-bright);
@@ -225,7 +225,7 @@
 }
 
 .featured-post__title {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-h2);
   font-weight: 700;
   color: var(--color-white);
@@ -236,7 +236,7 @@
 }
 
 .featured-post__excerpt {
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-body);
   color: var(--color-gray-2);
   line-height: 1.7;
@@ -247,7 +247,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-tiny);
   color: var(--color-gray-3);
 }
@@ -297,7 +297,7 @@
   position: absolute;
   top: 12px;
   left: 12px;
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-tiny);
   font-weight: 600;
   color: var(--color-primary-bright);
@@ -318,7 +318,7 @@
 }
 
 .blog-card__title {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-h3);
   font-weight: 700;
   color: var(--color-white);
@@ -327,7 +327,7 @@
 }
 
 .blog-card__excerpt {
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-small);
   color: var(--color-gray-2);
   line-height: 1.6;
@@ -344,13 +344,13 @@
 }
 
 .blog-card__date {
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-tiny);
   color: var(--color-gray-3);
 }
 
 .blog-card__read-more {
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-tiny);
   font-weight: 600;
   color: var(--color-primary-bright);
@@ -377,7 +377,7 @@
 }
 
 .table-of-contents__title {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-body);
   font-weight: 700;
   color: var(--color-white);
@@ -399,7 +399,7 @@
 .table-of-contents__link {
   display: block;
   padding: 0.4rem 0.75rem;
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-small);
   color: var(--color-gray-2);
   text-decoration: none;
@@ -430,7 +430,7 @@
 
 /* ---------- Article Content (Quill HTML Output) ---------- */
 .article-content {
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   color: var(--color-gray-1);
   line-height: 1.9;
 }
@@ -439,7 +439,7 @@
 .article-content h2,
 .article-content h3,
 .article-content h4 {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   color: var(--color-white);
   margin: 2.5rem 0 1rem;
   scroll-margin-top: 100px;
@@ -613,7 +613,7 @@
 }
 
 .article-nav-link__label {
-  font-family: "Exo 2", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: var(--fs-tiny);
   color: var(--color-gray-3);
   text-transform: uppercase;
@@ -621,7 +621,7 @@
 }
 
 .article-nav-link__title {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-body);
   font-weight: 700;
   color: var(--color-white);
