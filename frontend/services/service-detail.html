@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service | Linguère Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/pages/services.css">
+</head>
+<body style="padding-top: 70px;">
+
+  <nav class="service-breadcrumb reveal">
+    <a href="/services.html" class="service-breadcrumb__link">Services</a>
+    <span class="service-breadcrumb__separator">›</span>
+    <span class="service-breadcrumb__current" id="breadcrumb-name">Chargement...</span>
+  </nav>
+
+  <section class="services-hero">
+    <div class="services-hero__title reveal" id="hero-title">Chargement...</div>
+    <p class="services-hero__subtitle reveal" id="hero-subtitle">Découvrez notre expertise spécialisée</p>
+  </section>
+
+  <section class="service-detail">
+    <div class="service-detail__header">
+      <h2 class="service-detail__title reveal">Nos Offres</h2>
+      <p class="service-detail__desc reveal">Des solutions adaptées à vos besoins et votre budget</p>
+    </div>
+    <div class="service-detail__grid" id="services-grid">
+      <div class="glass-card reveal" style="text-align:center;padding:3rem;">
+        <p style="color:var(--color-gray-2)">Chargement des services...</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="process-steps">
+    <div class="process-steps__header">
+      <div class="process-steps__label reveal">Notre Processus</div>
+      <h2 class="process-steps__title reveal">Comment nous travaillons</h2>
+    </div>
+    <div class="process-steps__track">
+      <div class="process-step reveal">
+        <div class="process-step__number">1</div>
+        <div class="process-step__title">Analyse</div>
+        <div class="process-step__desc">Comprendre vos besoins et objectifs</div>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-step__number">2</div>
+        <div class="process-step__title">Conception</div>
+        <div class="process-step__desc">Élaborer la solution idéale</div>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-step__number">3</div>
+        <div class="process-step__title">Réalisation</div>
+        <div class="process-step__desc">Développer et mettre en œuvre</div>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-step__number">4</div>
+        <div class="process-step__title">Livraison</div>
+        <div class="process-step__desc">Tester, déployer et accompagner</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container py-5" style="text-align:center;">
+    <div class="glass-card reveal" style="max-width:600px;margin:0 auto;">
+      <h3 style="margin-bottom:1rem;">Prêt à démarrer votre projet ?</h3>
+      <p style="color:var(--color-gray-2);margin-bottom:2rem;">Contactez-nous pour un devis gratuit et personnalisé</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <a href="/contact.html" class="btn btn-primary">Nous Contacter</a>
+        <a href="https://wa.me/221786602424" class="btn btn-outline" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/animations.js"></script>
+  <script src="/js/components.js"></script>
+  <script>
+  (async function() {
+    const params = new URLSearchParams(window.location.search);
+    const category = params.get('cat') || 'informatique';
+
+    const CATEGORY_MAP = {
+      'informatique': { title: 'Informatique', subtitle: 'Développement web, génie logiciel et solutions IT' },
+      'data-science': { title: 'Data Science', subtitle: 'Intelligence artificielle, machine learning et analyse de données' },
+      'marketing': { title: 'Marketing Digital', subtitle: 'SEO, réseaux sociaux et stratégie digitale' },
+      'formation': { title: 'Formation', subtitle: 'Formation professionnelle et accompagnement numérique' }
+    };
+
+    const meta = CATEGORY_MAP[category] || CATEGORY_MAP['informatique'];
+    document.title = meta.title + ' | Linguère Digital';
+    document.getElementById('hero-title').textContent = meta.title;
+    document.getElementById('hero-subtitle').textContent = meta.subtitle;
+    document.getElementById('breadcrumb-name').textContent = meta.title;
+
+    try {
+      const res = await API.getServices();
+      const services = (res.data || []).filter(s => s.categorie === category && s.actif);
+
+      if (services.length === 0) {
+        document.getElementById('services-grid').innerHTML = `
+          <div class="glass-card" style="text-align:center;padding:3rem;grid-column:1/-1;">
+            <p style="color:var(--color-gray-2);margin-bottom:1.5rem;">Aucun service disponible dans cette catégorie pour le moment.</p>
+            <a href="/contact.html" class="btn btn-primary">Nous Contacter pour en savoir plus</a>
+          </div>`;
+        return;
+      }
+
+      document.getElementById('services-grid').innerHTML = services.map((s, i) => {
+        const features = (s.descriptionLongue || s.description || '').split('\n').filter(Boolean);
+        const isFeatured = i === 0;
+        return `
+          <div class="service-card ${isFeatured ? 'service-card--featured' : ''} reveal" style="animation-delay:${i * 0.1}s">
+            <h3 class="service-card__name">${s.titre}</h3>
+            ${s.prix ? `
+              <div class="price-tag ${services.length > 2 ? 'price-tag--small' : ''}">
+                <span class="price-tag__currency">FCFA</span>
+                <span class="price-tag__amount">${Number(s.prix).toLocaleString('fr-FR')}</span>
+              </div>` : ''}
+            <div class="service-card__features">
+              ${features.length > 0 ? `
+                <ul class="features-list">
+                  ${features.map(f => `<li class="features-list__item"><span class="features-list__check"></span><span>${f.trim()}</span></li>`).join('')}
+                </ul>` : `<p style="color:var(--color-gray-2)">${s.description || ''}</p>`}
+            </div>
+            <a href="/contact.html?service=${encodeURIComponent(s.titre)}" class="service-card__cta">Demander un Devis</a>
+          </div>`;
+      }).join('');
+
+      if (typeof initScrollReveal === 'function') initScrollReveal();
+    } catch (err) {
+      console.error('Failed to load services:', err);
+      document.getElementById('services-grid').innerHTML = `
+        <div class="glass-card" style="text-align:center;padding:3rem;grid-column:1/-1;">
+          <p style="color:var(--color-gray-2)">Impossible de charger les services. Veuillez réessayer plus tard.</p>
+        </div>`;
+    }
+  })();
+  </script>
+</body>
+</html>
