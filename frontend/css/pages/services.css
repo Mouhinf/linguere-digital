@@ -10,7 +10,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 45vh;
+  min-height: 35vh;
   padding: var(--space-xl) var(--space-lg);
   overflow: hidden;
   text-align: center;
@@ -78,7 +78,7 @@
   font-family: var(--font-heading);
   font-size: var(--fs-h2);
   font-weight: 700;
-  color: var(--color-white);
+  color: var(--color-gray-1);
   margin-top: var(--space-sm);
 }
 
@@ -89,7 +89,7 @@
 }
 
 .service-category-card {
-  background: var(--color-glass);
+  background: var(--color-white);
   border: 1px solid var(--color-glass-border);
   border-radius: var(--radius-xl);
   padding: var(--space-lg) var(--space-md);
@@ -137,7 +137,7 @@
   font-family: var(--font-heading);
   font-size: var(--fs-h3);
   font-weight: 700;
-  color: var(--color-white);
+  color: var(--color-gray-1);
   margin-bottom: var(--space-sm);
   position: relative;
   z-index: 1;
@@ -201,7 +201,7 @@
   font-family: var(--font-heading);
   font-size: var(--fs-h2);
   font-weight: 700;
-  color: var(--color-white);
+  color: var(--color-gray-1);
   margin-top: var(--space-sm);
 }
 
@@ -264,7 +264,7 @@
   font-family: var(--font-heading);
   font-size: var(--fs-body);
   font-weight: 700;
-  color: var(--color-white);
+  color: var(--color-gray-1);
   margin-bottom: var(--space-sm);
 }
 
@@ -292,7 +292,7 @@
   font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-h2);
   font-weight: 700;
-  color: var(--color-white);
+  color: var(--color-gray-1);
   margin-bottom: 0.75rem;
 }
 
@@ -311,7 +311,7 @@
 }
 
 .service-card {
-  background: var(--color-glass);
+  background: var(--color-white);
   border: 1px solid var(--color-glass-border);
   border-radius: 20px;
   padding: 2rem;
@@ -349,7 +349,7 @@
   font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-h3);
   font-weight: 700;
-  color: var(--color-white);
+  color: var(--color-gray-1);
   margin-bottom: 1rem;
 }
 
@@ -364,8 +364,8 @@
   padding: 0.85rem 1.5rem;
   border: 1px solid var(--color-glass-border-bright);
   border-radius: 12px;
-  background: var(--color-glass);
-  color: var(--color-primary-bright);
+  background: var(--color-white);
+  color: var(--color-primary);
   font-family: "Space Grotesk", sans-serif;
   font-size: var(--fs-small);
   font-weight: 700;
@@ -376,9 +376,10 @@
 }
 
 .service-card__cta:hover {
-  background: var(--color-primary);
+  background: var(--gradient-main);
   color: var(--color-white);
   box-shadow: var(--shadow-glow-sm);
+  border-color: transparent;
 }
 
 /* ---------- Price Tag ---------- */
@@ -516,7 +517,7 @@
 }
 
 .service-breadcrumb__link:hover {
-  color: var(--color-white);
+  color: var(--color-primary);
 }
 
 .service-breadcrumb__separator {
@@ -525,7 +526,7 @@
 }
 
 .service-breadcrumb__current {
-  color: var(--color-white);
+  color: var(--color-gray-1);
 }
 
 /* ---------- Responsive ---------- */
