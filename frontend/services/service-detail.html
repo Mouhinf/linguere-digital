@@ -14,6 +14,137 @@
   <link rel="stylesheet" href="/css/footer.css">
   <link rel="stylesheet" href="/css/responsive.css">
   <link rel="stylesheet" href="/css/pages/services.css">
+  <style>
+    .service-form-section {
+      padding: 4rem 2rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .service-form-section h2 {
+      text-align: center;
+      margin-bottom: 0.5rem;
+      color: var(--color-gray-1);
+    }
+    .service-form-section p {
+      text-align: center;
+      color: var(--color-gray-2);
+      margin-bottom: 2rem;
+    }
+    .service-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .service-form label {
+      display: block;
+      font-weight: 600;
+      font-size: var(--fs-small);
+      color: var(--color-gray-1);
+      margin-bottom: 0.35rem;
+    }
+    .service-form input,
+    .service-form select,
+    .service-form textarea {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--color-glass-border);
+      border-radius: var(--radius-md);
+      background: var(--color-surface-2);
+      font-family: 'DM Sans', sans-serif;
+      font-size: var(--fs-body);
+      color: var(--color-gray-1);
+      transition: border-color 250ms ease, box-shadow 250ms ease;
+    }
+    .service-form input:focus,
+    .service-form select:focus,
+    .service-form textarea:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.12);
+    }
+    .service-form textarea { min-height: 120px; resize: vertical; }
+    .service-form .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    @media (max-width: 600px) { .service-form .form-row { grid-template-columns: 1fr; } }
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    .form-actions .btn { flex: 1; text-align: center; }
+    .btn-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.5rem;
+      border: none;
+      border-radius: var(--radius-md);
+      background: #25D366;
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: var(--fs-body);
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 250ms ease;
+    }
+    .btn-whatsapp:hover {
+      background: #20BA60;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
+    }
+    .btn-whatsapp svg { width: 20px; height: 20px; fill: currentColor; }
+    .service-modules {
+      margin-bottom: 1.5rem;
+    }
+    .service-modules__title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: var(--fs-small);
+      font-weight: 700;
+      color: var(--color-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.75rem;
+    }
+    .module-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .module-tag {
+      display: inline-block;
+      padding: 0.35rem 0.85rem;
+      background: var(--color-surface-3);
+      border: 1px solid var(--color-glass-border);
+      border-radius: 100px;
+      font-size: var(--fs-tiny);
+      font-weight: 600;
+      color: var(--color-primary);
+      transition: all 250ms ease;
+      cursor: pointer;
+    }
+    .module-tag:hover {
+      background: var(--gradient-main);
+      color: var(--color-white);
+      border-color: transparent;
+    }
+    .module-tag.selected {
+      background: var(--gradient-main);
+      color: var(--color-white);
+      border-color: transparent;
+    }
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+      background: var(--color-surface-2);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(37, 211, 102, 0.2);
+    }
+    .form-success.show { display: block; }
+    .form-success h3 { color: #25D366; margin-bottom: 0.5rem; }
+    .form-success p { color: var(--color-gray-2); }
+  </style>
 </head>
 <body style="padding-top: 70px;">
 
@@ -69,14 +200,53 @@
     </div>
   </section>
 
-  <section class="container py-5" style="text-align:center;">
-    <div class="glass-card reveal" style="max-width:600px;margin:0 auto;">
-      <h3 style="margin-bottom:1rem;">Prêt à démarrer votre projet ?</h3>
-      <p style="color:var(--color-gray-2);margin-bottom:2rem;">Contactez-nous pour un devis gratuit et personnalisé</p>
-      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-        <a href="/contact.html" class="btn btn-primary">Nous Contacter</a>
-        <a href="https://wa.me/221786602424" class="btn btn-outline" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+  <section class="service-form-section" id="form-section">
+    <h2>Demande de Devis</h2>
+    <p>Remplissez le formulaire ou contactez-nous directement sur WhatsApp</p>
+    <form class="service-form" id="service-form">
+      <div class="form-row">
+        <div>
+          <label for="f-prenom">Prénom</label>
+          <input type="text" id="f-prenom" name="prenom" required placeholder="Votre prénom">
+        </div>
+        <div>
+          <label for="f-nom">Nom</label>
+          <input type="text" id="f-nom" name="nom" required placeholder="Votre nom">
+        </div>
       </div>
+      <div>
+        <label for="f-email">Email</label>
+        <input type="email" id="f-email" name="email" required placeholder="votre@email.com">
+      </div>
+      <div>
+        <label for="f-telephone">Téléphone</label>
+        <input type="tel" id="f-telephone" name="telephone" placeholder="+221 7X XXX XX XX">
+      </div>
+      <div>
+        <label for="f-service">Service souhaité</label>
+        <select id="f-service" name="service">
+          <option value="">-- Sélectionnez un service --</option>
+        </select>
+      </div>
+      <div>
+        <label>Modules d'intérêt (cliquez pour sélectionner)</label>
+        <div class="module-tags" id="module-tags"></div>
+      </div>
+      <div>
+        <label for="f-message">Décrivez votre projet</label>
+        <textarea id="f-message" name="message" placeholder="Décrivez brièvement votre besoin..."></textarea>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Envoyer la Demande</button>
+        <a href="#" id="whatsapp-btn" class="btn-whatsapp" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741 .981.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c0-5.45 4.436-9.884 9.884-9.884 2.635 0 5.112 1.028 6.975 2.894a9.825 9.825 0 012.89 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp
+        </a>
+      </div>
+    </form>
+    <div class="form-success" id="form-success">
+      <h3>Demande envoyée !</h3>
+      <p>Nous vous contacterons dans les plus brefs délais.</p>
     </div>
   </section>
 
@@ -103,11 +273,14 @@
     document.getElementById('hero-subtitle').textContent = meta.subtitle;
     document.getElementById('breadcrumb-name').textContent = meta.title;
 
+    let allServices = [];
+    let selectedModules = [];
+
     try {
       const res = await API.getServices();
-      const services = (res.data || []).filter(s => s.categorie === category && s.actif);
+      allServices = (res.data || []).filter(s => s.categorie === category && s.actif);
 
-      if (services.length === 0) {
+      if (allServices.length === 0) {
         document.getElementById('services-grid').innerHTML = `
           <div class="glass-card" style="text-align:center;padding:3rem;grid-column:1/-1;">
             <p style="color:var(--color-gray-2);margin-bottom:1.5rem;">Aucun service disponible dans cette catégorie pour le moment.</p>
@@ -116,16 +289,34 @@
         return;
       }
 
-      document.getElementById('services-grid').innerHTML = services.map((s, i) => {
+      const serviceSelect = document.getElementById('f-service');
+      const allModules = new Set();
+
+      document.getElementById('services-grid').innerHTML = allServices.map((s, i) => {
         const features = (s.descriptionLongue || s.description || '').split('\n').filter(Boolean);
         const isFeatured = i === 0;
+        const modules = s.modules || [];
+        modules.forEach(m => allModules.add(m));
+
+        const option = document.createElement('option');
+        option.value = s.titre;
+        option.textContent = s.titre;
+        serviceSelect.appendChild(option);
+
         return `
           <div class="service-card ${isFeatured ? 'service-card--featured' : ''} reveal" style="animation-delay:${i * 0.1}s">
             <h3 class="service-card__name">${s.titre}</h3>
             ${s.prix ? `
-              <div class="price-tag ${services.length > 2 ? 'price-tag--small' : ''}">
+              <div class="price-tag ${allServices.length > 2 ? 'price-tag--small' : ''}">
                 <span class="price-tag__currency">FCFA</span>
                 <span class="price-tag__amount">${Number(s.prix).toLocaleString('fr-FR')}</span>
+              </div>` : ''}
+            ${modules.length > 0 ? `
+              <div class="service-modules">
+                <div class="service-modules__title">Modules</div>
+                <div class="module-tags">
+                  ${modules.map(m => `<span class="module-tag" data-module="${m}">${m}</span>`).join('')}
+                </div>
               </div>` : ''}
             <div class="service-card__features">
               ${features.length > 0 ? `
@@ -137,14 +328,89 @@
           </div>`;
       }).join('');
 
+      // Populate module tags in form
+      const moduleTagsEl = document.getElementById('module-tags');
+      moduleTagsEl.innerHTML = Array.from(allModules).map(m =>
+        `<span class="module-tag" data-module="${m}">${m}</span>`
+      ).join('');
+
+      // Module tag click handler (both in cards and form)
+      document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('module-tag')) {
+          const mod = e.target.dataset.module;
+          if (selectedModules.includes(mod)) {
+            selectedModules = selectedModules.filter(m => m !== mod);
+            e.target.classList.remove('selected');
+          } else {
+            selectedModules.push(mod);
+            e.target.classList.add('selected');
+          }
+          // Also sync form module tags
+          moduleTagsEl.querySelectorAll('.module-tag').forEach(tag => {
+            tag.classList.toggle('selected', selectedModules.includes(tag.dataset.module));
+          });
+        }
+      });
+
+      // Pre-select service from URL param
+      const preService = params.get('service');
+      if (preService) serviceSelect.value = preService;
+
+      updateWhatsAppLink();
+
       if (typeof initScrollReveal === 'function') initScrollReveal();
     } catch (err) {
       console.error('Failed to load services:', err);
       document.getElementById('services-grid').innerHTML = `
         <div class="glass-card" style="text-align:center;padding:3rem;grid-column:1/-1;">
-          <p style="color:var(--color-gray-2)">Impossible de charger les services. Veuillez réessayer plus tard.</p>
+          <p style="color:var(--color-gray-2)">Impossible de charger les services.</p>
         </div>`;
     }
+
+    function updateWhatsAppLink() {
+      const service = document.getElementById('f-service').value;
+      const prenom = document.getElementById('f-prenom').value;
+      const nom = document.getElementById('f-nom').value;
+      const message = document.getElementById('f-message').value;
+
+      let text = `Bonjour Linguère Digital !\n`;
+      if (prenom || nom) text += `Je suis ${prenom} ${nom}.\n`;
+      if (service) text += `Je suis intéressé(e) par le service : *${service}*.\n`;
+      if (selectedModules.length > 0) text += `Modules : ${selectedModules.join(', ')}\n`;
+      if (message) text += `\n${message}`;
+
+      const waUrl = `https://wa.me/221786602424?text=${encodeURIComponent(text)}`;
+      document.getElementById('whatsapp-btn').href = waUrl;
+    }
+
+    // Live update WhatsApp link
+    ['f-prenom', 'f-nom', 'f-service', 'f-message'].forEach(id => {
+      document.getElementById(id).addEventListener('input', updateWhatsAppLink);
+      document.getElementById(id).addEventListener('change', updateWhatsAppLink);
+    });
+
+    // Form submit
+    document.getElementById('service-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const data = {
+        prenom: document.getElementById('f-prenom').value,
+        nom: document.getElementById('f-nom').value,
+        email: document.getElementById('f-email').value,
+        telephone: document.getElementById('f-telephone').value,
+        service: document.getElementById('f-service').value,
+        modules: selectedModules.join(', '),
+        objet: `Demande de devis - ${document.getElementById('f-service').value || meta.title}`,
+        message: document.getElementById('f-message').value,
+        _honey: ''
+      };
+      try {
+        await API.submitContact(data);
+        document.getElementById('service-form').style.display = 'none';
+        document.getElementById('form-success').classList.add('show');
+      } catch (err) {
+        alert('Erreur lors de l\'envoi. Veuillez réessayer ou contactez-nous par WhatsApp.');
+      }
+    });
   })();
   </script>
 </body>

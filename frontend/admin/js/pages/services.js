@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('categorie').value = service.categorie || '';
     document.getElementById('description').value = service.description || '';
     document.getElementById('descriptionLongue').value = service.descriptionLongue || '';
+    document.getElementById('modules').value = (service.modules || []).join(', ');
     document.getElementById('icone').value = service.icone || '';
     document.getElementById('prix').value = service.prix != null ? service.prix : '';
     document.getElementById('ordre').value = service.ordre != null ? service.ordre : 0;
@@ -75,6 +76,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       categorie: form.elements['categorie'].value,
       description: form.elements['description'].value.trim(),
       descriptionLongue: form.elements['descriptionLongue'].value.trim(),
+      modules: form.elements['modules'].value.split(',').map(m => m.trim()).filter(Boolean),
       icone: form.elements['icone'].value.trim(),
       prix: parseFloat(form.elements['prix'].value) || 0,
       ordre: parseInt(form.elements['ordre'].value) || 0,

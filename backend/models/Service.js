@@ -43,6 +43,18 @@ module.exports = (sequelize) => {
     actif: {
       type: DataTypes.BOOLEAN,
       defaultValue: true
+    },
+    modules: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      get() {
+        const raw = this.getDataValue('modules');
+        if (!raw) return [];
+        try { return JSON.parse(raw); } catch { return []; }
+      },
+      set(val) {
+        this.setDataValue('modules', JSON.stringify(val || []));
+      }
     }
   }, {
     timestamps: true
