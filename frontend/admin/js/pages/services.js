@@ -121,11 +121,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         const sid = s.id || s._id;
         const catLabel = CATEGORIES.find(c => c.toLowerCase() === (s.categorie || '').toLowerCase()) || s.categorie;
         const isActive = s.actif !== false;
+        const modules = s.modules || [];
+        const modulesHtml = modules.length > 0
+          ? modules.slice(0, 3).map(m => `<span style="display:inline-block;padding:0.15rem 0.5rem;border-radius:20px;font-size:0.7rem;font-weight:600;background:rgba(0,180,216,0.1);color:var(--admin-primary);margin:1px;">${escHtml(m)}</span>`).join('') + (modules.length > 3 ? `<span style="font-size:0.7rem;color:var(--admin-text-muted);">+${modules.length - 3}</span>` : '')
+          : '<span style="color:var(--admin-text-muted);font-size:0.8rem;">—</span>';
 
         return `<tr data-id="${sid}">
           <td style="font-weight:500;">${escHtml(s.titre)}</td>
           <td><span style="padding:0.2rem 0.5rem;border-radius:20px;font-size:0.75rem;font-weight:600;background:rgba(0,180,216,0.15);color:var(--admin-primary);">${escHtml(catLabel || s.categorie)}</span></td>
-          <td style="max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escHtml(s.description || '-')}</td>
+          <td style="max-width:200px;"><div style="display:flex;flex-wrap:wrap;gap:2px;">${modulesHtml}</div></td>
           <td>${s.prix != null ? Number(s.prix).toLocaleString('fr-FR') + ' FCFA' : '-'}</td>
           <td>${s.ordre || 0}</td>
           <td>
