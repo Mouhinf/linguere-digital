@@ -6,6 +6,12 @@ const path = require('path');
 const { sequelize, syncDatabase } = require('./config/database');
 
 const app = express();
+// If the app runs behind a reverse proxy (Cloudflare, load balancer), trust proxy
+// TRUST_PROXY can be set to a truthy value in env to enable. Default to '1' in production.
+if (process.env.TRUST_PROXY === '1' || (process.env.NODE_ENV === 'production' && process.env.TRUST_PROXY !== '0')) {
+  app.set('trust proxy', 1);
+  console.log('⚙️  Trusting proxy headers (trust proxy = 1)');
+}
 const PORT = process.env.PORT || 3000;
 const isProduction = process.env.NODE_ENV === 'production';
 
