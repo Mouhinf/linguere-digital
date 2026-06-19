@@ -30,6 +30,10 @@ class AdminSidebar {
 
     const sidebar = document.createElement('aside');
     sidebar.className = 'admin-sidebar';
+    // Add an id for accessibility (aria-controls) and easier targeting
+    sidebar.id = 'admin-sidebar';
+    // Mark as hidden for screen readers by default
+    sidebar.setAttribute('aria-hidden', 'true');
     sidebar.innerHTML = AdminSidebar.render();
 
     const topbar = document.createElement('header');
@@ -61,6 +65,10 @@ class AdminSidebar {
     AdminSidebar.setActive();
     AdminSidebar.updateAdminInfo();
     AdminSidebar.updateMessageBadge();
+
+    // Initialize focus helpers for accessibility
+    AdminSidebar._focusable = [];
+    AdminSidebar._lastFocused = null;
 
     if (content) {
       content.setAttribute('role', 'main');
@@ -125,8 +133,12 @@ class AdminSidebar {
     const title = currentItem ? currentItem.label : 'Dashboard';
 
     return `
-      <button class="btn-toggle-sidebar" aria-label="Menu" id="menu-toggle-btn" onclick="AdminSidebar.toggle()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <button class="btn-toggle-sidebar" aria-label="Ouvrir le menu" aria-expanded="false" id="menu-toggle-btn" aria-controls="admin-sidebar" onclick="AdminSidebar.toggle()">
+        <span class="hamburger" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
       </button>
       <div class="topbar-title">${title}</div>
       <div class="topbar-actions">
@@ -198,7 +210,23 @@ class AdminSidebar {
     const toggleBtn = document.getElementById('menu-toggle-btn');
     if (toggleBtn) {
       toggleBtn.setAttribute('aria-expanded', 'true');
+      // reflect attribute for CSS open state
+      toggleBtn.setAttribute('aria-pressed', 'true');
     }
+
+    // Accessibility: mark sidebar visible to AT and prepare focus trap
+    if (sidebar) {
+      sidebar.setAttribute('aria-hidden', 'false');
+      sidebar.setAttribute('tabindex', '-1');
+    }
+
+    // remember last focused element so we can restore focus when closing
+    AdminSidebar._lastFocused = document.activeElement;
+    AdminSidebar._updateFocusable();
+
+    // Focus the close button for accessibility
+    const closeBtn = document.querySelector('.sidebar-close-btn');
+    if (closeBtn) closeBtn.focus();
   }
 
   static close() {
@@ -211,6 +239,86 @@ class AdminSidebar {
     const toggleBtn = document.getElementById('menu-toggle-btn');
     if (toggleBtn) {
       toggleBtn.setAttribute('aria-expanded', 'false');
+      toggleBtn.setAttribute('aria-pressed', 'false');
+    }
+
+    // Accessibility: mark sidebar hidden to AT
+    if (sidebar) {
+      sidebar.setAttribute('aria-hidden', 'true');
+      sidebar.removeAttribute('tabindex');
+    }
+
+    // restore focus to last focused element (or the toggle button)
+    try {
+      if (AdminSidebar._lastFocused && typeof AdminSidebar._lastFocused.focus === 'function') {
+        AdminSidebar._lastFocused.focus();
+      } else if (toggleBtn) {
+        toggleBtn.focus();
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  // Close on Escape key when sidebar is open
+  static _handleKeydown(e) {
+    // Escape always closes the sidebar when open
+    if (e.key === 'Escape') {
+      const sidebar = document.querySelector('.admin-sidebar');
+      if (sidebar && sidebar.classList.contains('open')) {
+        AdminSidebar.close();
+      }
+      return;
+    }
+
+    // Simple focus trap while sidebar is open: keep Tab within sidebar
+    if (e.key === 'Tab') {
+      const sidebar = document.querySelector('.admin-sidebar');
+      if (!sidebar || !sidebar.classList.contains('open')) return;
+
+      AdminSidebar._updateFocusable();
+      const focusable = AdminSidebar._focusable || [];
+      if (focusable.length === 0) {
+        // nothing to focus inside sidebar
+        e.preventDefault();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+
+      if (e.shiftKey) {
+        if (active === first || active === sidebar) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (active === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+  }
+
+  // Collect focusable elements inside the sidebar for the focus trap
+  static _updateFocusable() {
+    const sidebar = document.getElementById('admin-sidebar');
+    if (!sidebar) {
+      AdminSidebar._focusable = [];
+      return;
+    }
+    const nodes = sidebar.querySelectorAll('a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    const list = Array.prototype.filter.call(nodes, function (n) {
+      return n && !n.disabled && n.offsetParent !== null;
+    });
+    // ensure close button is first
+    const close = sidebar.querySelector('.sidebar-close-btn');
+    if (close) {
+      AdminSidebar._focusable = [close].concat(list.filter(el => el !== close));
+    } else {
+      AdminSidebar._focusable = list;
     }
   }
 
@@ -282,6 +390,8 @@ document.addEventListener('DOMContentLoaded', () => {
       AdminSidebar.startBadgePolling();
     }
   }, 50);
+  // Global keydown for accessibility (Escape closes sidebar)
+  document.addEventListener('keydown', AdminSidebar._handleKeydown);
 });
 
 window.AdminSidebar = AdminSidebar;

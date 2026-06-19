@@ -84,10 +84,37 @@
 
   .btn-toggle-sidebar {
     display: flex;
-    min-width: 48px;
-    min-height: 48px;
+    min-width: 40px;
+    min-height: 40px;
     align-items: center;
     justify-content: center;
+    background: var(--admin-glass);
+    border: 1px solid var(--admin-glass-border);
+    border-radius: var(--admin-radius);
+    color: var(--admin-primary);
+    padding: 0;
+    margin-right: 1rem;
+    transition: all var(--admin-transition-fast);
+  }
+
+  .btn-toggle-sidebar:hover,
+  .btn-toggle-sidebar:active {
+    background: var(--admin-gradient-main);
+    color: var(--admin-white);
+    border-color: transparent;
+    box-shadow: 0 0 15px rgba(0, 180, 216, 0.4);
+    transform: scale(1.05);
+  }
+
+  .btn-toggle-sidebar svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Ensure toggle sits above sticky headers and is easily tappable */
+  .admin-topbar .btn-toggle-sidebar {
+    z-index: calc(var(--admin-z-topbar) + 10);
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
   }
 
   /* Sidebar overlay is always available at this breakpoint */

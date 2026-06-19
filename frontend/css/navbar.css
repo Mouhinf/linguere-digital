@@ -14,8 +14,8 @@ nav.navbar {
   z-index: var(--z-sticky);
   display: flex;
   align-items: center;
-  padding: 0 2rem;
-  gap: 3rem;
+  padding: 0 1rem;
+  gap: 2rem;
   animation: fadeDown var(--transition-base);
 }
 
@@ -29,7 +29,7 @@ nav.navbar.scrolled {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
   background: var(--gradient-text);
@@ -47,8 +47,9 @@ nav.navbar.scrolled {
 }
 
 .navbar-logo img {
-  width: 60px;
-  height: 40px;
+  width: auto;
+  height: 48px;
+  object-fit: contain;
 }
 
 /* Nav Links */
@@ -209,6 +210,14 @@ nav.navbar.scrolled {
     gap: 0;
     justify-content: space-between;
     z-index: 1002; /* Above nav-links (1000) so hamburger is clickable */
+  }
+
+  .navbar-logo {
+    font-size: 1.3rem;
+  }
+
+  .navbar-logo img {
+    height: 40px;
   }
 
   .hamburger {
