@@ -133,6 +133,13 @@ class AdminAPI {
     return this.request(`/messages/${id}/read`, { method: 'PATCH' });
   }
 
+  static updateMessageStatus(id, statut) {
+    return this.request(`/messages/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ statut })
+    });
+  }
+
   static deleteMessage(id) {
     return this.request(`/messages/${id}`, { method: 'DELETE' });
   }

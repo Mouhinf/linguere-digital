@@ -1,4 +1,3 @@
-// Admin Messages Page
 document.addEventListener('DOMContentLoaded', async () => {
   if (!AdminAuth.isAuthenticated()) {
     window.location.href = '/admin/login.html';
@@ -7,6 +6,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   let allMessages = [];
   let currentFilter = 'all';
+
+  const STATUS_MAP = {
+    nouveau: { label: 'Nouveau', bg: 'rgba(0,180,216,0.15)', color: '#00B4D8' },
+    lu: { label: 'Lu', bg: 'rgba(76,175,80,0.15)', color: '#4CAF50' },
+    repond: { label: 'Traité', bg: 'rgba(156,39,176,0.15)', color: '#9C27B0' },
+    ferme: { label: 'Fermé', bg: 'rgba(158,158,158,0.15)', color: '#9E9E9E' }
+  };
 
   bindEvents();
   await loadMessages();
@@ -24,9 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     document.querySelectorAll('#status-filter .view-toggle-btn').forEach(pill => {
       pill.addEventListener('click', () => {
-        document.querySelectorAll('#status-filter .view-toggle-btn').forEach(p => {
-          p.classList.remove('active');
-        });
+        document.querySelectorAll('#status-filter .view-toggle-btn').forEach(p => p.classList.remove('active'));
         pill.classList.add('active');
         currentFilter = pill.getAttribute('data-filter');
         renderTable();
@@ -49,22 +53,21 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function getFilteredMessages() {
-    switch (currentFilter) {
-      case 'unread':
-        return allMessages.filter(m => !m.lu && (!m.statut || m.statut.toLowerCase() === 'non lu'));
-      case 'read':
-        return allMessages.filter(m => m.lu || (m.statut && m.statut.toLowerCase() === 'lu'));
-      default:
-        return allMessages;
-    }
+    if (currentFilter === 'all') return allMessages;
+    return allMessages.filter(m => (m.statut || 'nouveau') === currentFilter);
   }
 
   function updateUnreadBadge() {
     const badge = document.getElementById('unread-badge');
     if (!badge) return;
-    const unread = allMessages.filter(m => !m.lu && (!m.statut || m.statut.toLowerCase() === 'non lu')).length;
-    badge.textContent = `${unread} non lu${unread > 1 ? 's' : ''}`;
-    badge.style.display = unread > 0 ? '' : 'none';
+    const count = allMessages.filter(m => !m.statut || m.statut === 'nouveau').length;
+    badge.textContent = `${count} nouveau${count > 1 ? 'x' : ''}`;
+    badge.style.display = count > 0 ? '' : 'none';
+  }
+
+  function statusBadge(statut) {
+    const s = STATUS_MAP[statut] || STATUS_MAP.nouveau;
+    return `<span style="padding:0.25rem 0.55rem;border-radius:20px;font-size:0.8rem;font-weight:600;background:${s.bg};color:${s.color};">${s.label}</span>`;
   }
 
   function renderTable() {
@@ -78,25 +81,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     tbody.innerHTML = filtered.map(m => {
       const mid = m.id || m._id;
-      const isRead = m.lu || (m.statut && m.statut.toLowerCase() === 'lu');
+      const statut = m.statut || 'nouveau';
+      const isNouveau = statut === 'nouveau';
       const dateStr = m.createdAt
         ? new Date(m.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })
         : '-';
       const sender = ((m.prenom || '') + ' ' + (m.nom || '')).trim() || 'Anonyme';
 
-      return `<tr class="msg-row ${!isRead ? 'msg-unread' : ''}" data-id="${mid}"
-                style="${!isRead ? 'font-weight:600;' : ''}cursor:pointer;">
+      return `<tr class="msg-row ${isNouveau ? 'msg-unread' : ''}" data-id="${mid}"
+                style="${isNouveau ? 'font-weight:600;' : ''}cursor:pointer;">
         <td>${escHtml(sender)}</td>
         <td>${escHtml(m.email || '-')}</td>
         <td>${escHtml(m.objet || '-')}</td>
         <td style="font-size:0.85rem;">${dateStr}</td>
-        <td>
-          <span style="padding:0.25rem 0.55rem;border-radius:20px;font-size:0.8rem;font-weight:600;
-            background:${isRead ? 'rgba(76,175,80,0.2)' : 'rgba(0,180,216,0.2)'};
-            color:${isRead ? '#4CAF50' : '#00B4D8'};">
-            ${isRead ? 'Lu' : 'Non lu'}
-          </span>
-        </td>
+        <td>${statusBadge(statut)}</td>
         <td>
           <div class="table-actions">
             <button class="btn btn-sm btn-danger btn-delete-msg" data-id="${mid}" data-sender="${escAttr(sender)}">
@@ -110,7 +108,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     tbody.querySelectorAll('.msg-row').forEach(row => {
       row.addEventListener('click', () => {
         const mid = row.getAttribute('data-id');
-        const message = allMessages.find(m => (m.id || m._id) === mid);
+        const message = allMessages.find(m => (m.id || m._id) == mid);
         if (message) openDetailPanel(message);
       });
     });
@@ -138,8 +136,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const panel = document.getElementById('slide-panel-message');
     const overlay = document.getElementById('slide-overlay-message');
     const content = document.getElementById('slide-panel-message-content');
+    const footer = document.getElementById('slide-panel-message-footer');
     const mid = message.id || message._id;
-    const isRead = message.lu || (message.statut && message.statut.toLowerCase() === 'lu');
+    const statut = message.statut || 'nouveau';
     const sender = ((message.prenom || '') + ' ' + (message.nom || '')).trim() || 'Anonyme';
     const dateStr = message.createdAt ? new Date(message.createdAt).toLocaleString('fr-FR') : '-';
 
@@ -155,9 +154,19 @@ document.addEventListener('DOMContentLoaded', async () => {
           </div>
         </div>
       </div>
+      ${message.telephone ? `
+      <div style="margin-bottom:1rem;">
+        <div style="font-size:0.75rem;color:var(--admin-gray-3);margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.5px;">Téléphone</div>
+        <div style="color:var(--admin-gray-2);">${escHtml(message.telephone)}</div>
+      </div>` : ''}
+      ${message.service ? `
+      <div style="margin-bottom:1rem;">
+        <div style="font-size:0.75rem;color:var(--admin-gray-3);margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.5px;">Service</div>
+        <div style="font-weight:600;color:var(--admin-primary);">${escHtml(message.service)}</div>
+      </div>` : ''}
       <div style="margin-bottom:1rem;">
         <div style="font-size:0.75rem;color:var(--admin-gray-3);margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.5px;">Objet</div>
-        <div style="font-weight:600;color:var(--admin-primary);">${escHtml(message.objet || 'Sans objet')}</div>
+        <div style="font-weight:600;color:var(--admin-gray-1);">${escHtml(message.objet || 'Sans objet')}</div>
       </div>
       <div style="margin-bottom:1rem;">
         <div style="font-size:0.75rem;color:var(--admin-gray-3);margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.5px;">Date</div>
@@ -166,19 +175,67 @@ document.addEventListener('DOMContentLoaded', async () => {
       <div style="margin-bottom:1rem;">
         <div style="font-size:0.75rem;color:var(--admin-gray-3);margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.5px;">Message</div>
         <div style="background:var(--admin-surface);padding:1rem;border-radius:8px;color:var(--admin-gray-1);white-space:pre-wrap;line-height:1.6;border:1px solid var(--admin-glass-border);">
-          ${escHtml(message.message || message.contenu || '')}
+          ${escHtml(message.message || '')}
         </div>
       </div>
+      <div style="margin-bottom:1rem;">
+        <div style="font-size:0.75rem;color:var(--admin-gray-3);margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.5px;">Statut</div>
+        ${statusBadge(statut)}
+      </div>
     `;
+
+    let footerHtml = '';
+    if (statut === 'nouveau') {
+      footerHtml = `
+        <button class="btn btn-primary" data-action="repond" data-id="${mid}">Marquer comme Traité</button>
+        <button class="btn btn-outline" data-action="ferme" data-id="${mid}">Fermer</button>
+        <button class="btn btn-outline" id="close-panel-btn">Fermer le panneau</button>`;
+    } else if (statut === 'lu') {
+      footerHtml = `
+        <button class="btn btn-primary" data-action="repond" data-id="${mid}">Marquer comme Traité</button>
+        <button class="btn btn-outline" data-action="ferme" data-id="${mid}">Fermer</button>
+        <button class="btn btn-outline" id="close-panel-btn">Fermer le panneau</button>`;
+    } else if (statut === 'repond') {
+      footerHtml = `
+        <button class="btn btn-outline" data-action="ferme" data-id="${mid}">Fermer</button>
+        <button class="btn btn-outline" data-action="nouveau" data-id="${mid}">Réouvrir</button>
+        <button class="btn btn-outline" id="close-panel-btn">Fermer le panneau</button>`;
+    } else {
+      footerHtml = `
+        <button class="btn btn-outline" data-action="nouveau" data-id="${mid}">Réouvrir</button>
+        <button class="btn btn-outline" id="close-panel-btn">Fermer le panneau</button>`;
+    }
+    footer.innerHTML = footerHtml;
+
+    footer.querySelectorAll('[data-action]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const action = btn.getAttribute('data-action');
+        const id = btn.getAttribute('data-id');
+        try {
+          const updated = await AdminAPI.updateMessageStatus(id, action);
+          const msg = allMessages.find(m => (m.id || m._id) == id);
+          if (msg) { msg.statut = action; msg.lu = action !== 'nouveau'; }
+          updateUnreadBadge();
+          renderTable();
+          openDetailPanel(msg || updated);
+          Toast.show(`Statut mis à jour : ${STATUS_MAP[action]?.label || action}`, 'success');
+        } catch (error) {
+          Toast.show('Erreur lors de la mise à jour', 'error');
+        }
+      });
+    });
+
+    const closeBtn2 = footer.querySelector('#close-panel-btn');
+    if (closeBtn2) closeBtn2.addEventListener('click', closeDetailPanel);
 
     overlay.classList.add('visible');
     panel.classList.add('open');
 
-    if (!isRead) {
+    if (statut === 'nouveau') {
       try {
         await AdminAPI.markMessageAsRead(mid);
-        const msg = allMessages.find(m => (m.id || m._id) === mid);
-        if (msg) { msg.lu = true; msg.statut = 'Lu'; }
+        const msg = allMessages.find(m => (m.id || m._id) == mid);
+        if (msg) { msg.lu = true; msg.statut = 'lu'; }
         updateUnreadBadge();
         renderTable();
       } catch (error) {
@@ -199,21 +256,23 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
-    const headers = ['Nom', 'Email', 'Objet', 'Message', 'Date', 'Statut'];
+    const headers = ['Nom', 'Email', 'Téléphone', 'Service', 'Objet', 'Message', 'Date', 'Statut'];
     const csvRows = [headers.map(h => `"${h}"`).join(',')];
 
     filtered.forEach(m => {
       const sender = ((m.prenom || '') + ' ' + (m.nom || '')).trim();
-      const isRead = m.lu || (m.statut && m.statut.toLowerCase() === 'lu');
       const dateStr = m.createdAt ? new Date(m.createdAt).toISOString() : '';
-      const msg = (m.message || m.contenu || '').replace(/"/g, '""');
+      const msg = (m.message || '').replace(/"/g, '""');
+      const statut = (STATUS_MAP[m.statut] || STATUS_MAP.nouveau).label;
       csvRows.push([
         `"${sender.replace(/"/g, '""')}"`,
         `"${(m.email || '').replace(/"/g, '""')}"`,
+        `"${(m.telephone || '').replace(/"/g, '""')}"`,
+        `"${(m.service || '').replace(/"/g, '""')}"`,
         `"${(m.objet || '').replace(/"/g, '""')}"`,
         `"${msg}"`,
         `"${dateStr}"`,
-        `"${isRead ? 'Lu' : 'Non lu'}"`
+        `"${statut}"`
       ].join(','));
     });
 

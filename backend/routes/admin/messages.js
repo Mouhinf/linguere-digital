@@ -51,6 +51,28 @@ router.patch('/:id/read', async (req, res) => {
   }
 });
 
+// PATCH update status
+router.patch('/:id/status', async (req, res) => {
+  try {
+    const { statut } = req.body;
+    const allowed = ['nouveau', 'lu', 'repond', 'ferme'];
+    if (!allowed.includes(statut)) {
+      return res.status(400).json({ error: 'Statut invalide' });
+    }
+    const message = await Message.findByPk(req.params.id);
+    if (!message) {
+      return res.status(404).json({ error: 'Message not found' });
+    }
+    message.statut = statut;
+    message.lu = statut !== 'nouveau';
+    await message.save();
+    res.json(message);
+  } catch (error) {
+    console.error('Status update error:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 // DELETE message
 router.delete('/:id', async (req, res) => {
   try {

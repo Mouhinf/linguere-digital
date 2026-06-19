@@ -31,12 +31,14 @@
         <div class="toolbar-left">
           <div class="view-toggle" id="status-filter">
             <button class="view-toggle-btn active" data-filter="all">Tous</button>
-            <button class="view-toggle-btn" data-filter="unread">Non lus</button>
-            <button class="view-toggle-btn" data-filter="read">Lus</button>
+            <button class="view-toggle-btn" data-filter="nouveau">Nouveaux</button>
+            <button class="view-toggle-btn" data-filter="lu">Lus</button>
+            <button class="view-toggle-btn" data-filter="repond">Traités</button>
+            <button class="view-toggle-btn" data-filter="ferme">Fermés</button>
           </div>
         </div>
         <div class="toolbar-right">
-          <span id="unread-badge" class="badge badge-primary" style="display:none;">0 non lus</span>
+          <span id="unread-badge" class="badge badge-primary" style="display:none;">0 nouveaux</span>
         </div>
       </div>
 
@@ -74,7 +76,7 @@
     <div class="slide-panel-body">
       <div id="slide-panel-message-content"></div>
     </div>
-    <div class="slide-panel-footer">
+    <div class="slide-panel-footer" id="slide-panel-message-footer">
       <button class="btn btn-outline" id="close-panel-btn">Fermer</button>
     </div>
   </div>

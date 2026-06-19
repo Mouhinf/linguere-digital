@@ -18,6 +18,53 @@
   <link rel="stylesheet" href="/css/pages/service-detail.css">
 </head>
 <body>
+  <!-- Modal Devis -->
+  <div class="svc-modal-overlay" id="devis-modal">
+    <div class="svc-modal">
+      <button class="svc-modal__close" id="modal-close" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="svc-modal__service" id="modal-service-label">Service</div>
+      <h3 class="svc-modal__title" id="modal-service-name">Demande de Devis</h3>
+      <form class="svc-form" id="modal-form">
+        <input type="hidden" id="m-service" name="service">
+        <div class="svc-form__row">
+          <div>
+            <label for="m-prenom">Prénom</label>
+            <input type="text" id="m-prenom" name="prenom" required placeholder="Votre prénom">
+          </div>
+          <div>
+            <label for="m-nom">Nom</label>
+            <input type="text" id="m-nom" name="nom" required placeholder="Votre nom">
+          </div>
+        </div>
+        <div>
+          <label for="m-email">Email</label>
+          <input type="email" id="m-email" name="email" required placeholder="votre@email.com">
+        </div>
+        <div>
+          <label for="m-telephone">Téléphone</label>
+          <input type="tel" id="m-telephone" name="telephone" placeholder="+221 7X XXX XX XX">
+        </div>
+        <div>
+          <label for="m-message">Décrivez votre projet</label>
+          <textarea id="m-message" name="message" placeholder="Décrivez brièvement votre besoin..."></textarea>
+        </div>
+        <div class="svc-form__actions">
+          <button type="submit" class="btn btn-primary">Envoyer la Demande</button>
+          <a href="#" id="modal-whatsapp" class="btn-wa-sm" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.981.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c0-5.45 4.436-9.884 9.884-9.884 2.635 0 5.112 1.028 6.975 2.894a9.825 9.825 0 012.89 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp
+          </a>
+        </div>
+      </form>
+      <div class="svc-form__success" id="modal-success">
+        <h3>Demande envoyée !</h3>
+        <p>Nous vous contacterons dans les plus brefs délais.</p>
+      </div>
+    </div>
+  </div>
+
   <!-- Hero -->
   <section class="svc-hero has-particles">
     <canvas class="particles-section" data-count="50" data-distance="130" data-opacity="high"></canvas>
@@ -84,7 +131,13 @@
           <span class="svc-card__price-amount">150 000</span>
           <span class="svc-card__price-currency">FCFA</span>
         </div>
-        <a href="/contact.html?service=D%C3%A9veloppement%20Web" class="btn btn-outline btn-sm svc-card__btn">Demander un Devis</a>
+        <div class="svc-card__btns">
+          <button class="btn btn-outline btn-sm" onclick="openDevisModal('Développement Web')">Demander un Devis</button>
+          <a href="https://wa.me/221786602424?text=Bonjour%20Lingu%C3%A8re%20Digital%20!%20Je%20suis%20int%C3%A9ress%C3%A9(e)%20par%20le%20service%20%3A%20*D%C3%A9veloppement%20Web*" class="btn-wa-sm" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.981.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c0-5.45 4.436-9.884 9.884-9.884 2.635 0 5.112 1.028 6.975 2.894a9.825 9.825 0 012.89 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp
+          </a>
+        </div>
       </div>
 
       <!-- Génie Logiciel -->
@@ -99,7 +152,13 @@
           <span class="svc-card__price-amount">200 000</span>
           <span class="svc-card__price-currency">FCFA</span>
         </div>
-        <a href="/contact.html?service=G%C3%A9nie%20Logiciel" class="btn btn-outline btn-sm svc-card__btn">Demander un Devis</a>
+        <div class="svc-card__btns">
+          <button class="btn btn-outline btn-sm" onclick="openDevisModal('Génie Logiciel')">Demander un Devis</button>
+          <a href="https://wa.me/221786602424?text=Bonjour%20Lingu%C3%A8re%20Digital%20!%20Je%20suis%20int%C3%A9ress%C3%A9(e)%20par%20le%20service%20%3A%20*G%C3%A9nie%20Logiciel*" class="btn-wa-sm" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.981.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c0-5.45 4.436-9.884 9.884-9.884 2.635 0 5.112 1.028 6.975 2.894a9.825 9.825 0 012.89 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp
+          </a>
+        </div>
       </div>
 
       <!-- ERP - Gestion École -->
@@ -114,7 +173,13 @@
           <span class="svc-card__price-amount">300 000</span>
           <span class="svc-card__price-currency">FCFA</span>
         </div>
-        <a href="/contact.html?service=ERP%20-%20Gestion%20%C3%89cole" class="btn btn-outline btn-sm svc-card__btn">Demander un Devis</a>
+        <div class="svc-card__btns">
+          <button class="btn btn-outline btn-sm" onclick="openDevisModal('ERP - Gestion École')">Demander un Devis</button>
+          <a href="https://wa.me/221786602424?text=Bonjour%20Lingu%C3%A8re%20Digital%20!%20Je%20suis%20int%C3%A9ress%C3%A9(e)%20par%20le%20service%20%3A%20*ERP%20-%20Gestion%20%C3%89cole*" class="btn-wa-sm" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.981.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c0-5.45 4.436-9.884 9.884-9.884 2.635 0 5.112 1.028 6.975 2.894a9.825 9.825 0 012.89 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp
+          </a>
+        </div>
       </div>
 
       <!-- Hébergement et Nom de Domaine -->
@@ -129,7 +194,13 @@
           <span class="svc-card__price-amount">25 000</span>
           <span class="svc-card__price-currency">FCFA/an</span>
         </div>
-        <a href="/contact.html?service=H%C3%A9bergement%20et%20Nom%20de%20Domaine" class="btn btn-outline btn-sm svc-card__btn">Demander un Devis</a>
+        <div class="svc-card__btns">
+          <button class="btn btn-outline btn-sm" onclick="openDevisModal('Hébergement et Nom de Domaine')">Demander un Devis</button>
+          <a href="https://wa.me/221786602424?text=Bonjour%20Lingu%C3%A8re%20Digital%20!%20Je%20suis%20int%C3%A9ress%C3%A9(e)%20par%20le%20service%20%3A%20*H%C3%A9bergement%20et%20Nom%20de%20Domaine*" class="btn-wa-sm" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.981.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c0-5.45 4.436-9.884 9.884-9.884 2.635 0 5.112 1.028 6.975 2.894a9.825 9.825 0 012.89 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp
+          </a>
+        </div>
       </div>
 
       <!-- Cybersécurité -->
@@ -144,7 +215,13 @@
           <span class="svc-card__price-amount">100 000</span>
           <span class="svc-card__price-currency">FCFA</span>
         </div>
-        <a href="/contact.html?service=Cybers%C3%A9curit%C3%A9" class="btn btn-outline btn-sm svc-card__btn">Demander un Devis</a>
+        <div class="svc-card__btns">
+          <button class="btn btn-outline btn-sm" onclick="openDevisModal('Cybersécurité')">Demander un Devis</button>
+          <a href="https://wa.me/221786602424?text=Bonjour%20Lingu%C3%A8re%20Digital%20!%20Je%20suis%20int%C3%A9ress%C3%A9(e)%20par%20le%20service%20%3A%20*Cybers%C3%A9curit%C3%A9*" class="btn-wa-sm" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.981.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c0-5.45 4.436-9.884 9.884-9.884 2.635 0 5.112 1.028 6.975 2.894a9.825 9.825 0 012.89 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp
+          </a>
+        </div>
       </div>
 
     </div>
@@ -165,62 +242,6 @@
     </div>
   </section>
 
-  <!-- Form Section -->
-  <section class="svc-form-section">
-    <div class="svc-form-section__inner">
-      <div class="svc-form-section__header">
-        <h2 class="svc-form-section__title reveal">Demande de Devis</h2>
-        <p class="svc-form-section__desc reveal" style="animation-delay:0.1s">Remplissez le formulaire ou contactez-nous directement sur WhatsApp</p>
-      </div>
-      <form class="svc-form" id="service-form">
-        <div class="svc-form__row">
-          <div>
-            <label for="f-prenom">Prénom</label>
-            <input type="text" id="f-prenom" name="prenom" required placeholder="Votre prénom">
-          </div>
-          <div>
-            <label for="f-nom">Nom</label>
-            <input type="text" id="f-nom" name="nom" required placeholder="Votre nom">
-          </div>
-        </div>
-        <div>
-          <label for="f-email">Email</label>
-          <input type="email" id="f-email" name="email" required placeholder="votre@email.com">
-        </div>
-        <div>
-          <label for="f-telephone">Téléphone</label>
-          <input type="tel" id="f-telephone" name="telephone" placeholder="+221 7X XXX XX XX">
-        </div>
-        <div>
-          <label for="f-service">Service souhaité</label>
-          <select id="f-service" name="service">
-            <option value="">-- Sélectionnez un service --</option>
-            <option value="Développement Web">Développement Web</option>
-            <option value="Génie Logiciel">Génie Logiciel</option>
-            <option value="ERP - Gestion École">ERP — Gestion École</option>
-            <option value="Hébergement et Nom de Domaine">Hébergement & Nom de Domaine</option>
-            <option value="Cybersécurité">Cybersécurité</option>
-          </select>
-        </div>
-        <div>
-          <label for="f-message">Décrivez votre projet</label>
-          <textarea id="f-message" name="message" placeholder="Décrivez brièvement votre besoin..."></textarea>
-        </div>
-        <div class="svc-form__actions">
-          <button type="submit" class="btn btn-primary">Envoyer la Demande</button>
-          <a href="#" id="whatsapp-btn" class="btn-whatsapp" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.981.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c0-5.45 4.436-9.884 9.884-9.884 2.635 0 5.112 1.028 6.975 2.894a9.825 9.825 0 012.89 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            WhatsApp
-          </a>
-        </div>
-      </form>
-      <div class="svc-form__success" id="form-success">
-        <h3>Demande envoyée !</h3>
-        <p>Nous vous contacterons dans les plus brefs délais.</p>
-      </div>
-    </div>
-  </section>
-
   <script src="/js/config.js"></script>
   <script src="/js/api.js"></script>
   <script src="/js/main.js"></script>
@@ -228,43 +249,66 @@
   <script src="/js/components.js"></script>
   <script src="/js/particles.js"></script>
   <script>
-  (function() {
-    function updateWhatsAppLink() {
-      var service = document.getElementById('f-service').value;
-      var prenom = document.getElementById('f-prenom').value;
-      var nom = document.getElementById('f-nom').value;
-      var message = document.getElementById('f-message').value;
-      var text = 'Bonjour Linguère Digital !\n';
-      if (prenom || nom) text += 'Je suis ' + prenom + ' ' + nom + '.\n';
-      if (service) text += 'Je suis intéressé(e) par le service : *' + service + '*.\n';
-      if (message) text += '\n' + message;
-      document.getElementById('whatsapp-btn').href = 'https://wa.me/221786602424?text=' + encodeURIComponent(text);
+  function openDevisModal(serviceName) {
+    var modal = document.getElementById('devis-modal');
+    document.getElementById('modal-service-label').textContent = 'Demande de devis';
+    document.getElementById('modal-service-name').textContent = serviceName;
+    document.getElementById('m-service').value = serviceName;
+    document.getElementById('modal-whatsapp').href = 'https://wa.me/221786602424?text=' + encodeURIComponent('Bonjour Linguère Digital !\nJe suis intéressé(e) par le service : *' + serviceName + '*.');
+    document.getElementById('modal-form').style.display = '';
+    document.getElementById('modal-success').classList.remove('show');
+    modal.classList.add('active');
+  }
+
+  document.getElementById('modal-close').addEventListener('click', function() {
+    document.getElementById('devis-modal').classList.remove('active');
+  });
+
+  document.getElementById('devis-modal').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('active');
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') document.getElementById('devis-modal').classList.remove('active');
+  });
+
+  function updateModalWhatsApp() {
+    var service = document.getElementById('m-service').value;
+    var prenom = document.getElementById('m-prenom').value;
+    var nom = document.getElementById('m-nom').value;
+    var message = document.getElementById('m-message').value;
+    var text = 'Bonjour Linguère Digital !\n';
+    if (prenom || nom) text += 'Je suis ' + prenom + ' ' + nom + '.\n';
+    if (service) text += 'Je suis intéressé(e) par le service : *' + service + '*.\n';
+    if (message) text += '\n' + message;
+    document.getElementById('modal-whatsapp').href = 'https://wa.me/221786602424?text=' + encodeURIComponent(text);
+  }
+
+  ['m-prenom','m-nom','m-message'].forEach(function(id) {
+    document.getElementById(id).addEventListener('input', updateModalWhatsApp);
+  });
+
+  document.getElementById('modal-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var data = {
+      prenom: document.getElementById('m-prenom').value,
+      nom: document.getElementById('m-nom').value,
+      email: document.getElementById('m-email').value,
+      telephone: document.getElementById('m-telephone').value,
+      service: document.getElementById('m-service').value,
+      objet: 'Demande de devis - ' + document.getElementById('m-service').value,
+      message: document.getElementById('m-message').value,
+      _honey: ''
+    };
+    try {
+      await API.submitContact(data);
+      document.getElementById('modal-form').style.display = 'none';
+      document.getElementById('modal-success').classList.add('show');
+    } catch (err) {
+      document.getElementById('modal-form').style.display = '';
+      alert('Erreur lors de l\'envoi. Veuillez réessayer ou utilisez le bouton WhatsApp ci-dessous.');
     }
-    ['f-prenom','f-nom','f-service','f-message'].forEach(function(id) {
-      document.getElementById(id).addEventListener('input', updateWhatsAppLink);
-      document.getElementById(id).addEventListener('change', updateWhatsAppLink);
-    });
-    document.getElementById('service-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      var data = {
-        prenom: document.getElementById('f-prenom').value,
-        nom: document.getElementById('f-nom').value,
-        email: document.getElementById('f-email').value,
-        telephone: document.getElementById('f-telephone').value,
-        service: document.getElementById('f-service').value,
-        objet: 'Demande de devis - ' + (document.getElementById('f-service').value || 'Informatique'),
-        message: document.getElementById('f-message').value,
-        _honey: ''
-      };
-      try {
-        await API.submitContact(data);
-        document.getElementById('service-form').style.display = 'none';
-        document.getElementById('form-success').classList.add('show');
-      } catch (err) {
-        window.open('https://wa.me/221786602424?text=' + encodeURIComponent('Bonjour ! Je souhaite un devis pour : ' + data.service), '_blank');
-      }
-    });
-  })();
+  });
   </script>
 </body>
 </html>
