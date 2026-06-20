@@ -44,22 +44,23 @@ class AdminSidebar {
     const content = document.querySelector('.admin-content');
 
     if (existingLayout && content) {
-      // Layout already exists in HTML — just prepend sidebar, overlay, topbar
-      existingLayout.insertBefore(sidebar, existingLayout.firstChild);
-      existingLayout.insertBefore(overlay, sidebar.nextSibling);
-      existingLayout.insertBefore(topbar, overlay.nextSibling);
+      // Layout already exists in HTML — insert overlay first so the sidebar sits above it
+      existingLayout.insertBefore(overlay, existingLayout.firstChild);
+      existingLayout.insertBefore(sidebar, overlay.nextSibling);
+      existingLayout.insertBefore(topbar, sidebar.nextSibling);
     } else if (content) {
-      // No layout wrapper — create one
+      // No layout wrapper — create one and append overlay, then sidebar, then topbar
       const layout = document.createElement('div');
       layout.className = 'admin-layout';
       content.parentNode.insertBefore(layout, content);
-      layout.appendChild(sidebar);
       layout.appendChild(overlay);
+      layout.appendChild(sidebar);
       layout.appendChild(topbar);
     } else {
+      // Fallback: prepend topbar then sidebar then overlay to body (overlay still before sidebar)
+      document.body.prepend(topbar);
       document.body.prepend(sidebar);
       document.body.prepend(overlay);
-      document.body.prepend(topbar);
     }
 
     AdminSidebar.setActive();
@@ -74,6 +75,9 @@ class AdminSidebar {
       content.setAttribute('role', 'main');
       content.setAttribute('aria-label', 'Contenu principal');
     }
+
+    // Keep overlay positioning in sync when resizing (helps mobile/desktop differences)
+    window.addEventListener('resize', () => AdminSidebar._adjustOverlay(), { passive: true });
   }
 
   static render() {
@@ -205,6 +209,8 @@ class AdminSidebar {
     const overlay = document.querySelector('.sidebar-overlay');
     if (sidebar) sidebar.classList.add('open');
     if (overlay) overlay.classList.add('visible');
+    // Ensure overlay doesn't cover the sidebar area (so clicks inside sidebar don't close it)
+    AdminSidebar._adjustOverlay();
     document.body.style.overflow = 'hidden';
 
     const toggleBtn = document.getElementById('menu-toggle-btn');
@@ -234,6 +240,18 @@ class AdminSidebar {
     const overlay = document.querySelector('.sidebar-overlay');
     if (sidebar) sidebar.classList.remove('open');
     if (overlay) overlay.classList.remove('visible');
+    // Reset overlay positioning to default (remove all inline positioning we may have applied)
+    try {
+      if (overlay) {
+        overlay.style.removeProperty('left');
+        overlay.style.removeProperty('right');
+        overlay.style.removeProperty('top');
+        overlay.style.removeProperty('bottom');
+        overlay.style.removeProperty('position');
+      }
+    } catch (e) {
+      // ignore
+    }
     document.body.style.overflow = '';
 
     const toggleBtn = document.getElementById('menu-toggle-btn');
@@ -257,6 +275,34 @@ class AdminSidebar {
       }
     } catch (e) {
       // ignore
+    }
+  }
+
+  // Adjust overlay bounds so it doesn't overlap the sidebar. This keeps the
+  // visible overlay (which applies a blur) off the sidebar itself and prevents
+  // accidental clicks on the overlay when interacting with the menu.
+  static _adjustOverlay() {
+    const sidebar = document.querySelector('.admin-sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    if (!overlay) return;
+
+    if (sidebar && sidebar.classList.contains('open')) {
+      // Use the actual sidebar width so it works across breakpoints
+      const rect = sidebar.getBoundingClientRect();
+      const width = Math.max(0, Math.round(rect.width));
+      // Position the overlay to start after the sidebar
+      overlay.style.left = width + 'px';
+      overlay.style.top = '0';
+      overlay.style.right = '0';
+      overlay.style.bottom = '0';
+      overlay.style.position = 'fixed';
+    } else {
+      // Restore default (inset: 0 from CSS)
+      overlay.style.removeProperty('left');
+      overlay.style.removeProperty('right');
+      overlay.style.removeProperty('top');
+      overlay.style.removeProperty('bottom');
+      overlay.style.removeProperty('position');
     }
   }
 

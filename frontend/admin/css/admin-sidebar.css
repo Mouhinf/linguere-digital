@@ -113,13 +113,17 @@
 
   /* Ensure toggle sits above sticky headers and is easily tappable */
   .admin-topbar .btn-toggle-sidebar {
-    z-index: calc(var(--admin-z-topbar) + 10);
+    /* Place the toggle above the overlay so it's always clickable to close the menu */
+    position: relative;
+    z-index: calc(var(--admin-z-sidebar) + 20);
     -webkit-tap-highlight-color: rgba(0,0,0,0);
   }
 
   /* Sidebar overlay is always available at this breakpoint */
   .sidebar-overlay {
     display: none;
+    /* overlay should not capture pointer events unless visible */
+    pointer-events: none;
   }
 
   .sidebar-overlay.visible {
@@ -131,6 +135,8 @@
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
     opacity: 1;
+    /* allow clicks on the overlay area (outside the sidebar) to close the menu */
+    pointer-events: auto;
   }
 
   /* When sidebar is open on mobile, ensure it's above overlay */
