@@ -208,9 +208,19 @@ class AdminSidebar {
     const sidebar = document.querySelector('.admin-sidebar');
     const overlay = document.querySelector('.sidebar-overlay');
     if (sidebar) sidebar.classList.add('open');
-    if (overlay) overlay.classList.add('visible');
-    // Ensure overlay doesn't cover the sidebar area (so clicks inside sidebar don't close it)
-    AdminSidebar._adjustOverlay();
+    if (overlay) {
+      // Temporarily disable pointer events while we adjust the overlay bounds so
+      // the overlay does not steal the initial tap/click from the sidebar.
+      try { overlay.style.pointerEvents = 'none'; } catch (e) {}
+      overlay.classList.add('visible');
+      // Adjust overlay to exclude the sidebar area
+      AdminSidebar._adjustOverlay();
+      // Enable pointer events after layout has applied to avoid race on mobile
+      // Use requestAnimationFrame to ensure the browser painted the updated layout
+      requestAnimationFrame(() => {
+        try { overlay.style.pointerEvents = 'auto'; } catch (e) {}
+      });
+    }
     document.body.style.overflow = 'hidden';
 
     const toggleBtn = document.getElementById('menu-toggle-btn');
@@ -291,11 +301,16 @@ class AdminSidebar {
       const rect = sidebar.getBoundingClientRect();
       const width = Math.max(0, Math.round(rect.width));
       // Position the overlay to start after the sidebar
-      overlay.style.left = width + 'px';
-      overlay.style.top = '0';
-      overlay.style.right = '0';
-      overlay.style.bottom = '0';
+      // Compute values using CSS logical units for better RTL/layout compatibility
+      const leftPx = width + 'px';
+      overlay.style.left = leftPx;
+      overlay.style.top = '0px';
+      overlay.style.right = '0px';
+      overlay.style.bottom = '0px';
       overlay.style.position = 'fixed';
+      // Ensure the overlay visually starts after the sidebar; make a small
+      // horizontal inset to avoid sub-pixel overlapping on some devices.
+      overlay.style.clipPath = `inset(0 0 0 ${leftPx})`;
     } else {
       // Restore default (inset: 0 from CSS)
       overlay.style.removeProperty('left');
@@ -303,6 +318,7 @@ class AdminSidebar {
       overlay.style.removeProperty('top');
       overlay.style.removeProperty('bottom');
       overlay.style.removeProperty('position');
+      overlay.style.removeProperty('clip-path');
     }
   }
 
