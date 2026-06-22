@@ -61,6 +61,14 @@ app.use(cors({
 if (isProduction || process.env.SERVE_FRONTEND === 'true') {
   app.use(express.static(path.join(__dirname, '../frontend')));
   app.use('/assets', express.static(path.join(__dirname, '../frontend/assets')));
+
+  // Explicit routes for SEO files — must come BEFORE the SPA fallback
+  app.get('/robots.txt', (req, res) => {
+    res.type('text/plain').sendFile(path.join(__dirname, '../frontend/robots.txt'));
+  });
+  app.get('/sitemap.xml', (req, res) => {
+    res.type('application/xml').sendFile(path.join(__dirname, '../frontend/sitemap.xml'));
+  });
 }
 
 // Routes
