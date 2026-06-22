@@ -64,6 +64,81 @@
   <link rel="stylesheet" href="/css/footer.css">
   <link rel="stylesheet" href="/css/responsive.css">
   <link rel="stylesheet" href="/css/home.css">
+  <style>
+    .director-home-section { padding: 4rem 0; }
+    .director-home-layout { display: grid; grid-template-columns: 240px 1fr; gap: 2.5rem; align-items: start; }
+    .director-home-photo-wrap { position: relative; }
+    .director-home-photo {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-glow-lg);
+      display: block;
+      background: linear-gradient(135deg, var(--color-surface-2), var(--color-surface-3));
+    }
+    .director-home-photo-badge {
+      position: absolute;
+      bottom: -10px;
+      right: -10px;
+      width: 48px;
+      height: 48px;
+      background: var(--gradient-main);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(0, 119, 182, 0.35);
+    }
+    .director-home-photo-badge svg { width: 22px; height: 22px; color: var(--color-white); }
+    .director-home-text h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: var(--fs-h2);
+      color: var(--color-gray-1);
+      margin-bottom: 0.25rem;
+    }
+    .director-home-text .director-home-subtitle {
+      font-family: 'DM Sans', sans-serif;
+      font-size: var(--fs-body);
+      color: var(--color-primary);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .director-home-text .director-home-subtitle::before {
+      content: '';
+      width: 28px;
+      height: 3px;
+      background: var(--gradient-main);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .director-home-text p {
+      color: var(--color-gray-2);
+      font-size: var(--fs-body);
+      line-height: 1.7;
+      margin-bottom: 0.75rem;
+    }
+    .director-home-text p strong { color: var(--color-gray-1); }
+    .director-home-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      color: var(--color-primary);
+      font-weight: 600;
+      font-size: var(--fs-small);
+      text-decoration: none;
+      transition: color var(--transition-base);
+    }
+    .director-home-cta:hover { color: var(--color-primary-bright); }
+    @media (max-width: 768px) {
+      .director-home-layout { grid-template-columns: 1fr; gap: 1.5rem; }
+      .director-home-photo-wrap { max-width: 220px; margin: 0 auto; }
+    }
+  </style>
 </head>
 <body>
   <!-- Loader -->
@@ -198,6 +273,36 @@
           <h3>Formation</h3>
           <p>Formations techniques, upskilling, accompagnement professionnel</p>
           <a href="/services/formation.html" class="btn btn-outline btn-sm">En savoir plus</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="director-home-section" data-about="https://lingueredigital.com/about.html#directeur">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="reveal">À propos du Directeur</h2>
+        <div class="underline"></div>
+      </div>
+      <div class="director-home-layout">
+        <div class="director-home-photo-wrap reveal">
+          <img class="director-home-photo" src="/assets/director-photo.jpg" alt="Baye Demba Diack — Directeur de Linguère Digital Innovation" onerror="this.style.display='none';this.parentElement.querySelector('.director-home-fallback').style.display='flex';">
+          <div class="director-home-fallback" style="display:none;width:100%;aspect-ratio:3/4;border-radius:var(--radius-lg);box-shadow:var(--shadow-glow-lg);background:linear-gradient(135deg,var(--color-surface-2),var(--color-surface-3));align-items:center;justify-content:center;color:var(--color-gray-3);">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div class="director-home-photo-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93L12 22l-.75-12.07A4.001 4.001 0 0 1 12 2z"/><circle cx="12" cy="6" r="1.5"/></svg>
+          </div>
+        </div>
+        <div class="director-home-text">
+          <h2 class="reveal">Baye Demba Diack</h2>
+          <div class="director-home-subtitle reveal">Directeur de Linguère Digital Innovation</div>
+          <p class="reveal"><strong>Baye Demba Diack</strong> est un expert sénégalais reconnu dans les domaines des données, des technologies de l'information et de la transformation numérique. Il porte une vision ambitieuse : mettre l'intelligence artificielle et les solutions numériques au service du développement local et de l'inclusion digitale.</p>
+          <p class="reveal" style="animation-delay:0.05s;">Sous sa direction, <strong>Linguère Digital Innovation</strong> développe des solutions intelligentes, performantes et sécurisées, capables d'accompagner les institutions, les entreprises et les citoyens dans leur transformation numérique.</p>
+          <a href="/about.html#directeur" class="director-home-cta reveal" style="animation-delay:0.1s;">
+            En savoir plus
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
         </div>
       </div>
     </div>
