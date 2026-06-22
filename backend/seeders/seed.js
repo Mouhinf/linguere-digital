@@ -11,8 +11,8 @@ async function seedDatabase() {
 
     // Create admin user
     await User.create({
-      email: 'admin@lingueredigital.com',
-      password: 'Admin@2025',
+      email: 'linguere660@gmail.com',
+      password: 'diack@linguere',
       nom: 'Admin',
       prenom: 'Linguère',
       role: 'admin'
@@ -170,7 +170,7 @@ async function seedDatabase() {
     console.log('✅ Testimonials created');
 
     console.log('\n✨ Seed completed successfully!');
-    console.log('Admin credentials: admin@lingueredigital.com / Admin@2025');
+    console.log('Admin credentials: linguere660@gmail.com / diack@linguere');
   } catch (error) {
     console.error('❌ Seed error:', error);
     throw error;
