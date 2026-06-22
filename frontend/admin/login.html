@@ -316,7 +316,7 @@
               id="email"
               name="email"
               class="form-control"
-              placeholder="admin@lingueredigital.com"
+              placeholder="linguere660@gmail.com"
               required
               autocomplete="email"
               value=""
@@ -408,14 +408,25 @@
       }
     });
 
-    // Redirect if already logged in
-    if (localStorage.getItem('auth_token')) {
+    // If already logged in, verify token before redirecting
+    (async () => {
+      const token = localStorage.getItem('auth_token');
+      if (!token) return;
       try {
-        window.location.href = '/admin/dashboard.html';
+        const res = await fetch('/api/auth/me', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (res.ok) {
+          window.location.href = '/admin/dashboard.html';
+        } else {
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('user');
+        }
       } catch (e) {
-        // Token might be invalid, let the user log in
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('user');
       }
-    }
+    })();
   </script>
 </body>
 </html>

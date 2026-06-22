@@ -41,7 +41,7 @@ class AdminAuth {
 // Auto-check auth on admin pages
 document.addEventListener('DOMContentLoaded', () => {
   const isLoginPage = window.location.pathname.includes('login.html');
-  if (!isLoginPage) {
-    AdminAuth.requireAuth();
+  if (!isLoginPage && !AdminAuth.isAuthenticated()) {
+    window.location.href = '/admin/login.html';
   }
 });

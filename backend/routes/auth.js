@@ -52,6 +52,17 @@ router.post('/register', authLimiter, [
   }
 });
 
+// VERIFY TOKEN
+router.get('/me', verifyToken, async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id);
+    if (!user) return res.status(401).json({ error: { message: 'Token invalide' } });
+    res.json({ user: { id: user.id, email: user.email, role: user.role } });
+  } catch (error) {
+    res.status(401).json({ error: { message: 'Token invalide' } });
+  }
+});
+
 // PROTECTED ROUTE
 router.get('/profile', verifyToken, async (req, res) => {
   try {

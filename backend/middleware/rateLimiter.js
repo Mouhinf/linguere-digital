@@ -26,8 +26,13 @@ const contactLimiterByEmail = rateLimit({
 });
 
 const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5,
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  keyGenerator: (req) => {
+    const forwarded = req.headers['x-forwarded-for'];
+    if (forwarded) return forwarded.split(',')[0].trim();
+    return req.ip;
+  },
   message: 'Trop de tentatives de connexion, réessayez plus tard.'
 });
 
