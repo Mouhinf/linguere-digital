@@ -20,6 +20,23 @@ body {
   padding-top: 70px;
 }
 
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  background: var(--color-primary);
+  color: var(--color-white);
+  padding: 0.5rem 1rem;
+  z-index: 9999;
+  font-size: 0.9rem;
+  text-decoration: none;
+  border-radius: 0 0 var(--radius-sm) 0;
+  transition: top 200ms ease;
+}
+.skip-link:focus {
+  top: 0;
+}
+
 /* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 10px;
@@ -66,6 +83,13 @@ a {
 
 a:hover {
   color: var(--color-primary-bright);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-primary-bright);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 button, input, textarea, select {

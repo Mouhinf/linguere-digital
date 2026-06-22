@@ -14,6 +14,8 @@
   --color-gray-1: #0F172A;
   --color-gray-2: #64748B;
   --color-gray-3: #94A3B8;
+  --color-gray-2-light: #94A3B8;
+  --color-gray-3-light: #B0BEC5;
   
   /* Glass Effect — Soft UI Evolution */
   --color-glass: rgba(0, 119, 182, 0.03);

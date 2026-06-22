@@ -397,6 +397,14 @@
   margin-bottom: 0.25rem;
 }
 
+.testimonial-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-gray-1);
+  margin: 0;
+}
+
 .testimonial-company {
   font-size: var(--fs-small);
   color: var(--color-gray-2);

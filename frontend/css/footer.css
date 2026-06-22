@@ -46,7 +46,7 @@ footer::before {
 
 .footer-section p {
   font-size: var(--fs-small);
-  color: var(--color-gray-2);
+  color: var(--color-gray-2-light);
   margin-bottom: 0.75rem;
   line-height: 1.6;
 }
@@ -62,7 +62,7 @@ footer::before {
 }
 
 .footer-section ul li a {
-  color: var(--color-gray-2);
+  color: var(--color-gray-2-light);
   text-decoration: none;
   transition: all 250ms ease;
   font-size: var(--fs-small);
@@ -87,6 +87,7 @@ footer::before {
 .footer-section ul li a:hover {
   color: var(--color-white);
   padding-left: 10px;
+  text-decoration: underline;
 }
 
 .footer-section ul li a:hover::before {
@@ -139,7 +140,7 @@ footer::before {
   background: var(--color-surface-2);
   border: 1px solid var(--color-glass-border);
   border-radius: var(--radius-md);
-  color: var(--color-gray-2);
+  color: var(--color-gray-2-light);
   cursor: pointer;
   transition: all 250ms ease;
 }
@@ -174,7 +175,7 @@ footer::before {
 
 .footer-bottom p {
   font-size: var(--fs-small);
-  color: var(--color-gray-3);
+  color: var(--color-gray-3-light);
   margin: 0;
   font-weight: 500;
 }
@@ -186,7 +187,7 @@ footer::before {
 }
 
 .footer-links a {
-  color: var(--color-gray-2);
+  color: var(--color-gray-2-light);
   text-decoration: none;
   font-size: var(--fs-small);
   transition: all 250ms ease;
@@ -195,6 +196,15 @@ footer::before {
 
 .footer-links a:hover {
   color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.footer-section ul li a:focus-visible,
+.footer-links a:focus-visible,
+.social-links a:focus-visible {
+  outline: 2px solid var(--color-primary-bright);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 .whatsapp-float {

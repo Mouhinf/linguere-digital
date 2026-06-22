@@ -79,7 +79,7 @@ async function loadTestimonials() {
               </svg>
             </div>
             <div class="author-info">
-              <h4>${testimonial.nom}</h4>
+              <h3 class="testimonial-name">${testimonial.nom}</h3>
               <p>${testimonial.entreprise || ''}</p>
               <div class="stars">${'★'.repeat(testimonial.etoiles || 5)}${'☆'.repeat(5 - (testimonial.etoiles || 5))}</div>
             </div>
