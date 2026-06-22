@@ -61,7 +61,7 @@
       "name": "Baye Demba Diack",
       "jobTitle": "Directeur",
       "description": "Expert sénégalais en données, technologies de l'information et transformation numérique. Directeur de Linguère Digital Innovation.",
-      "image": "https://lingueredigital.com/assets/director.png",
+      "image": "https://lingueredigital.com/assets/director-photo.jpg",
       "url": "https://lingueredigital.com/about.html#directeur"
     }
   }
@@ -69,7 +69,6 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="dns-prefetch" href="https://lingueredigital.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/variables.css">
   <link rel="stylesheet" href="/css/animations.css">
@@ -168,10 +167,7 @@
     <div class="hero-bg"></div>
     <div class="container hero-content">
       <div class="hero-logo reveal" style="animation-delay: 0.1s;">
-        <picture>
-          <source srcset="/assets/logo.webp" type="image/webp">
-          <img src="/assets/logo.png" alt="Linguère Digital Logo" width="200" height="131">
-        </picture>
+        <img src="/assets/logo.png" alt="Linguère Digital Logo">
       </div>
       <div class="badge reveal badge-pulse">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;">
@@ -305,10 +301,7 @@
       </div>
       <div class="director-home-layout">
         <div class="director-home-photo-wrap reveal">
-          <picture>
-            <source srcset="/assets/director.webp" type="image/webp">
-            <img class="director-home-photo" src="/assets/director.png" alt="Baye Demba Diack — Directeur de Linguère Digital Innovation" width="240" height="320" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.director-home-fallback').style.display='flex';">
-          </picture>
+          <img class="director-home-photo" src="/assets/director-photo.jpg" alt="Baye Demba Diack — Directeur de Linguère Digital Innovation" onerror="this.style.display='none';this.parentElement.querySelector('.director-home-fallback').style.display='flex';">
           <div class="director-home-fallback" style="display:none;width:100%;aspect-ratio:3/4;border-radius:var(--radius-lg);box-shadow:var(--shadow-glow-lg);background:linear-gradient(135deg,var(--color-surface-2),var(--color-surface-3));align-items:center;justify-content:center;color:var(--color-gray-3);">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           </div>
@@ -467,13 +460,13 @@
     </div>
   </section>
 
-  <script src="/js/config.js" defer></script>
-  <script src="/js/api.js" defer></script>
-  <script src="/js/main.js" defer></script>
-  <script src="/js/particles.js" defer></script>
-  <script src="/js/animations.js" defer></script>
-  <script src="/js/components.js" defer></script>
-  <script src="/js/pages/home.js" defer></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/particles.js"></script>
+  <script src="/js/animations.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/pages/home.js"></script>
   </main>
 </body>
 </html>

@@ -1,1 +1,91 @@
-async function initContact(){const t=document.getElementById("contact-form"),e=document.getElementById("toast-container");if(t){if(!e){const t=document.createElement("div");t.id="toast-container",t.style.cssText="position: fixed; top: 20px; right: 20px; z-index: 9999;",document.body.appendChild(t)}t.addEventListener("submit",async e=>{e.preventDefault();const o=new FormData(t),s=Object.fromEntries(o.entries()),a=t.querySelector('button[type="submit"]'),r=a.textContent;a.textContent="Envoi en cours...",a.disabled=!0;try{const e=await fetch(`${API_BASE}/contact`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(s)}),o=await e.json();e.ok?(n("Message envoyé avec succès ! Nous vous répondrons rapidement.","success"),t.reset()):n(o.error||"Erreur lors de l'envoi du message.","error")}catch(t){console.error("Contact form error:",t),n("Erreur de connexion. Veuillez réessayer.","error")}finally{a.textContent=r,a.disabled=!1}})}function n(t,e="success"){const n=document.createElement("div");n.className=`toast toast-${e}`,n.textContent=t,n.style.cssText=`\n      background: ${"success"===e?"#10b981":"#ef4444"};\n      color: white;\n      padding: 12px 20px;\n      border-radius: 8px;\n      margin-bottom: 10px;\n      box-shadow: 0 4px 6px rgba(0,0,0,0.1);\n      animation: slideIn 0.3s ease-out;\n    `,document.getElementById("toast-container").appendChild(n),setTimeout(()=>{n.style.animation="slideOut 0.3s ease-out",setTimeout(()=>n.remove(),300)},3e3)}}if(!document.querySelector("style[data-toast]")){const t=document.createElement("style");t.setAttribute("data-toast","true"),t.textContent="\n    @keyframes slideIn {\n      from { transform: translateX(100%); opacity: 0; }\n      to { transform: translateX(0); opacity: 1; }\n    }\n    @keyframes slideOut {\n      from { transform: translateX(0); opacity: 1; }\n      to { transform: translateX(100%); opacity: 0; }\n    }\n  ",document.head.appendChild(t)}document.addEventListener("DOMContentLoaded",initContact);
+// Contact page specific functionality
+
+async function initContact() {
+  const form = document.getElementById('contact-form');
+  const toastContainer = document.getElementById('toast-container');
+  
+  if (!form) return;
+
+  // Create toast container if it doesn't exist
+  if (!toastContainer) {
+    const container = document.createElement('div');
+    container.id = 'toast-container';
+    container.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 9999;';
+    document.body.appendChild(container);
+  }
+
+  function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+    toast.style.cssText = `
+      background: ${type === 'success' ? '#10b981' : '#ef4444'};
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      animation: slideIn 0.3s ease-out;
+    `;
+    document.getElementById('toast-container').appendChild(toast);
+    
+    setTimeout(() => {
+      toast.style.animation = 'slideOut 0.3s ease-out';
+      setTimeout(() => toast.remove(), 300);
+    }, 3000);
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Envoi en cours...';
+    submitBtn.disabled = true;
+
+    try {
+      const response = await fetch(`${API_BASE}/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        showToast('Message envoyé avec succès ! Nous vous répondrons rapidement.', 'success');
+        form.reset();
+      } else {
+        showToast(result.error || 'Erreur lors de l\'envoi du message.', 'error');
+      }
+    } catch (error) {
+      console.error('Contact form error:', error);
+      showToast('Erreur de connexion. Veuillez réessayer.', 'error');
+    } finally {
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+    }
+  });
+}
+
+// Add toast animations
+if (!document.querySelector('style[data-toast]')) {
+  const style = document.createElement('style');
+  style.setAttribute('data-toast', 'true');
+  style.textContent = `
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOut {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(100%); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+document.addEventListener('DOMContentLoaded', initContact);

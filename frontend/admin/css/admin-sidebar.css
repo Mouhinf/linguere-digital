@@ -95,6 +95,9 @@
     padding: 0;
     margin-right: 1rem;
     transition: all var(--admin-transition-fast);
+    position: relative;
+    z-index: calc(var(--admin-z-sidebar) + 20);
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
   }
 
   .btn-toggle-sidebar:hover,
@@ -111,18 +114,9 @@
     height: 20px;
   }
 
-  /* Ensure toggle sits above sticky headers and is easily tappable */
-  .admin-topbar .btn-toggle-sidebar {
-    /* Place the toggle above the overlay so it's always clickable to close the menu */
-    position: relative;
-    z-index: calc(var(--admin-z-sidebar) + 20);
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-  }
-
   /* Sidebar overlay is always available at this breakpoint */
   .sidebar-overlay {
     display: none;
-    /* overlay should not capture pointer events unless visible */
     pointer-events: none;
   }
 
@@ -135,7 +129,6 @@
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
     opacity: 1;
-    /* allow clicks on the overlay area (outside the sidebar) to close the menu */
     pointer-events: auto;
   }
 

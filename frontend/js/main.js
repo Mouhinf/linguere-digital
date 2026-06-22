@@ -1,1 +1,305 @@
-let navbarInitialized=!1;function initNavbar(){if(navbarInitialized)return;const e=document.querySelector("nav.navbar"),t=document.querySelector(".hamburger"),n=document.querySelector(".nav-links");if(!e||!t||!n)return void console.warn("initNavbar: missing elements",{navbar:!!e,hamburger:!!t,navLinks:!!n});navbarInitialized=!0;let o=0;window.addEventListener("scroll",()=>{const t=window.scrollY;t>50?e.classList.add("scrolled"):e.classList.remove("scrolled"),o=t}),t.addEventListener("click",()=>{const e=t.classList.toggle("active");if(n.classList.toggle("active"),e?document.body.classList.add("menu-open"):document.body.classList.remove("menu-open"),t.setAttribute("aria-expanded",e),!e){n.querySelectorAll(".nav-dropdown.active").forEach(e=>e.classList.remove("active"))}});n.querySelectorAll("a:not(.nav-dropdown-toggle)").forEach(e=>{e.addEventListener("click",()=>{t.classList.remove("active"),n.classList.remove("active"),t.setAttribute("aria-expanded","false"),document.body.classList.remove("menu-open");n.querySelectorAll(".nav-dropdown.active").forEach(e=>e.classList.remove("active"))})}),document.addEventListener("keydown",e=>{if("Escape"===e.key&&n.classList.contains("active")){t.classList.remove("active"),n.classList.remove("active"),t.setAttribute("aria-expanded","false"),document.body.classList.remove("menu-open");n.querySelectorAll(".nav-dropdown.active").forEach(e=>e.classList.remove("active"))}}),updateActiveNavLink()}function updateActiveNavLink(){const e=window.location.pathname;document.querySelectorAll(".nav-links a").forEach(t=>{const n=t.getAttribute("href");n&&e.includes(n.replace(/\//g,""))?t.classList.add("active"):t.classList.remove("active")})}function initScrollReveal(){const e=new IntersectionObserver(t=>{t.forEach(t=>{t.isIntersecting&&(t.target.style.animationPlayState="running",e.unobserve(t.target))})},{threshold:.1,rootMargin:"0px 0px -100px 0px"});document.querySelectorAll(".reveal, .reveal-left, .reveal-right, .reveal-scale").forEach(t=>{e.observe(t)})}function initBackToTop(){const e=document.querySelector(".back-to-top");e&&(window.addEventListener("scroll",()=>{window.scrollY>300?e.classList.add("visible"):e.classList.remove("visible")}),e.addEventListener("click",e=>{e.preventDefault(),window.scrollTo({top:0,behavior:"smooth"})}))}function showLoader(){let e=document.getElementById("page-loader");e||(e=document.createElement("div"),e.id="page-loader",e.style.cssText="\n      position: fixed;\n      top: 0;\n      left: 0;\n      right: 0;\n      bottom: 0;\n      background: rgba(8, 8, 24, 0.95);\n      display: flex;\n      align-items: center;\n      justify-content: center;\n      z-index: 9999;\n      backdrop-filter: blur(4px);\n    ",document.body.appendChild(e)),e.innerHTML='<div class="spinner"></div>',e.style.display="flex"}function hideLoader(){const e=document.getElementById("page-loader");e&&(e.style.display="none")}function formatNumber(e){return Math.round(e).toString().replace(/\B(?=(\d{3})+(?!\d))/g,",")}function formatCurrency(e){return new Intl.NumberFormat("fr-SN",{style:"currency",currency:"XOF",minimumFractionDigits:0}).format(e)}function countUp(e,t,n=2e3){const o=t/(n/16);let a=0;const r=()=>{a+=o,a>=t?e.textContent=formatNumber(t):(e.textContent=formatNumber(Math.floor(a)),requestAnimationFrame(r))};r()}function scrollToElement(e){const t=document.querySelector(e);t&&t.scrollIntoView({behavior:"smooth",block:"start"})}function debounce(e,t){let n;return(...o)=>{clearTimeout(n),n=setTimeout(()=>e.apply(this,o),t)}}function throttle(e,t){let n=0;return(...o)=>{const a=Date.now();a-n>=t&&(e.apply(this,o),n=a)}}async function copyToClipboard(e){try{return await navigator.clipboard.writeText(e),!0}catch(e){return console.error("Copy failed:",e),!1}}document.addEventListener("DOMContentLoaded",()=>{document.querySelector("nav.navbar")&&initNavbar(),initScrollReveal(),initBackToTop(),hideLoader(),document.addEventListener("keydown",e=>{"Escape"===e.key&&document.querySelectorAll(".modal-overlay").forEach(e=>{e.remove()})})}),window.addEventListener("beforeunload",()=>{event.type}),document.addEventListener("click",e=>{if("A"===e.target.tagName){const t=e.target.getAttribute("href");t&&t.startsWith("#")&&(e.preventDefault(),scrollToElement(t))}}),window.addEventListener("load",()=>{requestAnimationFrame(()=>{const e=performance.getEntriesByType("navigation")[0];if(e){const t=Math.round(e.domContentLoadedEventEnd),n=Math.round(e.loadEventEnd||performance.now());console.log(`Page loaded in ${n}ms (DOM ready: ${t}ms)`)}else{const e=Math.round(performance.now());console.log(`Page loaded in ~${e}ms`)}})});
+// Main JavaScript - Navbar, scroll effects, and utilities
+
+// Navbar scroll effect
+let navbarInitialized = false;
+
+function initNavbar() {
+  // Prevent double initialization
+  if (navbarInitialized) return;
+
+  const navbar = document.querySelector('nav.navbar');
+  const hamburger = document.querySelector('.hamburger');
+  const navLinks = document.querySelector('.nav-links');
+
+  if (!navbar || !hamburger || !navLinks) {
+    console.warn('initNavbar: missing elements', {
+      navbar: !!navbar,
+      hamburger: !!hamburger,
+      navLinks: !!navLinks
+    });
+    return;
+  }
+
+  navbarInitialized = true;
+
+  // Scroll effect
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.scrollY;
+    if (currentScroll > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+    lastScroll = currentScroll;
+  });
+
+  // Hamburger menu toggle
+  hamburger.addEventListener('click', () => {
+    const isActive = hamburger.classList.toggle('active');
+    navLinks.classList.toggle('active');
+
+    // Lock/unlock body scroll
+    if (isActive) {
+      document.body.classList.add('menu-open');
+    } else {
+      document.body.classList.remove('menu-open');
+    }
+
+    // Close mobile dropdown when menu closes
+    hamburger.setAttribute('aria-expanded', isActive);
+
+    if (!isActive) {
+      const dropdowns = navLinks.querySelectorAll('.nav-dropdown.active');
+      dropdowns.forEach(d => d.classList.remove('active'));
+    }
+  });
+
+  // Close menu on link click
+  const links = navLinks.querySelectorAll('a:not(.nav-dropdown-toggle)');
+  links.forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      navLinks.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-open');
+
+      // Close mobile dropdowns
+      const dropdowns = navLinks.querySelectorAll('.nav-dropdown.active');
+      dropdowns.forEach(d => d.classList.remove('active'));
+    });
+  });
+
+  // Close menu on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+      hamburger.classList.remove('active');
+      navLinks.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-open');
+      const dropdowns = navLinks.querySelectorAll('.nav-dropdown.active');
+      dropdowns.forEach(d => d.classList.remove('active'));
+    }
+  });
+
+  // Active state based on current page
+  updateActiveNavLink();
+}
+
+function updateActiveNavLink() {
+  const currentPath = window.location.pathname;
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href');
+    if (href && currentPath.includes(href.replace(/\//g, ''))) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+}
+
+// Intersection Observer for scroll reveal animations (delegates to AnimationController if available)
+function initScrollReveal() {
+  // AnimationController in animations.js handles reveal animations
+  // This function is kept for pages that don't load animations.js
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -100px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.animationPlayState = 'running';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => {
+    observer.observe(el);
+  });
+}
+
+// Back to top button
+function initBackToTop() {
+  const backToTop = document.querySelector('.back-to-top');
+  if (!backToTop) return;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      backToTop.classList.add('visible');
+    } else {
+      backToTop.classList.remove('visible');
+    }
+  });
+
+  backToTop.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+// Page loader
+function showLoader() {
+  let loader = document.getElementById('page-loader');
+  if (!loader) {
+    loader = document.createElement('div');
+    loader.id = 'page-loader';
+    loader.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(8, 8, 24, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      backdrop-filter: blur(4px);
+    `;
+    document.body.appendChild(loader);
+  }
+  loader.innerHTML = '<div class="spinner"></div>';
+  loader.style.display = 'flex';
+}
+
+function hideLoader() {
+  const loader = document.getElementById('page-loader');
+  if (loader) {
+    loader.style.display = 'none';
+  }
+}
+
+// Format numbers with commas
+function formatNumber(num) {
+  return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+// Format currency
+function formatCurrency(value) {
+  return new Intl.NumberFormat('fr-SN', {
+    style: 'currency',
+    currency: 'XOF',
+    minimumFractionDigits: 0
+  }).format(value);
+}
+
+// Count up animation
+function countUp(element, target, duration = 2000) {
+  const start = 0;
+  const increment = target / (duration / 16);
+  let current = start;
+
+  const update = () => {
+    current += increment;
+    if (current >= target) {
+      element.textContent = formatNumber(target);
+    } else {
+      element.textContent = formatNumber(Math.floor(current));
+      requestAnimationFrame(update);
+    }
+  };
+
+  update();
+}
+
+// Scroll to element
+function scrollToElement(selector) {
+  const element = document.querySelector(selector);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+// Debounce function
+function debounce(func, delay) {
+  let timeoutId;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func.apply(this, args), delay);
+  };
+}
+
+// Throttle function
+function throttle(func, delay) {
+  let lastCall = 0;
+  return (...args) => {
+    const now = Date.now();
+    if (now - lastCall >= delay) {
+      func.apply(this, args);
+      lastCall = now;
+    }
+  };
+}
+
+// Copy to clipboard
+async function copyToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch (err) {
+    console.error('Copy failed:', err);
+    return false;
+  }
+}
+
+// Initialize everything on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  // initNavbar() is called by components.js after navbar injection
+  // Only call it here if navbar already exists in HTML (not injected)
+  if (document.querySelector('nav.navbar')) {
+    initNavbar();
+  }
+  initScrollReveal();
+  initBackToTop();
+  hideLoader();
+
+  // Prevent body scroll when modal is open
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay').forEach(modal => {
+        modal.remove();
+      });
+    }
+  });
+});
+
+// Handle page transitions
+window.addEventListener('beforeunload', () => {
+  // Show loader only if navigating to different domain
+  if (event.type === 'beforeunload') {
+    // showLoader();
+  }
+});
+
+// Smooth scroll for anchor links
+document.addEventListener('click', (e) => {
+  if (e.target.tagName === 'A') {
+    const href = e.target.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      e.preventDefault();
+      scrollToElement(href);
+    }
+  }
+});
+
+// Log performance metrics using modern Performance API
+window.addEventListener('load', () => {
+  requestAnimationFrame(() => {
+    const navEntry = performance.getEntriesByType('navigation')[0];
+    
+    if (navEntry) {
+      const domReady = Math.round(navEntry.domContentLoadedEventEnd);
+      const loadTime = Math.round(navEntry.loadEventEnd || performance.now());
+      console.log(`Page loaded in ${loadTime}ms (DOM ready: ${domReady}ms)`);
+    } else {
+      // Fallback for older browsers
+      const loadTime = Math.round(performance.now());
+      console.log(`Page loaded in ~${loadTime}ms`);
+    }
+  });
+});

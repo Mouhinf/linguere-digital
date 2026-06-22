@@ -1,1 +1,105 @@
-!async function(){const e=window.CATEGORY||"informatique",t=window.META||{title:"Service",subtitle:"",icon:""};document.title=t.title+" | Linguère Digital",document.getElementById("hero-title").textContent=t.title,document.getElementById("hero-subtitle").textContent=t.subtitle,document.getElementById("breadcrumb-name").textContent=t.title;let n=[];try{n=((await API.getServices()).data||[]).filter(t=>t.categorie===e&&t.actif);const a=document.getElementById("services-grid"),s=document.getElementById("f-service");if(0===n.length)return a.innerHTML=`\n        <div class="empty-state reveal">\n          <div class="empty-state__icon">${t.icon}</div>\n          <h3>Aucun service disponible</h3>\n          <p>Cette catégorie est en cours de préparation. Contactez-nous pour en savoir plus.</p>\n          <a href="/contact.html" class="btn btn-primary">Nous Contacter</a>\n        </div>`,void("function"==typeof initScrollReveal&&initScrollReveal());a.innerHTML=n.map((e,t)=>{const n=0===t,c=document.createElement("option");return c.value=e.titre,c.textContent=e.titre,s.appendChild(c),`\n        <div class="glass-card svc-card reveal ${n?"svc-card--featured":""}" style="animation-delay:${.08*t}s">\n          ${n?'<span class="svc-card__badge">Populaire</span>':""}\n          <h3 class="svc-card__title">${e.titre}</h3>\n          <p class="svc-card__desc">${e.description||""}</p>\n          ${e.prix?`\n            <div class="svc-card__price">\n              <span class="svc-card__price-currency">FCFA</span>\n              <span class="svc-card__price-amount">${Number(e.prix).toLocaleString("fr-FR")}</span>\n            </div>`:""}\n          <a href="/contact.html?service=${encodeURIComponent(e.titre)}" class="btn btn-outline btn-sm svc-card__btn">Demander un Devis</a>\n        </div>`}).join("");const i=new URLSearchParams(window.location.search).get("service");i&&(s.value=i),c(),"function"==typeof initScrollReveal&&initScrollReveal()}catch(e){console.error("Failed to load services:",e),document.getElementById("services-grid").innerHTML='\n      <div class="empty-state">\n        <h3>Erreur de chargement</h3>\n        <p>Veuillez réessayer plus tard.</p>\n      </div>'}function c(){const e=document.getElementById("f-service").value,t=document.getElementById("f-prenom").value,n=document.getElementById("f-nom").value,c=document.getElementById("f-message").value;let a="Bonjour Linguère Digital !\n";(t||n)&&(a+=`Je suis ${t} ${n}.\n`),e&&(a+=`Je suis intéressé(e) par le service : *${e}*.\n`),c&&(a+=`\n${c}`),document.getElementById("whatsapp-btn").href=`https://wa.me/221786602424?text=${encodeURIComponent(a)}`}["f-prenom","f-nom","f-service","f-message"].forEach(e=>{document.getElementById(e).addEventListener("input",c),document.getElementById(e).addEventListener("change",c)}),document.getElementById("service-form").addEventListener("submit",async function(e){e.preventDefault();const n={prenom:document.getElementById("f-prenom").value,nom:document.getElementById("f-nom").value,email:document.getElementById("f-email").value,telephone:document.getElementById("f-telephone").value,service:document.getElementById("f-service").value,objet:`Demande de devis - ${document.getElementById("f-service").value||t.title}`,message:document.getElementById("f-message").value,_honey:""};try{await API.submitContact(n),document.getElementById("service-form").style.display="none",document.getElementById("form-success").classList.add("show")}catch(e){alert("Erreur lors de l'envoi. Veuillez réessayer ou contactez-nous par WhatsApp.")}})}();
+(async function() {
+  const category = window.CATEGORY || 'informatique';
+  const meta = window.META || { title: 'Service', subtitle: '', icon: '' };
+
+  document.title = meta.title + ' | Linguère Digital';
+  document.getElementById('hero-title').textContent = meta.title;
+  document.getElementById('hero-subtitle').textContent = meta.subtitle;
+  document.getElementById('breadcrumb-name').textContent = meta.title;
+
+  let allServices = [];
+
+  try {
+    const res = await API.getServices();
+    allServices = (res.data || []).filter(s => s.categorie === category && s.actif);
+
+    const grid = document.getElementById('services-grid');
+    const serviceSelect = document.getElementById('f-service');
+
+    if (allServices.length === 0) {
+      grid.innerHTML = `
+        <div class="empty-state reveal">
+          <div class="empty-state__icon">${meta.icon}</div>
+          <h3>Aucun service disponible</h3>
+          <p>Cette catégorie est en cours de préparation. Contactez-nous pour en savoir plus.</p>
+          <a href="/contact.html" class="btn btn-primary">Nous Contacter</a>
+        </div>`;
+      if (typeof initScrollReveal === 'function') initScrollReveal();
+      return;
+    }
+
+    grid.innerHTML = allServices.map((s, i) => {
+      const isFeatured = i === 0;
+      const option = document.createElement('option');
+      option.value = s.titre;
+      option.textContent = s.titre;
+      serviceSelect.appendChild(option);
+
+      return `
+        <div class="glass-card svc-card reveal ${isFeatured ? 'svc-card--featured' : ''}" style="animation-delay:${i * 0.08}s">
+          ${isFeatured ? '<span class="svc-card__badge">Populaire</span>' : ''}
+          <h3 class="svc-card__title">${s.titre}</h3>
+          <p class="svc-card__desc">${s.description || ''}</p>
+          ${s.prix ? `
+            <div class="svc-card__price">
+              <span class="svc-card__price-currency">FCFA</span>
+              <span class="svc-card__price-amount">${Number(s.prix).toLocaleString('fr-FR')}</span>
+            </div>` : ''}
+          <a href="/contact.html?service=${encodeURIComponent(s.titre)}" class="btn btn-outline btn-sm svc-card__btn">Demander un Devis</a>
+        </div>`;
+    }).join('');
+
+    const preService = new URLSearchParams(window.location.search).get('service');
+    if (preService) serviceSelect.value = preService;
+
+    updateWhatsAppLink();
+    if (typeof initScrollReveal === 'function') initScrollReveal();
+  } catch (err) {
+    console.error('Failed to load services:', err);
+    document.getElementById('services-grid').innerHTML = `
+      <div class="empty-state">
+        <h3>Erreur de chargement</h3>
+        <p>Veuillez réessayer plus tard.</p>
+      </div>`;
+  }
+
+  function updateWhatsAppLink() {
+    const service = document.getElementById('f-service').value;
+    const prenom = document.getElementById('f-prenom').value;
+    const nom = document.getElementById('f-nom').value;
+    const message = document.getElementById('f-message').value;
+
+    let text = `Bonjour Linguère Digital !\n`;
+    if (prenom || nom) text += `Je suis ${prenom} ${nom}.\n`;
+    if (service) text += `Je suis intéressé(e) par le service : *${service}*.\n`;
+    if (message) text += `\n${message}`;
+
+    document.getElementById('whatsapp-btn').href = `https://wa.me/221786602424?text=${encodeURIComponent(text)}`;
+  }
+
+  ['f-prenom', 'f-nom', 'f-service', 'f-message'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateWhatsAppLink);
+    document.getElementById(id).addEventListener('change', updateWhatsAppLink);
+  });
+
+  document.getElementById('service-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const data = {
+      prenom: document.getElementById('f-prenom').value,
+      nom: document.getElementById('f-nom').value,
+      email: document.getElementById('f-email').value,
+      telephone: document.getElementById('f-telephone').value,
+      service: document.getElementById('f-service').value,
+      objet: `Demande de devis - ${document.getElementById('f-service').value || meta.title}`,
+      message: document.getElementById('f-message').value,
+      _honey: ''
+    };
+    try {
+      await API.submitContact(data);
+      document.getElementById('service-form').style.display = 'none';
+      document.getElementById('form-success').classList.add('show');
+    } catch (err) {
+      alert('Erreur lors de l\'envoi. Veuillez réessayer ou contactez-nous par WhatsApp.');
+    }
+  });
+})();

@@ -1,1 +1,247 @@
-const API_BASE=window.LINGUERE_API_URL||("localhost"===window.location.hostname?"http://localhost:3000/api":"/api");class API{static async request(t,e={}){const s=`${API_BASE}${t}`,i={"Content-Type":"application/json",...e.headers},r=localStorage.getItem("auth_token");r&&(i.Authorization=`Bearer ${r}`);try{const t=await fetch(s,{...e,headers:i});if(!t.ok){401===t.status&&(localStorage.removeItem("auth_token"),window.location.pathname.includes("/admin")&&(window.location.href="/admin/login.html"));const e=await t.json().catch(()=>({}));throw new Error(e.error||`HTTP ${t.status}`)}return await t.json()}catch(t){throw console.error("API Error:",t),t}}static login(t,e){return this.request("/auth/login",{method:"POST",body:JSON.stringify({email:t,password:e})})}static logout(){return localStorage.removeItem("auth_token"),this.request("/auth/logout",{method:"POST"})}static submitContact(t){return this.request("/contact",{method:"POST",body:JSON.stringify(t)})}static getServices(){return this.request("/services")}static getProjects(t){return this.request("/projects"+(t?"?limit="+t:""))}static getProject(t){return this.request(`/projects/${t}`)}static getBlogPosts(t){return this.request("/blog"+(t?"?limit="+t:""))}static getBlogPost(t){return this.request(`/blog/${t}`)}static getTestimonials(){return this.request("/testimonials")}static getStats(){return this.request("/admin/stats")}static getAdminServices(){return this.request("/admin/services")}static createService(t){return this.request("/admin/services",{method:"POST",body:JSON.stringify(t)})}static updateService(t,e){return this.request(`/admin/services/${t}`,{method:"PUT",body:JSON.stringify(e)})}static deleteService(t){return this.request(`/admin/services/${t}`,{method:"DELETE"})}static getAdminProjects(){return this.request("/admin/projects")}static createProject(t){return this.request("/admin/projects",{method:"POST",body:JSON.stringify(t)})}static updateProject(t,e){return this.request(`/admin/projects/${t}`,{method:"PUT",body:JSON.stringify(e)})}static deleteProject(t){return this.request(`/admin/projects/${t}`,{method:"DELETE"})}static getAdminBlogPosts(){return this.request("/admin/blog")}static createBlogPost(t){return this.request("/admin/blog",{method:"POST",body:JSON.stringify(t)})}static updateBlogPost(t,e){return this.request(`/admin/blog/${t}`,{method:"PUT",body:JSON.stringify(e)})}static deleteBlogPost(t){return this.request(`/admin/blog/${t}`,{method:"DELETE"})}static getAdminTestimonials(){return this.request("/admin/testimonials")}static createTestimonial(t){return this.request("/admin/testimonials",{method:"POST",body:JSON.stringify(t)})}static updateTestimonial(t,e){return this.request(`/admin/testimonials/${t}`,{method:"PUT",body:JSON.stringify(e)})}static deleteTestimonial(t){return this.request(`/admin/testimonials/${t}`,{method:"DELETE"})}static getMessages(t){return this.request("/admin/messages"+(t?"?status="+t:""))}static getMessage(t){return this.request(`/admin/messages/${t}`)}static markMessageAsRead(t){return this.request(`/admin/messages/${t}/read`,{method:"PATCH"})}static deleteMessage(t){return this.request(`/admin/messages/${t}`,{method:"DELETE"})}static getSettings(t){return this.request(`/admin/settings/${t}`)}static updateSettings(t,e){return this.request(`/admin/settings/${t}`,{method:"PUT",body:JSON.stringify(e)})}static getChartData(t){return this.request(`/admin/stats/${t}`)}}const FALLBACK_DATA={services:[{id:1,titre:"Développement Web",categorie:"informatique",description:"Solutions web modernes et performantes",prix:1500},{id:2,titre:"Machine Learning",categorie:"data-science",description:"Intelligence artificielle et analyse de données",prix:2500}],projects:[{id:1,titre:"Portail E-Commerce Dakar",description:"Plateforme de vente en ligne",categorie:"Web"}],testimonials:[{id:1,nom:"Aminata Diallo",entreprise:"Dakar Digital Solutions",contenu:"Excellent service!",etoiles:5}]};
+// API Configuration
+const API_BASE = window.LINGUERE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:3000/api' : '/api');
+
+class API {
+  static async request(endpoint, options = {}) {
+    const url = `${API_BASE}${endpoint}`;
+    const headers = {
+      'Content-Type': 'application/json',
+      ...options.headers
+    };
+
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    try {
+      const response = await fetch(url, {
+        ...options,
+        headers
+      });
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem('auth_token');
+          if (window.location.pathname.includes('/admin')) {
+            window.location.href = '/admin/login.html';
+          }
+        }
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error.error || `HTTP ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('API Error:', error);
+      throw error;
+    }
+  }
+
+  // Auth
+  static login(email, password) {
+    return this.request('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password })
+    });
+  }
+
+  static logout() {
+    localStorage.removeItem('auth_token');
+    return this.request('/auth/logout', { method: 'POST' });
+  }
+
+  // Contact
+  static submitContact(data) {
+    return this.request('/contact', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
+  // Public data
+  static getServices() {
+    return this.request('/services');
+  }
+
+  static getProjects(limit) {
+    return this.request(`/projects${limit ? '?limit=' + limit : ''}`);
+  }
+
+  static getProject(id) {
+    return this.request(`/projects/${id}`);
+  }
+
+  static getBlogPosts(limit) {
+    return this.request(`/blog${limit ? '?limit=' + limit : ''}`);
+  }
+
+  static getBlogPost(id) {
+    return this.request(`/blog/${id}`);
+  }
+
+  static getTestimonials() {
+    return this.request('/testimonials');
+  }
+
+  // Admin
+  static getStats() {
+    return this.request('/admin/stats');
+  }
+
+  static getAdminServices() {
+    return this.request('/admin/services');
+  }
+
+  static createService(data) {
+    return this.request('/admin/services', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
+  static updateService(id, data) {
+    return this.request(`/admin/services/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  }
+
+  static deleteService(id) {
+    return this.request(`/admin/services/${id}`, { method: 'DELETE' });
+  }
+
+  static getAdminProjects() {
+    return this.request('/admin/projects');
+  }
+
+  static createProject(data) {
+    return this.request('/admin/projects', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
+  static updateProject(id, data) {
+    return this.request(`/admin/projects/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  }
+
+  static deleteProject(id) {
+    return this.request(`/admin/projects/${id}`, { method: 'DELETE' });
+  }
+
+  static getAdminBlogPosts() {
+    return this.request('/admin/blog');
+  }
+
+  static createBlogPost(data) {
+    return this.request('/admin/blog', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
+  static updateBlogPost(id, data) {
+    return this.request(`/admin/blog/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  }
+
+  static deleteBlogPost(id) {
+    return this.request(`/admin/blog/${id}`, { method: 'DELETE' });
+  }
+
+  static getAdminTestimonials() {
+    return this.request('/admin/testimonials');
+  }
+
+  static createTestimonial(data) {
+    return this.request('/admin/testimonials', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
+  static updateTestimonial(id, data) {
+    return this.request(`/admin/testimonials/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  }
+
+  static deleteTestimonial(id) {
+    return this.request(`/admin/testimonials/${id}`, { method: 'DELETE' });
+  }
+
+  static getMessages(status) {
+    return this.request(`/admin/messages${status ? '?status=' + status : ''}`);
+  }
+
+  static getMessage(id) {
+    return this.request(`/admin/messages/${id}`);
+  }
+
+  static markMessageAsRead(id) {
+    return this.request(`/admin/messages/${id}/read`, { method: 'PATCH' });
+  }
+
+  static deleteMessage(id) {
+    return this.request(`/admin/messages/${id}`, { method: 'DELETE' });
+  }
+
+  static getSettings(category) {
+    return this.request(`/admin/settings/${category}`);
+  }
+
+  static updateSettings(category, data) {
+    return this.request(`/admin/settings/${category}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  }
+
+  static getChartData(type) {
+    return this.request(`/admin/stats/${type}`);
+  }
+}
+
+// Fallback data for offline/demo
+const FALLBACK_DATA = {
+  services: [
+    {
+      id: 1,
+      titre: 'Développement Web',
+      categorie: 'informatique',
+      description: 'Solutions web modernes et performantes',
+      prix: 1500
+    },
+    {
+      id: 2,
+      titre: 'Machine Learning',
+      categorie: 'data-science',
+      description: 'Intelligence artificielle et analyse de données',
+      prix: 2500
+    }
+  ],
+  projects: [
+    {
+      id: 1,
+      titre: 'Portail E-Commerce Dakar',
+      description: 'Plateforme de vente en ligne',
+      categorie: 'Web'
+    }
+  ],
+  testimonials: [
+    {
+      id: 1,
+      nom: 'Aminata Diallo',
+      entreprise: 'Dakar Digital Solutions',
+      contenu: 'Excellent service!',
+      etoiles: 5
+    }
+  ]
+};

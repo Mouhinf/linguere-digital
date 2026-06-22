@@ -75,9 +75,6 @@ class AdminSidebar {
       content.setAttribute('role', 'main');
       content.setAttribute('aria-label', 'Contenu principal');
     }
-
-    // Keep overlay positioning in sync when resizing (helps mobile/desktop differences)
-    window.addEventListener('resize', () => AdminSidebar._adjustOverlay(), { passive: true });
   }
 
   static render() {
@@ -208,39 +205,23 @@ class AdminSidebar {
     const sidebar = document.querySelector('.admin-sidebar');
     const overlay = document.querySelector('.sidebar-overlay');
     if (sidebar) sidebar.classList.add('open');
-    if (overlay) {
-      // Temporarily disable pointer events while we adjust the overlay bounds so
-      // the overlay does not steal the initial tap/click from the sidebar.
-      try { overlay.style.pointerEvents = 'none'; } catch (e) {}
-      overlay.classList.add('visible');
-      // Adjust overlay to exclude the sidebar area
-      AdminSidebar._adjustOverlay();
-      // Enable pointer events after layout has applied to avoid race on mobile
-      // Use requestAnimationFrame to ensure the browser painted the updated layout
-      requestAnimationFrame(() => {
-        try { overlay.style.pointerEvents = 'auto'; } catch (e) {}
-      });
-    }
+    if (overlay) overlay.classList.add('visible');
     document.body.style.overflow = 'hidden';
 
     const toggleBtn = document.getElementById('menu-toggle-btn');
     if (toggleBtn) {
       toggleBtn.setAttribute('aria-expanded', 'true');
-      // reflect attribute for CSS open state
       toggleBtn.setAttribute('aria-pressed', 'true');
     }
 
-    // Accessibility: mark sidebar visible to AT and prepare focus trap
     if (sidebar) {
       sidebar.setAttribute('aria-hidden', 'false');
       sidebar.setAttribute('tabindex', '-1');
     }
 
-    // remember last focused element so we can restore focus when closing
     AdminSidebar._lastFocused = document.activeElement;
     AdminSidebar._updateFocusable();
 
-    // Focus the close button for accessibility
     const closeBtn = document.querySelector('.sidebar-close-btn');
     if (closeBtn) closeBtn.focus();
   }
@@ -250,18 +231,6 @@ class AdminSidebar {
     const overlay = document.querySelector('.sidebar-overlay');
     if (sidebar) sidebar.classList.remove('open');
     if (overlay) overlay.classList.remove('visible');
-    // Reset overlay positioning to default (remove all inline positioning we may have applied)
-    try {
-      if (overlay) {
-        overlay.style.removeProperty('left');
-        overlay.style.removeProperty('right');
-        overlay.style.removeProperty('top');
-        overlay.style.removeProperty('bottom');
-        overlay.style.removeProperty('position');
-      }
-    } catch (e) {
-      // ignore
-    }
     document.body.style.overflow = '';
 
     const toggleBtn = document.getElementById('menu-toggle-btn');
@@ -270,56 +239,18 @@ class AdminSidebar {
       toggleBtn.setAttribute('aria-pressed', 'false');
     }
 
-    // Accessibility: mark sidebar hidden to AT
     if (sidebar) {
       sidebar.setAttribute('aria-hidden', 'true');
       sidebar.removeAttribute('tabindex');
     }
 
-    // restore focus to last focused element (or the toggle button)
     try {
       if (AdminSidebar._lastFocused && typeof AdminSidebar._lastFocused.focus === 'function') {
         AdminSidebar._lastFocused.focus();
       } else if (toggleBtn) {
         toggleBtn.focus();
       }
-    } catch (e) {
-      // ignore
-    }
-  }
-
-  // Adjust overlay bounds so it doesn't overlap the sidebar. This keeps the
-  // visible overlay (which applies a blur) off the sidebar itself and prevents
-  // accidental clicks on the overlay when interacting with the menu.
-  static _adjustOverlay() {
-    const sidebar = document.querySelector('.admin-sidebar');
-    const overlay = document.querySelector('.sidebar-overlay');
-    if (!overlay) return;
-
-    if (sidebar && sidebar.classList.contains('open')) {
-      // Use the actual sidebar width so it works across breakpoints
-      const rect = sidebar.getBoundingClientRect();
-      const width = Math.max(0, Math.round(rect.width));
-      // Position the overlay to start after the sidebar
-      // Compute values using CSS logical units for better RTL/layout compatibility
-      const leftPx = width + 'px';
-      overlay.style.left = leftPx;
-      overlay.style.top = '0px';
-      overlay.style.right = '0px';
-      overlay.style.bottom = '0px';
-      overlay.style.position = 'fixed';
-      // Ensure the overlay visually starts after the sidebar; make a small
-      // horizontal inset to avoid sub-pixel overlapping on some devices.
-      overlay.style.clipPath = `inset(0 0 0 ${leftPx})`;
-    } else {
-      // Restore default (inset: 0 from CSS)
-      overlay.style.removeProperty('left');
-      overlay.style.removeProperty('right');
-      overlay.style.removeProperty('top');
-      overlay.style.removeProperty('bottom');
-      overlay.style.removeProperty('position');
-      overlay.style.removeProperty('clip-path');
-    }
+    } catch (e) {}
   }
 
   // Close on Escape key when sidebar is open
@@ -442,18 +373,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const isLoginPage = window.location.pathname.includes('login.html');
   if (isLoginPage) return;
 
-  // Defer initialization using setTimeout to avoid race condition with admin-auth.js
-  // AdminAuth.requireAuth() runs on DOMContentLoaded and may redirect
   setTimeout(() => {
-    // Auth check is handled by admin-auth.js — skip to avoid race condition
     AdminSidebar.init();
 
     if (typeof AdminAPI !== 'undefined') {
       AdminSidebar.startBadgePolling();
     }
   }, 50);
-  // Global keydown for accessibility (Escape closes sidebar)
   document.addEventListener('keydown', AdminSidebar._handleKeydown);
+
+  // Swipe left to close sidebar on mobile
+  let touchStartX = 0;
+  let touchStartY = 0;
+  document.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+  document.addEventListener('touchend', (e) => {
+    const sidebar = document.querySelector('.admin-sidebar');
+    if (!sidebar || !sidebar.classList.contains('open')) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const diffX = touchStartX - touchEndX;
+    const diffY = Math.abs(touchStartY - touchEndY);
+    if (diffX > 60 && diffY < 80) {
+      AdminSidebar.close();
+    }
+  }, { passive: true });
 });
 
 window.AdminSidebar = AdminSidebar;

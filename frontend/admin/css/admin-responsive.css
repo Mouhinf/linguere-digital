@@ -144,7 +144,7 @@
   .admin-sidebar {
     transform: translateX(-100%);
     width: 280px;
-    z-index: 1050;
+    z-index: var(--admin-z-sidebar);
     box-shadow: none;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -156,6 +156,7 @@
 
   .sidebar-overlay {
     display: none;
+    pointer-events: none;
   }
 
   .sidebar-overlay.visible {
@@ -163,12 +164,10 @@
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.6);
-    /* Keep overlay below the sidebar so the sidebar remains interactive */
     z-index: calc(var(--admin-z-sidebar) - 1);
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
     opacity: 1;
-    transition: opacity 0.3s ease;
     pointer-events: auto;
   }
 
@@ -181,37 +180,6 @@
   .admin-content {
     margin-left: 0 !important;
     width: 100% !important;
-    padding: 1rem;
-  }
-
-  .admin-sidebar.open {
-    transform: translateX(0);
-  }
-
-  .sidebar-overlay {
-    display: none;
-  }
-
-  .sidebar-overlay.visible {
-    display: block;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    /* Ensure the overlay does not sit above the sidebar */
-    z-index: calc(var(--admin-z-sidebar) - 1);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-    pointer-events: auto;
-  }
-
-  .admin-topbar {
-    left: 0;
-    padding: 0 1rem;
-  }
-
-  .admin-content {
-    margin-left: 0;
-    width: 100%;
     padding: 1rem;
   }
 
