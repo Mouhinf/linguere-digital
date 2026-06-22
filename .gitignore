@@ -22,6 +22,7 @@ tmp/
 *.swo
 *~
 *.backup
+*.src.js
 .agents/
 skills-lock.json
 ui-ux-pro-max-skill/
