@@ -185,4 +185,4 @@ if (require.main === module) {
   seedDatabase()
     .then(() => process.exit(0))
     .catch(() => process.exit(1));
-}
+}   
