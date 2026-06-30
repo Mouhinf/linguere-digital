@@ -2,7 +2,6 @@
 
 class ComponentLoader {
   static async loadNavbar() {
-    const skipLink = '<a href="#main-content" class="skip-link">Aller au contenu principal</a>';
     const navbar = `
       <nav class="navbar" role="navigation" aria-label="Navigation principale">
         <a href="/" class="navbar-logo">
@@ -38,7 +37,6 @@ class ComponentLoader {
     const container = document.createElement('div');
     container.innerHTML = navbar;
     document.body.insertBefore(container.firstElementChild, document.body.firstChild);
-    document.body.insertAdjacentHTML('afterbegin', skipLink);
 
     // Mobile dropdown toggle
     this.initMobileDropdown();
