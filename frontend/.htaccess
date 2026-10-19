@@ -14,8 +14,17 @@ ServerSignature Off
   RewriteCond %{HTTPS} off
   RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-  # Proxy API requests to Node.js app
-  RewriteRule ^api/(.*)$ http://127.0.0.1:PORT_PLACEHOLDER/api/$1 [P,L]
+  # Canonical domain (www -> non-www)
+  RewriteCond %{HTTP_HOST} ^www\.lingueredigital\.com [NC]
+  RewriteRule .* https://lingueredigital.com%{REQUEST_URI} [L,R=301]
+
+  # Bloquer tout accès direct à proxy.php
+  RewriteCond %{THE_REQUEST} \s/+proxy\.php [NC]
+  RewriteRule ^ - [R=404,L]
+
+  # Proxy API requests to Node.js app via proxy.php
+  # (mod_proxy [P] vers 127.0.0.1 n'est pas actif sur cet hébergement mutualisé)
+  RewriteRule ^api/(.*)$ proxy.php/$1 [QSA,L]
 
   # PAS de fallback vers index.html.
   # L'ancienne règle `RewriteRule . /index.html [L]` renvoyait 200 OK pour
@@ -30,7 +39,7 @@ ServerSignature Off
 ErrorDocument 404 /404.html
 
 # Interdire l'accès aux fichiers sensibles
-<FilesMatch "^\.|(\.(env|env\..*|sqlite|db|log|bak|backup|sh|json|lock|yml|yaml)|package-lock\.json)$">
+<FilesMatch "^\.|(^error_log$|(\.(env|env\..*|sqlite|db|log|bak|backup|sh|json|lock|yml|yaml)|package-lock\.json)$)">
   Require all denied
 </FilesMatch>
 <FilesMatch "^(robots\.txt|sitemap\.xml|manifest\.json|site\.webmanifest)$">
@@ -72,3 +81,10 @@ ErrorDocument 404 /404.html
   Header unset X-Powered-By
   Header always unset X-Powered-By
 </IfModule>
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php84” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php84___lsphp .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit

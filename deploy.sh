@@ -20,6 +20,9 @@ BACKEND_DIR="$REPO_DIR/backend"
 API_PORT="${API_PORT:-3000}"
 WATCHDOG="$BACKEND_DIR/start-linguere.sh"
 
+export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
 echo "=== Déploiement Linguère Digital ==="
 
 # ---------- 1. Mise à jour du code ----------
@@ -41,20 +44,23 @@ cp -f "$REPO_DIR/frontend/"*.html "$PUBLIC_DIR/"
 cp -f "$REPO_DIR/frontend/robots.txt" "$PUBLIC_DIR/"
 cp -f "$REPO_DIR/frontend/sitemap.xml" "$PUBLIC_DIR/"
 for d in css js services admin assets; do
-  cp -rf "$REPO_DIR/frontend/$d/" "$PUBLIC_DIR/$d/"
+  rm -rf "$PUBLIC_DIR/$d/$d"
+  mkdir -p "$PUBLIC_DIR/$d"
+  cp -rf "$REPO_DIR/frontend/$d/." "$PUBLIC_DIR/$d/"
 done
+rm -f "$PUBLIC_DIR/error_log"
 
-# .htaccess : copié explicitement (invisible pour le glob *.html) et le
-# port du proxy API y est substitué.
+# .htaccess et proxy.php : copiés explicitement et le port du proxy API y est substitué.
 sed "s/PORT_PLACEHOLDER/$API_PORT/g" "$REPO_DIR/frontend/.htaccess" > "$PUBLIC_DIR/.htaccess"
-echo "      .htaccess déployé (proxy API → 127.0.0.1:$API_PORT)"
+sed "s/PORT_PLACEHOLDER/$API_PORT/g" "$REPO_DIR/frontend/proxy.php" > "$PUBLIC_DIR/proxy.php"
+echo "      .htaccess et proxy.php déployés (proxy API → 127.0.0.1:$API_PORT)"
 
 # ---------- 3. Contrôle de complétude ----------
 echo "[3/6] Vérification des fichiers déployés..."
 MISSING=0
 for f in index.html services.html about.html contact.html realisations.html blog.html 404.html \
          services/informatique.html services/data-science.html services/marketing.html \
-         services/formation.html .htaccess robots.txt sitemap.xml; do
+         services/formation.html .htaccess proxy.php robots.txt sitemap.xml; do
   if [ ! -f "$PUBLIC_DIR/$f" ]; then
     echo "      MANQUANT : $f"
     MISSING=$((MISSING + 1))
@@ -73,11 +79,16 @@ npm install --omit=dev --no-audit --no-fund
 
 # ---------- 5. Redémarrage ----------
 echo "[5/6] Redémarrage de l'API..."
+chmod +x "$WATCHDOG" 2>/dev/null || true
+if [ -f "$WATCHDOG" ]; then
+  cp -f "$WATCHDOG" "$HOME/start-linguere.sh"
+  chmod +x "$HOME/start-linguere.sh"
+fi
 # Le watchdog relance l'API si elle ne répond pas : on tue le process, il
 # reprend la main. C'est le mécanisme réel en production (cron), pas PM2.
 pkill -f "node.*server.js" 2>/dev/null || true
 sleep 3
-if [ -x "$WATCHDOG" ]; then
+if [ -f "$WATCHDOG" ]; then
   bash "$WATCHDOG"
 else
   echo "      watchdog absent, démarrage direct"
@@ -103,8 +114,11 @@ BASE="https://lingueredigital.com"
 echo "      --- contrôles publics ---"
 printf '      %-46s %s\n' "/services.html (doit être 200)" "$(curl -so /dev/null -w '%{http_code}' -m 15 "$BASE/services.html")"
 printf '      %-46s %s\n' "/404.html (doit être 200)" "$(curl -so /dev/null -w '%{http_code}' -m 15 "$BASE/404.html")"
+printf '      %-46s %s\n' "/api/health (doit être 200)" "$(curl -so /dev/null -w '%{http_code}' -m 15 "$BASE/api/health")"
+printf '      %-46s %s\n' "/api/services (doit être 200)" "$(curl -so /dev/null -w '%{http_code}' -m 15 "$BASE/api/services")"
 printf '      %-46s %s\n' "/url-inexistante-xyz (doit être 404)" "$(curl -so /dev/null -w '%{http_code}' -m 15 "$BASE/url-inexistante-xyz")"
 printf '      %-46s %s\n' "/wp-login.php (doit être 404)" "$(curl -so /dev/null -w '%{http_code}' -m 15 "$BASE/wp-login.php")"
+printf '      %-46s %s\n' "/proxy.php (doit être 404)" "$(curl -so /dev/null -w '%{http_code}' -m 15 "$BASE/proxy.php")"
 printf '      %-46s %s\n' "/api/auth/register (doit être 404)" "$(curl -so /dev/null -w '%{http_code}' -m 15 -X POST "$BASE/api/auth/register")"
 echo "      --- en-têtes de sécurité ---"
 curl -sI -m 15 "$BASE/" | grep -iE 'strict-transport|content-security|x-content-type|x-frame|referrer-policy|permissions-policy' \
