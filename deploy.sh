@@ -119,7 +119,7 @@ printf '      %-46s %s\n' "/api/services (doit être 200)" "$(curl -so /dev/null
 printf '      %-46s %s\n' "/url-inexistante-xyz (doit être 404)" "$(curl -so /dev/null -w '%{http_code}' -m 15 "$BASE/url-inexistante-xyz")"
 printf '      %-46s %s\n' "/wp-login.php (doit être 404)" "$(curl -so /dev/null -w '%{http_code}' -m 15 "$BASE/wp-login.php")"
 printf '      %-46s %s\n' "/proxy.php (doit être 404)" "$(curl -so /dev/null -w '%{http_code}' -m 15 "$BASE/proxy.php")"
-printf '      %-46s %s\n' "/api/auth/register (doit être 404)" "$(curl -so /dev/null -w '%{http_code}' -m 15 -X POST "$BASE/api/auth/register")"
+printf '      %-46s %s\n' "/api/auth/register (doit être 404)" "$(curl -so /dev/null -w '%{http_code}' -m 15 -X POST -H 'Content-Type: application/json' -d '{}' "$BASE/api/auth/register")"
 echo "      --- en-têtes de sécurité ---"
 curl -sI -m 15 "$BASE/" | grep -iE 'strict-transport|content-security|x-content-type|x-frame|referrer-policy|permissions-policy' \
   | sed 's/^/      /' || echo "      AUCUN en-tête détecté — vérifier mod_headers"
