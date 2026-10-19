@@ -27,6 +27,16 @@ if (process.env.SMTP_USER && process.env.SMTP_PASS) {
   };
 }
 
+// Les champs du formulaire sont interpolés dans un e-mail HTML : sans
+// échappement, un visiteur peut injecter des balises (liens de phishing,
+// images traçantes) dans la boîte de l'administrateur.
+const escapeHtml = (value) => String(value ?? '')
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#39;');
+
 const submitContact = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -61,7 +71,9 @@ const submitContact = async (req, res) => {
     id: message.id
   });
 
-  const msgText = req.body.message.replace(/\n/g, '<br>');
+  // Échappement AVANT le remplacement des sauts de ligne, sinon le <br>
+  // généré serait lui aussi neutralisé.
+  const msgText = escapeHtml(req.body.message).replace(/\n/g, '<br>');
 
   transporter.sendMail({
     from: '"Linguère Digital" <contact@lingueredigital.com>',
@@ -74,12 +86,12 @@ const submitContact = async (req, res) => {
         </div>
         <div style="padding:24px 32px;">
           <table style="width:100%;border-collapse:collapse;">
-            <tr><td style="padding:8px 0;color:#64748b;font-weight:600;width:120px;">Prénom</td><td style="padding:8px 0;color:#0f172a;">${req.body.prenom}</td></tr>
-            <tr><td style="padding:8px 0;color:#64748b;font-weight:600;">Nom</td><td style="padding:8px 0;color:#0f172a;">${req.body.nom}</td></tr>
-            <tr><td style="padding:8px 0;color:#64748b;font-weight:600;">Email</td><td style="padding:8px 0;color:#0f172a;">${req.body.email}</td></tr>
-            <tr><td style="padding:8px 0;color:#64748b;font-weight:600;">Téléphone</td><td style="padding:8px 0;color:#0f172a;">${req.body.telephone || 'Non fourni'}</td></tr>
-            <tr><td style="padding:8px 0;color:#64748b;font-weight:600;">Service</td><td style="padding:8px 0;color:#0f172a;">${req.body.service || 'Non spécifié'}</td></tr>
-            <tr><td style="padding:8px 0;color:#64748b;font-weight:600;">Objet</td><td style="padding:8px 0;color:#0f172a;">${req.body.objet}</td></tr>
+            <tr><td style="padding:8px 0;color:#64748b;font-weight:600;width:120px;">Prénom</td><td style="padding:8px 0;color:#0f172a;">${escapeHtml(req.body.prenom)}</td></tr>
+            <tr><td style="padding:8px 0;color:#64748b;font-weight:600;">Nom</td><td style="padding:8px 0;color:#0f172a;">${escapeHtml(req.body.nom)}</td></tr>
+            <tr><td style="padding:8px 0;color:#64748b;font-weight:600;">Email</td><td style="padding:8px 0;color:#0f172a;">${escapeHtml(req.body.email)}</td></tr>
+            <tr><td style="padding:8px 0;color:#64748b;font-weight:600;">Téléphone</td><td style="padding:8px 0;color:#0f172a;">${escapeHtml(req.body.telephone || 'Non fourni')}</td></tr>
+            <tr><td style="padding:8px 0;color:#64748b;font-weight:600;">Service</td><td style="padding:8px 0;color:#0f172a;">${escapeHtml(req.body.service || 'Non spécifié')}</td></tr>
+            <tr><td style="padding:8px 0;color:#64748b;font-weight:600;">Objet</td><td style="padding:8px 0;color:#0f172a;">${escapeHtml(req.body.objet)}</td></tr>
           </table>
           <div style="margin-top:16px;padding:16px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;">
             <div style="font-size:12px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Message</div>
@@ -100,7 +112,7 @@ const submitContact = async (req, res) => {
           <h2 style="margin:0;color:#fff;font-size:20px;">Merci de votre message !</h2>
         </div>
         <div style="padding:24px 32px;">
-          <p style="color:#0f172a;line-height:1.6;">Bonjour <strong>${req.body.prenom}</strong>,</p>
+          <p style="color:#0f172a;line-height:1.6;">Bonjour <strong>${escapeHtml(req.body.prenom)}</strong>,</p>
           <p style="color:#0f172a;line-height:1.6;">Nous avons bien reçu votre demande et vous recontacterons dans les plus brefs délais.</p>
           <p style="color:#64748b;font-size:14px;"><strong>Référence :</strong> #${message.id}</p>
           <hr style="border:none;border-top:1px solid #e2e8f0;margin:20px 0;">

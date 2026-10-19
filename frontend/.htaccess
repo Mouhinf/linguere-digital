@@ -1,3 +1,11 @@
+# ============================================================
+#  Linguère Digital — configuration Apache (cPanel)
+#  ATTENTION : PORT_PLACEHOLDER est remplacé par deploy.sh
+# ============================================================
+
+Options -Indexes
+ServerSignature Off
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
@@ -9,12 +17,25 @@
   # Proxy API requests to Node.js app
   RewriteRule ^api/(.*)$ http://127.0.0.1:PORT_PLACEHOLDER/api/$1 [P,L]
 
-  # Frontend routing
-  RewriteRule ^index\.html$ - [L]
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
+  # PAS de fallback vers index.html.
+  # L'ancienne règle `RewriteRule . /index.html [L]` renvoyait 200 OK pour
+  # TOUTE URL inexistante : /shell.php, /wso.php, /wp-login.php, /xmlrpc.php
+  # et /backup.zip répondaient donc 200, ce qui faisait classer le site comme
+  # « compromis » par les scanners automatiques, et générait des soft-404 en SEO.
+  # Le site est multi-pages (chaque page est un vrai fichier .html) : aucun
+  # routage client à rattraper. Les URL inconnues tombent sur ErrorDocument 404.
 </IfModule>
+
+# Vrai 404
+ErrorDocument 404 /404.html
+
+# Interdire l'accès aux fichiers sensibles
+<FilesMatch "^\.|(\.(env|env\..*|sqlite|db|log|bak|backup|sh|json|lock|yml|yaml)|package-lock\.json)$">
+  Require all denied
+</FilesMatch>
+<FilesMatch "^(robots\.txt|sitemap\.xml|manifest\.json|site\.webmanifest)$">
+  Require all granted
+</FilesMatch>
 
 # GZIP Compression
 <IfModule mod_deflate.c>
@@ -29,9 +50,25 @@
   Header set Cache-Control "max-age=31536000, public"
 </FilesMatch>
 
-# Security Headers
+# ============================================================
+#  En-têtes de sécurité
+#  `always` est indispensable : sans lui, les en-têtes sont absents
+#  des réponses d'erreur (dont le 404).
+# ============================================================
 <IfModule mod_headers.c>
-  Header set X-Content-Type-Options "nosniff"
-  Header set X-Frame-Options "SAMEORIGIN"
-  Header set X-XSS-Protection "1; mode=block"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=()"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+  # CSP alignée sur backend/config/security.js — garder les deux synchronisées.
+  # 'unsafe-inline' reste requis (7 blocs <script> inline, 22 attributs on*,
+  # 144 attributs style=). La CSP bloque néanmoins tout script tiers injecté,
+  # les iframes et le détournement de formulaires.
+  Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; frame-src 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' https://cdn.quilljs.com; script-src-attr 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.quilljs.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; manifest-src 'self'; upgrade-insecure-requests"
+
+  # Ne pas divulguer la stack
+  Header unset X-Powered-By
+  Header always unset X-Powered-By
 </IfModule>

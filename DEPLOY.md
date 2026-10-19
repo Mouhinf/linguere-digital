@@ -227,3 +227,78 @@ tail -f /home/username/.pm2/logs/*.log
 ---
 
 *Dernier update: Mai 2025*
+
+---
+
+## 🔐 Déploiement du correctif de sécurité (octobre 2026)
+
+Ce déploiement ferme une faille critique et corrige la raison pour laquelle la
+production était restée figée pendant des mois. **À appliquer dans cet ordre.**
+
+### Pourquoi la production ne se mettait plus à jour
+
+`deploy.sh` faisait `git reset --hard origin/main` alors que la branche du dépôt
+est `master`. Avec `set -euo pipefail`, l'étape 1 échouait et tout le script
+s'arrêtait : aucun fichier n'était jamais copié. C'est aussi pourquoi
+`services.html` n'existait pas sur le serveur (l'URL retombait sur la page
+d'accueil). Le script détecte désormais la branche par défaut automatiquement.
+
+### Procédure
+
+```bash
+# 1. Sur le serveur, via SSH cPanel
+cd ~/linguere-digital
+git fetch origin && git reset --hard origin/master
+
+# 2. Lancer le déploiement (copie frontend + .htaccess, npm install, restart)
+bash deploy.sh
+```
+
+`deploy.sh` vérifie lui-même, à la fin, que `/services.html` répond 200, que
+`/wp-login.php` répond 404 et que les en-têtes de sécurité sont présents.
+
+### Ce qui change en production
+
+| Changement | Effet visible |
+|---|---|
+| Route `POST /api/auth/register` supprimée | Renvoie 404 — **elle permettait de créer un compte admin** |
+| Plus de fallback vers `index.html` | Les URL inconnues renvoient un vrai 404 (`404.html`) |
+| En-têtes de sécurité (`.htaccess` + helmet) | CSP, HSTS, X-Frame-Options, Referrer-Policy, Permissions-Policy |
+| `sqlite3` passé en devDependencies | `npm install --omit=dev` n'installe plus de module natif |
+| Dépendances montées | 24 vulnérabilités → 2 |
+
+### Deux actions manuelles restantes
+
+**1. Faire tourner le secret JWT** (actuellement 28 caractères, 32 minimum
+recommandés). Le serveur démarre quand même, avec un avertissement dans les logs.
+
+```bash
+# Génère un nouveau secret
+openssl rand -base64 48
+# Le reporter dans ~/linguere-digital/backend/.env (clé JWT_SECRET), puis
+pkill -f "node.*server.js"   # le watchdog cron relance l'API dans la minute
+```
+
+> Conséquence : toutes les sessions admin ouvertes sont invalidées, il faut se
+> reconnecter. Aucun impact sur le site public.
+
+**2. Passer Node de 18 à 20+** pour pouvoir corriger la dernière vulnérabilité
+`nodemailer` (la version 10.x, qui la corrige, exige Node ≥ 20).
+
+```bash
+source ~/.nvm/nvm.sh && nvm install 20 && nvm alias default 20
+# Mettre à jour NODE_BIN dans backend/start-linguere.sh vers le nouveau chemin
+cd ~/linguere-digital/backend && npm install nodemailer@^10
+```
+
+En attendant, le risque est contenu : l'adresse e-mail est validée
+(`isEmail`) et bornée à 254 caractères avant d'atteindre le parseur.
+
+### Vérification manuelle après déploiement
+
+```bash
+curl -o /dev/null -w '%{http_code}\n' https://lingueredigital.com/services.html      # 200
+curl -o /dev/null -w '%{http_code}\n' https://lingueredigital.com/wp-login.php       # 404
+curl -X POST -o /dev/null -w '%{http_code}\n' https://lingueredigital.com/api/auth/register  # 404
+curl -sI https://lingueredigital.com/ | grep -i 'content-security-policy'            # présent
+```

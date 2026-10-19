@@ -25,3 +25,6 @@ tmp/
 .agents/
 skills-lock.json
 ui-ux-pro-max-skill/
+
+# Artefacts de scan GuardVibe
+.guardvibe/
